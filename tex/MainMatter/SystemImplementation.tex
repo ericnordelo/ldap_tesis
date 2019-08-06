@@ -1,0 +1,89 @@
+\chapter{Implementación del sistema}
+\section{Consideraciones previas}
+
+La implementación del servidor LDAP es parte del desarrollo otra tesis que complementa a esta en la creación de la solución final. En esta se implementó lo concerniente al API y la interfaz web.
+
+\section{API}
+
+La API se desarrolló utlizando el framework Flask de Python, debido a la eficiencia de este framework minimalista, y al poder de este lenguaje de programación en cuanto a soluciones ya implementadas (librerías). Consiste en un conjunto de recursos creados utilizando la librería flask-restful a los cuales se accede utilizando el protocolo HTTP (los recursos se publican como URLs).  Utilizando la librería python-ldap, el API se conecta y se comunica con el servidor LDAP. 
+
+\subsection{Listado de recursos}
+
+\subsubsection{/login}
+
+Este recurso es utilizado para autenticar a los usuarios en el API.
+
+\textbf{Método:} POST
+
+\textbf{Argumentos:} [username, password]
+
+\textbf{Objeto respuesta:} []
+
+
+
+\subsubsection{/logout}
+
+Este recurso es para terminar la sesión de un usuario autenticado en el API.
+
+\textbf{Método:} POST
+
+\textbf{Argumentos:} []
+
+\textbf{Objeto respuesta:} []
+
+\subsubsection{/usuarios}
+
+Este recurso es para obtener la información pertinente un conjunto de personas pertenecientes a la universidad en base a parámetros de búsqueda.
+
+\textbf{Método:} GET
+
+\textbf{Argumentos:} [filtros]
+
+\textbf{Objeto respuesta:} [{usuarios: [...]}]
+
+\subsubsection{/trabajadores}
+
+Este recurso es accesible mediante 3 métodos HTTP, para realizar 3 acciones distintas. Método GET para obtener la información pertinente a un conjunto de trabajadores pertenecientes a la universidad en base a parámetros de búsqueda. Método POST para agregar un trabajador al directorio a partir de su Carnet de Identidad. Método PATCH para actualizar los trabajadores en el directorio a partir de las Bases de Datos de Recursos Humanos (cuando se hace mención al directorio nos referimos al servidor LDAP que almacena la información).
+
+\textbf{Métodos:} GET, POST, PATCH
+
+\textbf{Argumentos:} GET: [filtros], POST: [ci], PATCH: []
+
+\textbf{Objeto respuesta:} GET: [{'workers': [...]}], POST: [], PATCH: []
+
+\subsubsection{/estudiantes}
+
+Este recurso es accesible también mediante 3 métodos HTTP, para realizar 3 acciones distintas. Método GET para obtener la información pertinente a un conjunto de estudiantes de la universidad en base a parámetros de búsqueda. Método POST para agregar un estudiante al directorio a partir de su Carnet de Identidad. Método PATCH para actualizar los estudiantes en el directorio a partir de SIGENU (cuando se hace mención al directorio nos referimos al servidor LDAP que almacena la información).
+
+\textbf{Métodos:} GET, POST, PATCH
+
+\textbf{Argumentos:} GET: [filtros], POST: [ci], PATCH: []
+
+\textbf{Objeto respuesta:} GET: [{'students': [...]}], POST: [], PATCH: []
+
+\subsubsection{/externos}
+
+Este recurso es accesible mediante 2 métodos HTTP, para realizar 2 acciones distintas. Método GET para obtener la información pertinente a un conjunto de externos de la universidad en base a parámetros de búsqueda. Método POST para agregar un externo al directorio (cuando se hace mención al directorio nos referimos al servidor LDAP que almacena la información).
+
+\textbf{Métodos:} GET, POST
+
+\textbf{Argumentos:} GET: [filtros], POST: [nombre, ci, cuota, ...]
+
+\textbf{Objeto respuesta:} GET: [{'externs': [...]}], POST: []
+
+\subsubsection{/p/preguntasdeseguridad}
+
+
+
+\subsubsection{/p/cambiar}
+
+\section{Interfaz web}
+\section{Desarrollo de la solución}\label{cap:Solution}
+
+\begin{figure}
+\end{figure}
+
+
+
+
+  
