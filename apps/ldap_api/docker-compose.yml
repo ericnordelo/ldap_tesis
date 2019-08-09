@@ -50,6 +50,7 @@ services:
       - 3000
     ports:
     - "3000:3000"
+    working_dir: /ui
     volumes:
     - ./UI:/ui
     restart: always
