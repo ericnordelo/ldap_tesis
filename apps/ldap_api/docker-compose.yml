@@ -43,7 +43,7 @@ services:
   ui:
     build:
       context: .
-      dockerfile: ui-dockerfile
+      dockerfile: ./ui-dockerfile
     image: react_ui
     container_name: ldap_ui
     expose: 
