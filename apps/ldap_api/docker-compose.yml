@@ -50,6 +50,8 @@ services:
       - 3000
     ports:
     - "3000:3000"
+    volumes:
+    - ./UI:/ui
     restart: always
     command: npm start
 
