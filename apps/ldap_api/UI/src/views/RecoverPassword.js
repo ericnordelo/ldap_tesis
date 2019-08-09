@@ -10,8 +10,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {passwordActions} from '../actions/passwordActions'
+import {connect} from 'react-redux'
 import {sections} from './_sections'
 import {footer} from './_footer'
+import config from '../config';
 
 const styles = theme => ({
   layout: {
@@ -179,7 +181,7 @@ class RecoverPassword extends Component{
   render(){
     const {classes} = this.props;
     let showForm2 = false;
-    if (pregunta1.length > 0) {
+    if (this.state.pregunta1.length > 0) {
       showForm2 = true;
     }
     return (
