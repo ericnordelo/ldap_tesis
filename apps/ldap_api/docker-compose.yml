@@ -53,7 +53,7 @@ services:
     volumes:
     - ./UI:/ui
     restart: always
-    command: npm start
+    command: npm install && npm start
 
 networks: 
   default:
