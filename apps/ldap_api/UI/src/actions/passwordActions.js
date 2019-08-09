@@ -67,7 +67,7 @@ function recoverPassword(data) {
     })
     .catch(err => {
         console.error(err);
-        alert('Las respuestas no son las adeduadas.');
+        alert('Las respuestas no son las adecuadas.');
         dispatch({ 
           type: types.END_LOADING
       });

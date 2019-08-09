@@ -424,8 +424,10 @@ class SecurityQuestions(Resource):
                         return {'check': 'false'}, 403
                 
                 new_password = '{CRYPT}' + __sha512_crypt__(data.get('password'), 500000)
-                old_password = map(lambda s: s.encode('utf-8'), users_account[1].get('userPassword'))
-
+                try:
+                    old_password = map(lambda s: s.encode('utf-8'), users_account[1].get('userPassword'))
+                except Exception:
+                    return {'error':str(users_account[1].get('userPassword'))}
                 try:
                     dn = users_account[0]
                     modList = modlist.modifyModlist( {'userPassword': old_password}, 
@@ -434,7 +436,7 @@ class SecurityQuestions(Resource):
                     ldap_server.modify_s(dn,modList)
                 except Exception as e:
                     return {'error':str(e)}
-                    
+
             else:
                 return {'warning': 'No tiene respuestas de seguridad'}
         else:
