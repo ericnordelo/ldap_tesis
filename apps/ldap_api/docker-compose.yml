@@ -40,7 +40,18 @@ services:
     depends_on: 
       - memcached
       - db
-  
+  ui:
+    build:
+      context: ./UI/
+      dockerfile: ./ui-dockerfile
+    image: react_ui
+    container_name: ldap_ui
+    expose: 
+      - 3000
+    ports:
+    - "3000:3000"
+    restart: always
+    command: npm start
 
 networks: 
   default:

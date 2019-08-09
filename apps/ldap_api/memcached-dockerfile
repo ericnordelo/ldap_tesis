@@ -1,11 +1,10 @@
-FROM python:3
+FROM node:10
 
-ENV APP_DIR /api
+ENV APP_DIR /ui
 
 VOLUME ${APP_DIR}
 WORKDIR ${APP_DIR}
 
-RUN apt-get update && apt-get install -y  memcached
 
 
 
