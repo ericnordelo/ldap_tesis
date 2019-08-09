@@ -247,7 +247,7 @@ class RecoverPassword extends Component{
               type="submit"
               variant="contained"
               color="primary"
-              disabled={this.state.loading}
+              disabled={this.props.loading}
               className={classes.submit}
               style={{marginBottom: 20}}
               onClick={this.getQuestions}
@@ -282,6 +282,7 @@ class RecoverPassword extends Component{
               />
               <TextField
                 id="password"
+                type="password"
                 label="Contraseña Nueva"
                 fullWidth
                 margin="normal"
@@ -294,6 +295,7 @@ class RecoverPassword extends Component{
               <TextField
                 id="password2"
                 label="Repetir Contraseña Nueva"
+                type="password"
                 fullWidth
                 margin="normal"
                 variant="filled"
@@ -306,8 +308,9 @@ class RecoverPassword extends Component{
               type="submit"
               variant="contained"
               color="primary"
-              disabled={this.state.loading}
+              disabled={this.props.loading}
               className={classes.submit}
+              onClick={this.changePassword}
             >
               Verificar y guardar contraseña
             </Button>
