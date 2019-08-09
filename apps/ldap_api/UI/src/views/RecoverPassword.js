@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import {passwordActions} from '../actions/passwordActions'
 import {sections} from './_sections'
 import {footer} from './_footer'
 
@@ -84,16 +85,103 @@ class RecoverPassword extends Component{
     super(props);
     this.state = {
       email: '',
-      oldpassword: '',
+      pregunta1: '',
+      pregunta2: '',
+      respuesta1: '',
+      respuesta2: '',
       password: '',
       password2: '',
       loading: false
     };
   }
 
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  getQuestions = (event) => {
+    event.preventDefault();
+
+    if(this.state.email === ''){
+      alert('El correo no puede estar en blanco.');
+      return;
+    }
+
+    this.props.start_loading();
+
+    fetch(config.api_address + '/p/preguntasdeseguridad?email='+this.state.email, {
+        credentials: "include",
+        method: 'GET'
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.error === 'No tiene preguntas de seguridad'){
+          alert('No tiene preguntas de seguridad agregadas.');
+        } else if(data.error){
+          alert('Su correo no existe en el directorio.');
+        }
+        else{
+          this.setState({pregunta1: data.preguntas[0], pregunta2: data.preguntas[1]})
+        }
+        this.props.end_loading();
+    })
+    .catch(err => {
+        this.props.end_loading();
+        console.error(err);
+        alert('Ha ocurrido un error al chequear su corro.');
+    });
+  }
+
+  setQuestions = (event) => {
+    event.preventDefault();
+
+    if(this.state.password === '' || this.state.email === ''){
+      alert('Las credenciales son requeridas.');
+      return;
+    }
+
+    if(this.state.pregunta1 === '' || this.state.pregunta2 === '' || this.state.respuesta1 === '' || this.state.respuesta2 === ''){
+      alert('Las preguntas y respuestas no pueden estar en blanco.');
+      return;
+    }
+
+    this.props.start_loading();
+
+    fetch(config.api_address + '/p/preguntasdeseguridad', {
+        credentials: "include",
+        method: 'PUT',
+        body: JSON.stringify({
+          email: this.state.email,
+          password: this.state.password,
+          questions: [this.state.pregunta1, this.state.pregunta2],
+          answers: [this.state.respuesta1, this.state.respuesta2],
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.error){
+          alert('Sus credenciales son incorrectas.');
+        }else{
+          alert('Preguntas y respuestas de seguridad actualizadas satisfactoriamente.');
+        }
+        this.props.end_loading();
+    })
+    .catch(err => {
+        this.props.end_loading();
+        console.error(err);
+        alert('Sus credenciales son incorrectas.');
+    });
+  }
+
   render(){
     const {classes} = this.props;
-
+    let showForm2 = false;
+    if (pregunta1.length > 0) {
+      showForm2 = true;
+    }
     return (
       <React.Fragment>
         <CssBaseline />
@@ -143,6 +231,7 @@ class RecoverPassword extends Component{
               fullWidth
               margin="normal"
               variant="filled"
+              onChange={this.handleChange("email")}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -154,53 +243,59 @@ class RecoverPassword extends Component{
               disabled={this.state.loading}
               className={classes.submit}
               style={{marginBottom: 20}}
+              onClick={this.getQuestions}
             >
               Recuperar Contraseña
             </Button>
-            <Typography className={classes.subheader} component="h1" variant="h6">
-              Responda las preguntas de seguridad y agregue la nueva contraseña:
-            </Typography>
-            <TextField
-              id="pregunta1"
-              label="Pregunta 1"
-              fullWidth
-              margin="normal"
-              variant="filled"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              id="pregunta2"
-              label="Pregunta 2"
-              fullWidth
-              margin="normal"
-              variant="filled"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              id="password"
-              label="Contraseña Nueva"
-              fullWidth
-              margin="normal"
-              variant="filled"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              id="password2"
-              label="Repetir Contraseña Nueva"
-              fullWidth
-              margin="normal"
-              variant="filled"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <Button
+            <div style={{"display": showForm2? "initial" : "none"}}>
+              <Typography className={classes.subheader} component="h1" variant="h6">
+                Responda las preguntas de seguridad y agregue la nueva contraseña:
+              </Typography>
+              <TextField
+                id="pregunta1"
+                label={this.state.pregunta1}
+                fullWidth
+                margin="normal"
+                variant="filled"
+                onChange={this.handleChange("respuesta1")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                id="pregunta2"
+                label={this.state.pregunta2}
+                fullWidth
+                margin="normal"
+                variant="filled"
+                onChange={this.handleChange("repuesta2")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                id="password"
+                label="Contraseña Nueva"
+                fullWidth
+                margin="normal"
+                variant="filled"
+                onChange={this.handleChange("password")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                id="password2"
+                label="Repetir Contraseña Nueva"
+                fullWidth
+                margin="normal"
+                variant="filled"
+                onChange={this.handleChange("password2")}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <Button
               type="submit"
               variant="contained"
               color="primary"
@@ -209,6 +304,7 @@ class RecoverPassword extends Component{
             >
               Verificar y guardar contraseña
             </Button>
+            </div>
           </main>
         </div>
         {/* Footer */}
@@ -223,4 +319,11 @@ RecoverPassword.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(RecoverPassword);
+const mapStateToProps = (state) => ({
+  loading: state.general.loading
+});
+
+export default connect(mapStateToProps, {
+  start_loading: passwordActions.start_loading,
+  end_loading: passwordActions.end_loading,
+})(withStyles(styles)(RecoverPassword));

@@ -365,6 +365,25 @@ class Externs(Resource):
 
 
 class SecurityQuestions(Resource):
+    def get(self):
+        data = request.args
+
+        users_account = ldap_server.search_s("dc=uh,dc=cu", ldap.SCOPE_SUBTREE,
+           "(&(|(objectclass=Trabajador)(objectclass=Externo)(objectclass=Estudiante))(correo=%s))" % data.get("email"))
+        if len(users_account):
+            users_account = users_account[0]
+            users_account_json = json.dumps(users_account, cls=utils.MyEncoder)
+            users_account = json.loads(users_account_json)
+
+            questions = users_account[1].get('QuestionSec', None)
+
+            if questions:
+                return {'preguntas': questions}
+            else:
+                return {'error': 'No tiene preguntas de seguridad'}
+        else:
+            return {'error':'Credenciales incorrectas'}, 403
+
     def patch(self):
         data = request.get_json()
 
