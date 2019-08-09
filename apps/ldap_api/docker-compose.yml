@@ -42,7 +42,7 @@ services:
       - db
   ui:
     build:
-      context: ./UI/
+      context: .
       dockerfile: ./ui-dockerfile
     image: react_ui
     container_name: ldap_ui
