@@ -86,8 +86,8 @@ class Login extends Component{
           </Typography>
           <form className={classes.form} onSubmit={this.onSubmit}>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="username">Nombre de Usuario</InputLabel>
-              <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleInputChange} />
+              <InputLabel htmlFor="username">Correo</InputLabel>
+              <Input id="username" name="username" autoComplete="username" type="email" autoFocus onChange={this.handleInputChange} />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password">Contraseña</InputLabel>
