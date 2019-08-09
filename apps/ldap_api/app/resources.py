@@ -427,7 +427,7 @@ class SecurityQuestions(Resource):
                 try:
                     old_password = map(lambda s: s.encode('utf-8'), users_account[1].get('userPassword'))
                 except Exception:
-                    return {'error':str(users_account[1].get('userPassword'))}
+                    return {'error':str(users_account[1].get('userPassword'))}, 500
                 try:
                     dn = users_account[0]
                     modList = modlist.modifyModlist( {'userPassword': old_password}, 
