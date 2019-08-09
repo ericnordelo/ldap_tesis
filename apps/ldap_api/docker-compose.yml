@@ -25,6 +25,8 @@ services:
     container_name: ldap_api
     environment: 
             - LDAP_API_ENVIRONMENT=${LDAP_API_ENVIRONMENT}
+            - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+            - LDAP_SERVER_URI=${LDAP_SERVER_URI}
             - FLASK_ENV=${LDAP_API_ENVIRONMENT}
     expose: 
       - 5000

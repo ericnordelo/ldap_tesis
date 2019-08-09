@@ -6,7 +6,7 @@
     mantenimiento de registros digitales, que se alcanzaría una verdadera revolución en los medios de almacenamiento, transmisión y en la accesibilidad
     a la información a escala global. Esta revolución conocida como Revolución Digital o Era de la Información gira en torno a las nuevas tecnologías e
     Internet, siendo la catalizadora de una enorme explosión tecnológica, produciendo grandes transformaciones en una sociedad donde la automatización
-    de los procesos ya no solo industriales, tambien cotidiano,s \todo[inline, color=green]{He intentado separar las oraciones pero pierdo la idea, trabajando en esto}
+    de los procesos ya no solo industriales, tambien cotidianos,
     mejora considerablemente la calidad, rapidez y robustez de los mismos, y donde el surgimiento de las redes de dipositivos facilita la comunicación y la organización de personas y
     organismos.
         
@@ -26,21 +26,18 @@
     nuevos servicios al directorio, así como inestabilidad y falta de robustez en
     el servicio de verificación y solicitud de información almacenada.
 
-
-    \todo[inline, color=green]{El párrafo del la explicación del problema reescrito.}
-
     Presentado este problema, el objetivo general de este proyecto es proveer a la Universidad de
     La Habana de un servicio que se encargue de administrar los procesos de obtención, almacenamiento y publicación
     de la información relacionada con Recursos Humanos, que sea robusto, modular, facil de integrar, fácil de mantener y fácil de modificar.
     
-    Con este objetivo en mente, el primer paso hacia la implementación de la solución consiste en un análisis del problema desde un punto de vista computacional. Este análisis se sustenta en la respuesta a una serie de preguntas, donde la primera y tal vez más importante es: ¿de qué forma almacenamos toda esa información? Existen diversas maneras que nos permiten lograr la persistencia de los datos, teniendo cada una de ellas sus ventajas y desventajas; como ejemplos podemos citar las bases de datos (relacionales o no relacionales) y los sistemas de ficheros. Ambas categorías poseen además diversas implementaciones, donde la mejora ocurre en dependencia de lo que se desee optimizar (espacio, velocidad de consulta, velocidad de modificación). Después de analizar las características de nuestro problema y de las formas de almacenamiento concluimos que lo mejor es almacenarla en una estructura de directorios (ver sección "Directorio contra Bases de Datos"). La principal ventaja estriba en la velocidad para realizar consultas sobre grandes volúmenes de datos (perdiendo en velocidad de modificación
-    de los mismos, tanto en actualizaciones, como en inserciones y eliminaciones), que es lo que necesita nuestra solución, ya que la información relacionada con Recursos Humanos se consulta mucho más de lo que se modifica.
+    Con este objetivo en mente, el primer paso hacia la implementación de la solución consiste en un análisis del problema desde un punto de vista computacional. Este análisis se sustenta en la respuesta a una serie de preguntas, donde la primera y tal vez más importante es: ¿de qué forma almacenamos toda esa información? Existen diversas maneras que nos permiten lograr la persistencia de los datos, teniendo cada una de ellas sus ventajas y desventajas; como ejemplos podemos citar las bases de datos (relacionales o no relacionales) y los sistemas de ficheros. Ambas categorías poseen además diversas implementaciones, donde la mejora ocurre en dependencia de lo que se desee optimizar (espacio, velocidad de consulta, velocidad de modificación). Después de analizar las características de nuestro problema y de las formas de almacenamiento concluimos que lo mejor es almacenarla en una estructura de directorios\cite{whyldap}. La principal ventaja estriba en la velocidad para realizar consultas sobre grandes volúmenes de datos (perdiendo en velocidad de modificación
+    de los mismos, tanto en actualizaciones, como en inserciones y eliminaciones)\cite{ldapfaster}, que es lo que necesita nuestra solución, ya que la información relacionada con Recursos Humanos se consulta mucho más de lo que se modifica.
     
 \newpage
 
-    Continuando con el análisis la siguiente pregunta puede ser: ¿qué método se debería utilizar para acceder a la información almacenada? Al utilizarse una estructura de directorios, la repuesta a esta pregunta pasa por elegir una de las implementaciones de este concepto computacional y de un protocolo de acceso, después de comparar varias de estas implementaciones concluimos que la mejor opción es utilizar el protocolo LDAP (Lightweight Directory Access Protocol o Protocolo Ligero de Acceso a Directorios) y OpenLDAP como implementación del mismo (ver sección "LDAP y OpenLDAP").
+    Continuando con el análisis la siguiente pregunta puede ser: ¿qué método se debería utilizar para acceder a la información almacenada? Al utilizarse una estructura de directorios, la repuesta a esta pregunta pasa por elegir una de las implementaciones de este concepto computacional y de un protocolo de acceso, después de comparar varias de estas implementaciones concluimos que la mejor opción es utilizar el protocolo LDAP (Lightweight Directory Access Protocol o Protocolo Ligero de Acceso a Directorios) y OpenLDAP como implementación del mismo\cite{ldapimplementations}.
 
-    LLegado a este punto podemos afirmar que la hiposteis a partir del objetivo es: la implementación de un sistema LDAP para la administración
+    LLegado a este punto podemos afirmar que la hipótesis a partir del objetivo es: la implementación de un sistema LDAP para la administración
     de la información relacionada con Recursos Humanos dentro de la Universidad de la Habana, mejorando el acceso a la información (rapidez de conultas) y la disponibilidad de la misma (sistema más estable y menos propenso a fallas que el actual servicio web), lo cual implica más estabilidad en los servicios que dependen del actual directorio como son el correo de la Universidad y el acceso a Internet.
 
     Para esto es necesario investigar sobre el estado del arte de los sistemas
@@ -50,7 +47,5 @@
     datos almacenados actualmente. Por último, se plantea implementar una
     API acorde con el protocolo OpenId para facilitar la autenticación para
     futuros servicios.
-
-\listoftodos[Notes]
 
 \end{introduction} 

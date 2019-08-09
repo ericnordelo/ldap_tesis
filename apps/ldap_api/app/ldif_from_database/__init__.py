@@ -6,8 +6,9 @@ class LDIFFromSQLServer:
     """Encapsulation for methods wich populate and modify the ldap server
     from a sql server databas."""
 
-    def __init__(self, config_yml_path):
+    def __init__(self, config_yml_path, firstUidNumber):
         """Receives the path to the config file"""
+        self.__uidNumber = firstUidNumber
         self.connection_handler = ConnectionManager(config_yml_path)
         with open(config_yml_path, 'r') as stream:
             try:
@@ -35,7 +36,7 @@ class LDIFFromSQLServer:
 
         with open("./output/workers.ldif", "w+") as f:
             row_number = 1
-            uidNumber = 5000
+            uidNumber = self.__uidNumber
             # Limited count ?
             if number_of_rows > 0:
                 rows_left = number_of_rows
@@ -51,6 +52,8 @@ class LDIFFromSQLServer:
                     self.__process_row(row, f, row_number, uidNumber)
                     row_number += 1
                     uidNumber+=1
+
+        return uidNumber
 
     def generate_modify_population(self):
         """Generates the ldif file from the database to modify

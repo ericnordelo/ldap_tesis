@@ -44,26 +44,13 @@ configuration = config.set_environment(os.getenv("LDAP_API_ENVIRONMENT"))
 
 from app import resources
 
-api.add_resource(resources.AllUsers, '/all-registered')
-api.add_resource(resources.SecretResource, '/secret')
-api.add_resource(resources.UserRegistration, '/registration')
 api.add_resource(resources.UserLogin, '/login')
 api.add_resource(resources.UserLogout, '/logout')
 api.add_resource(resources.Users, '/usuarios')
-api.add_resource(resources.User, '/usuarios/<string:user_id>')
 api.add_resource(resources.Workers, '/trabajadores')
-api.add_resource(resources.Worker, '/trabajadores/<worker_id>')
 api.add_resource(resources.Students, '/estudiantes')
-api.add_resource(resources.Student, '/estudiantes/<student_id>')
 api.add_resource(resources.Externs, '/externos')
-api.add_resource(resources.Extern, '/externos/<extern_id>')
-api.add_resource(resources.Accounts, '/accounts/<account_type>/<account_id>/<action>')
 api.add_resource(resources.SecurityQuestions, '/p/preguntasdeseguridad')
 api.add_resource(resources.ChangePassword, '/p/cambiar')
+api.add_resource(resources.ServiceStudentInternetQuote, '/servicios/cuotadeinternet/estudiantes')
 
-old_password = map(lambda s: s.encode('utf-8'), users_account[1].get('userPassword'))
-
-            try:
-                dn = users_account[0]
-                modList = modlist.modifyModlist( {'userPassword': old_password}, 
-                                            {'userPassword': [new_password.encode('utf-8')] } )

@@ -1,6 +1,7 @@
+import os
 
 class Config(object):
-    LDAP_SERVER_URI = "ldap://10.6.98.57"
+    LDAP_SERVER_URI = os.getenv("LDAP_SERVER_URI")
     PAGE_COUNT = 20
     MEMCACHED_HOST = 'memcached_server'
 

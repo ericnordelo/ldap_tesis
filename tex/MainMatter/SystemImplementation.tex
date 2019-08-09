@@ -1,7 +1,78 @@
 \chapter{Implementación del sistema}
 \section{Consideraciones previas}
 
-La implementación del servidor LDAP es parte del desarrollo otra tesis que complementa a esta en la creación de la solución final. En esta se implementó lo concerniente al API y la interfaz web.
+La implementación del servidor LDAP es parte del desarrollo otra tesis que complementa a esta en la creación de la solución final. En esta se implementó lo concerniente al API y la interfaz web, incluyendo la generación de los archivos LDIF utilizados para popular y modificar de manera periódica el servidor LDAP mediante dos módulos de Python independientes al API (aunque esta los utiliza); uno para la estracción de la información pertinente a los estudiantes y otro para la pertinente a los trabajadores. 
+Además el API brinda una bolsa de servicios a los que se pueden asociar otros sistemas que necesitan consumir la información almacenada en el servidor (como por ejemplo la cuota de internet de un estudiante).
+
+\section{Estracción de la información de estudiantes y trabajadores}
+
+Como mencionamos antes, de la estracción de la información se encargan dos módulos independientes desarrollados en Python, los cuáles consumen la información de Recursos Humanos de los destinos correspondientes y generan archivos LDIF que utiliza el servidor LDAP para modificar los datos almacenados. Estos módulos son:
+
+\subsection{Módulo para generar los LDIF de los estudiantes}
+
+Este módulo se llama sigenu-client. Consume utilizando el protocolo SOAP los recursos que ofrece el sistema SIGENU para consultar información relacionada a los estudiantes de la universidad. Específicamente consume dos recursos: Faculties y getStudentsByFaculty. El primero se utiliza para obtener todas las facultades miembros de la universidad, y a partir de estas se utiliza el segundo para obtener todos los estudiantes matriculados en cada una de estas.
+
+Al desarrollar este módulo se tuvo que lidiar con problemas inherentes al sistema SIGENU, como datos en mal estado (caracteres no alfanuméricos) y duplicación de cuentas. La política para el primer caso es no almacenar los estudiantes con datos en mal estado en el servidor LDAP, para que soliciten la apertura de la cuenta nuevamente y quede en correcto estado. La política para el segundo caso es no almacenar ninguna de las cuentas para que también sea necesario la creación de una nueva en correcto estado.
+
+La generación del archivo LDIF final queda estructurada de la forma que puede apreciarse en el siguiente ejemplo:
+
+\begin{enumerate}
+	\item {\bf becado :} Externo
+	\item {\bf carrera:} Ciencias Alimentarias
+	\item {\bf ci:} 00071068259
+	\item {\bf  ciudadania\footnote{sin acento por la codificación del archivo generado, para facilitar la integración con el servidor LDAP}:} Cuba
+	\item {\bf cn:} Jeidis Elisa 
+	\item {\bf correo:} None
+	\item {\bf edad:} 19
+	\item {\bf facultad:} None
+	\item {\bf grado:} 1
+	\item {\bf grupo:} 2
+	\item {\bf lugardenacimiento:} None
+	\item {\bf municipio:} Playa
+	\item {\bf pais:} Cuba
+	\item {\bf provincia:} La Habana
+	\item {\bf raza:} B
+	\item {\bf sexo:} Femenino
+	\item {\bf tipodecurso:} Curso Regular Diurno
+	\item {\bf idsigenu:} 2b2f70cf:1659152c466:603
+	\item {\bf dn:} Estudiante
+	\item {\bf idfacultad:} 223.0.06816\_12
+	\item {\bf cuotadeinternet:} 0
+	\item {\bf pcc:} False
+	\item {\bf ujc:} False
+	\item {\bf esBaja:} True
+	\item {\bf objectclass:} Estudiante
+	\item {\bf objectclass:} posixAccount
+	\item {\bf objectclass:} shadowAccount
+	\item {\bf uidNumber:} 5000
+	\item {\bf gidNumber:} 10000
+	\item {\bf homeDirectory:} /
+	\item {\bf uid:} 5000
+\end{enumerate}
+
+\subsection{Módulo para generar los LDIF de los trabajadores}
+
+
+Este módulo se llama ldif-from-database. Se encarga de obtener la base de datos de Recursos Humanos (Assets), extraer la información pertinente a los trabajadores, y generar el archivo LDIF utilizado por el servidor LDAP.
+
+La generación del archivo LDIF final queda estructurada de la forma que puede apreciarse en el siguiente ejemplo:
+
+\begin{enumerate}
+	\item {\bf ci:} 00010868492
+	\item {\bf cn:} DAIMIS DE LA CARIDAD
+	\item {\bf area:} COMUNICACION
+	\item {\bf cargo:} SECRETARIA
+	\item {\bf sexo:} F
+	\item {\bf sn:} HECHEVARRIA GUERRA
+	\item {\bf dn:} 2
+	\item {\bf objectclass:} Trabajador
+	\item {\bf objectclass:} posixAccount
+	\item {\bf objectclass:} shadowAccount
+	\item {\bf uidNumber:} 5000
+	\item {\bf gidNumber:} 10000
+	\item {\bf homeDirectory:} /
+	\item {\bf uid:} 5000
+\end{enumerate}
 
 \section{API}
 
@@ -78,7 +149,14 @@ Este recurso es accesible mediante 2 métodos HTTP, para realizar 2 acciones dis
 \subsubsection{/p/cambiar}
 
 \section{Interfaz web}
-\section{Desarrollo de la solución}\label{cap:Solution}
+
+La interfaz web se implementó como una aplicación independiente utilizando React como tecnología. Brinda las funcionalidades esenciales que actualmente presenta la interfaz del actual directorio como: la recuperación de contraseñas a partir de las preguntas de seguridad de un usuario; el cambio de contraseñas; la creación de cuentas tanto de trabajadores, de estudiantes, como de externos.
+
+\section{Bolsa de servicios}
+
+La bolsa de servicios no es más que una extensión de las funcionalidades básicas del API, para satisfacer las necesidades de los sistemas que necesitan consumir información que se obtiene a partir de los datos almacenados en el servidor LDAP, pero que no necesariamente están almacenados en el mismo, como la cuota de internet.
+
+Por convención la url con la que se publican estos servicios contiene el prefijo "/servicios/", por ejemplo, para obtener la cuota de internet de un estudiante se utiliza la url "/servicios/cuotadeinternet/estudiantes", la cual recibe el correo del estudiante como parámetro.
 
 \begin{figure}
 \end{figure}

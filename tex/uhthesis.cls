@@ -99,7 +99,6 @@
 \newcommand{\degree}[1]{\def\@degree{#1}}
 \newcommand{\faculty}[1]{\def\@faculty{#1}}
 \newcommand{\logo}[1]{\def\@logo{#1}}
-\newcommand{\qr}[1]{\def\@qr{#1}}
 
 \newenvironment{opinion}%
   {\chapter*{Opinión del tutor}}%
@@ -167,7 +166,6 @@
     \vfill
     {\large Trabajo de Diploma \\presentado en opción al título de \\ \@degree} \\
     \vskip 1cm
-    \includegraphics[width=3cm]{\@qr} \\
     \vskip 1cm
     \@date
   \end{center}

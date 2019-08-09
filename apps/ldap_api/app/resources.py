@@ -15,6 +15,7 @@ import os
 import ldap
 import json
 from .ldif_from_database import LDIFFromSQLServer
+from .sigenu_client import SigenuClient
 
 parser = reqparse.RequestParser()
 parser.add_argument(
@@ -28,7 +29,7 @@ configuration = config.set_environment(os.getenv("LDAP_API_ENVIRONMENT"))
 ldap_server = ldap.initialize(configuration.LDAP_SERVER_URI,
                 trace_level=utils.DEBUG_LEVEL[configuration.PYTHON_LDAP_DEBUG_LVL])
 
-admin_password = 'insecurepassword'
+admin_password = os.getenv("LDAP_ADMIN_PASSWORD")
 
 ldap_server.simple_bind_s('cn=admin,dc=uh,dc=cu', admin_password)
 
@@ -40,47 +41,6 @@ def verify_user_password(user_dn, password):
         return True
     except ldap.LDAPError:
         return False
-
-
-class SecretResource(Resource):
-    @jwt_required
-    def get(self):
-        return {
-            'answer': 42
-        }
-
-
-class TokenRefresh(Resource):
-    @jwt_refresh_token_required
-    def post(self):
-        current_user = get_jwt_identity()
-        access_token = create_access_token(identity=current_user)
-        return {'access_token': access_token}
-
-
-class UserRegistration(Resource):
-    def post(self):
-        data = parser.parse_args()
-
-        if UserModel.find_by_username(data['username']):
-            return {'message': 'User {} already exists'.format(data['username'])}, 403
-
-        new_user = UserModel(
-            username=data['username'],
-            password=UserModel.generate_hash(data['password'])
-        )
-
-        try:
-            new_user.save_to_db()
-            access_token = create_access_token(identity=data['username'])
-            refresh_token = create_refresh_token(identity=data['username'])
-            resp = jsonify({'registration': True})
-            set_access_cookies(resp, access_token)
-            set_refresh_cookies(resp, refresh_token)
-            resp.status_code = 200
-            return resp
-        except:
-            return {'message': 'Something went wrong'}, 500
 
 
 class UserLogin(Resource):
@@ -121,14 +81,6 @@ class UserLogout(Resource):
         return resp
 
 
-class AllUsers(Resource):
-    def get(self):
-        return UserModel.return_all()
-
-    def delete(self):
-        return UserModel.delete_all()
-
-
 class Users(Resource):
     def get(self):
         filters = "(|(objectclass=Trabajador)(objectclass=Externo)(objectclass=Estudiante))"
@@ -150,20 +102,6 @@ class Users(Resource):
         users_account = json.loads(users_account_json)
 
         return {'usuarios': users_account}
-
-
-class User(Resource):
-    def get(self, user_id):
-        # users_account = ldap_server.search_s("ou=usuarios,dc=uh,dc=cu", ldap.SCOPE_ONELEVEL, "(cn=%s*)" % user_id)
-        # users_account = {x[0] : x[1] for x in users_account}
-        # users_account_json = json.dumps(users_account, cls=utils.MyEncoder)
-        # users_account = json.loads(users_account_json)
-        # return jsonify({'user': users_account})
-        return jsonify({'users': []})
-
-    def post(self, user_id):
-        result = {'user_data': []}
-        return jsonify(result)
 
 
 class Workers(Resource):
@@ -228,18 +166,23 @@ class Workers(Resource):
 
     # @jwt_required
     def patch(self):
+        # GET UIDNUMBERCOUNTER
         try:
-            handler = LDIFFromSQLServer("./app/ldif_from_database/config.yml")
-            # handler.generate_first_time_population(number_of_rows=10, restore=True)
+            client = base.Client((configuration.MEMCACHED_HOST, 11211))
+            uidNumberCounter = int(__translate_byte_types__(
+                client.get('uidNumberCounter')))
+        except Exception as e:
+            print(e)
+            return {"error": "Can't get uidNumberCounter from memcached"}
+
+        try:
+            handler = LDIFFromSQLServer("./app/ldif_from_database/config.yml", uidNumberCounter)
+            newUidNumber = handler.generate_first_time_population(number_of_rows=10, restore=True)
+            client.set('uidNumberCounter',newUidNumber)
         except Exception as e:
             return {'e': str(e)}
+
         return {'status': 'done'}
-
-
-class Worker(Resource):
-    def get(self, worker_id):
-        result = {'worker_data': []}
-        return jsonify(result)
 
 
 class Students(Resource):
@@ -265,20 +208,55 @@ class Students(Resource):
 
         return {'students': students_account}
 
+    def post(self):
+        data = request.get_json()
+        ci = data.get('ci')
+        student_accounts = ldap_server.search_s(
+            "ou=Estudiantes,dc=uh,dc=cu", ldap.SCOPE_SUBTREE, "(ci=%s)" % ci)
+        student_accounts_json = json.dumps(student_accounts, cls=utils.MyEncoder)
+        student_accounts = json.loads(student_accounts_json)
+        if len(student_accounts):
+            student_accounts = student_accounts[0]
+            email = student_accounts[1].get('Correo', None)
+            if email and email[0] != "N/D":
+                return {'warning': 'true', 'message': 'Este usuario ya existe en directorio', 'email': email[0]}
+            else:
+                name = student_accounts[1]['cn'][0].split()[0].lower()
+                last_name, second_last_name = student_accounts[1]['sn'][0].split(
+                )
+                new_email = __generate_new_email__("ou=Estudiantes,dc=uh,dc=cu", name, last_name.lower(),
+                    second_last_name.lower(), "Estudiantes", student_accounts[1]['Area'])
+
+                try:
+                    dn = student_accounts[0]
+                    modList = modlist.modifyModlist({'Correo': [email[0].encode(
+                        'utf-8') if email else email]}, {'Correo': [new_email.encode('utf-8')]})
+
+                    ldap_server.modify_s(dn, modList)
+                except Exception as e:
+                    return {'e': str(e)}
+
+                return {'email': new_email}
+
+        return {'student_accounts': student_accounts}
+
     # @jwt_required
     def patch(self):
+        # GET UIDNUMBERCOUNTER
         try:
-            handler = LDIFFromSQLServer("./app/ldif_from_database/config.yml")
-            # handler.generate_first_time_population(number_of_rows=10, restore=True)
+            client = base.Client((configuration.MEMCACHED_HOST, 11211))
+            uidNumberCounter = int(__translate_byte_types__(
+                client.get('uidNumberCounter')))
+        except Exception as e:
+            print(e)
+            return {"error": "Can't get uidNumberCounter from memcached"}
+
+        try:
+            handler = SigenuClient("./app/sigenu_client/config.yml", uidNumberCounter)
+            newUidNumber = handler.generate_first_time_population(number_of_rows=10)
+            client.set('uidNumberCounter', newUidNumber)
         except Exception as e:
             return {'e': str(e)}
-        return {'status': 'done'}
-
-
-class Student(Resource):
-    def get(self, student_id):
-        result = {'student_data': []}
-        return jsonify(result)
 
 
 class Externs(Resource):
@@ -375,26 +353,14 @@ class Externs(Resource):
                 'description':          [data.get('comments').encode('utf-8') if data.get('comments') != "" else b"N/D"],
                 'userpassword':         [password.encode('utf-8')],
                 'uid':                  email.encode('utf-8'),
-                'objectClass':          [b'Externo']
+                'objectClass':          [b'Externo'],
+                'uidNumber':            uidNumberCounter
             })
             ldap_server.add_s(dn, modList)
         except Exception as e:
             return {'error': str(e), 'aqui': 'error'}
 
         result = {'extern_data': 'success'}
-        return jsonify(result)
-
-
-class Extern(Resource):
-    def get(self, extern_id):
-        result = {'extern_data': []}
-        return jsonify(result)
-
-
-class Accounts(Resource):
-    def patch(self, account_type, account_id, action):
-        # Actions = 'activate' : 'deactivate'
-        result = {'action_response': []}
         return jsonify(result)
 
 
@@ -500,8 +466,37 @@ class ChangePassword(Resource):
         else:
             return {'error': 'Credenciales incorrectas'}, 403
 
+class ServiceStudentInternetQuote(Resource):
+    def post(self):
+        users_account = ldap_server.search_s("dc=uh,dc=cu", ldap.SCOPE_SUBTREE,
+            "(&(objectclass=Estudiante)(correo=%s))" % request.get_json().get('email'))
+        if len(users_account):
+            mbytes = 0
+            users_account = users_account[0]
+            users_account_json = json.dumps(users_account, cls=utils.MyEncoder)
+            users_account = json.loads(users_account_json)
 
-def __map_area_to_email_domain__(area):
+            data = request.get_json()
+            if not verify_user_password(users_account[0], data.get('oldpassword')):
+                return {'error':'Credenciales incorrectas'}, 403
+
+            new_password = '{CRYPT}' + __sha512_crypt__(data.get('password'), 500000)
+            old_password = map(lambda s: s.encode('utf-8'), users_account[1].get('userPassword'))
+
+            try:
+                dn = users_account[0]
+                modList = modlist.modifyModlist( {'userPassword': old_password}, 
+                                                {'userPassword': [new_password.encode('utf-8')] } )
+
+                ldap_server.modify_s(dn,modList)
+            except Exception as e:
+                return {'error':str(e)}
+
+            return {'cuota': mbytes}
+        else:
+            return {'error': 'No existe un estudiante registrado con ese correo.'} 
+
+def __map_area_to_email_domain__(area, category):
     # THIS SHOULD BE DOMAIN FOR DDI
     return "@iris.uh.cu"
 
@@ -543,7 +538,7 @@ def __generate_new_email__(basedn,name,last_name,second_last_name,category,area)
         possible_email = name.lower() + '.' +second_last_name + __map_area_to_email_domain__(area)
         if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=%s))" % (possible_email, category))):
             for i in range(1,1000):
-                possible_email = name.lower() + '.' +second_last_name +str(i) + __map_area_to_email_domain__(area)
+                possible_email = name.lower() + '.' +second_last_name +str(i) + __map_area_to_email_domain__(area, category)
                 if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=%s))" % (possible_email, category))):
                     continue
                 email = possible_email
