@@ -423,8 +423,8 @@ class SecurityQuestions(Resource):
             questions = map(lambda s: s.encode('utf-8'), data.get('questions'))
             answers = map(lambda s: s.encode('utf-8'), data.get('answers'))
 
-            current_questions = users_account[1].get('QuestionSec', None)
-            current_answers = users_account[1].get('AnswerSec', None)
+            current_questions = users_account[1].get('QuestionSec', [])
+            current_answers = users_account[1].get('AnswerSec', [])
 
             dn = users_account[0]
             modList = modlist.modifyModlist({'QuestionSec': current_questions, 'AnswerSec': current_answers},
