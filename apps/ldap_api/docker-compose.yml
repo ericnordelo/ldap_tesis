@@ -46,8 +46,6 @@ services:
       dockerfile: ./ui-dockerfile
     image: react_ui
     container_name: ldap_ui
-    expose: 
-      - 3000
     ports:
     - "3000:3000"
     working_dir: /ui
