@@ -1,2 +1,9 @@
 \begin{conclusions}
+    En la presente tesis se desarrolló un sistema que da solución al problema que presenta la utilización del actual Directorio Único de la Universidad de La Habana, manteniendo las ventajas que el mismo brinda para tener acceso a la información relacionada con Recursos Humanos, y eliminando las carencias más importantes del mismo como la falta de estabilidad, de modularidad y la dificultad para actualizaciones. Para esto se analizaron distintas formas de almacenamiento de información, y mecanismos de consulta, para elegir la solución más adecuada para las especificidades del problema en cuestión.
+
+    La estrategia de solución diseñada consiste en un servidor LDAP, una API para comunicar este servidor con los servicios que lo requieran, dos módulos independientes para extraer la información de las fuentes (SIGENU y bases de datos de Assets), y una interfaz web para gestionar las funcionalidades principales (que actualmente brinda la interfaz publicada en directorio.uh.cu). 
+
+    Esta solución ha sido implementada de manera que sea fácilmente despegable y modificable. Gracias al uso de la tecnología Docker el despliegue requiere una configuración manual mínima, así como ninguna dependencia en la computadora final en la que se publique el sistema como servicio (exceptuando Docker por supuesto). Además, el uso de lenguajes dinámicos (como lo son Python y Javascript), disminuye el riesgo de la pérdida del código fuente, ya que la aplicación en producción no es un archibo binario ilegible, sino el código en si.
+
+    
 \end{conclusions} 
