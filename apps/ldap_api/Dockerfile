@@ -34,4 +34,5 @@ RUN pip3 install flask \
     pymemcache \
     pyyaml \
     pyodbc \
-    tqdm
+    tqdm \
+    zeep
