@@ -407,9 +407,10 @@ class SecurityQuestions(Resource):
         else:
             return {'error':'Credenciales incorrectas'}, 403
 
-    def post(self, email):
+    def post(self):
+        data = request.get_json()
         users_account = ldap_server.search_s("dc=uh,dc=cu", ldap.SCOPE_SUBTREE,
-            "(&(|(objectclass=Trabajador)(objectclass=Externo)(objectclass=Estudiante))(correo=%s))" % email)
+            "(&(|(objectclass=Trabajador)(objectclass=Externo)(objectclass=Estudiante))(correo=%s))" % data.get("email"))
         if len(users_account):
             users_account = users_account[0]
             users_account_json = json.dumps(users_account, cls=utils.MyEncoder)
@@ -417,11 +418,23 @@ class SecurityQuestions(Resource):
 
             answers = users_account[1].get('AnswerSec', None)
             if answers:
-                possible_answers = request.get_json().get('answers')
+                possible_answers = data.get('answers')
                 for i in range(len(answers)):
                     if answers[i] != possible_answers[i]:
-                        return {'check': 'false'}
-                return {'check': 'true'}
+                        return {'check': 'false'}, 403
+                
+                new_password = '{CRYPT}' + __sha512_crypt__(data.get('password'), 500000)
+                old_password = map(lambda s: s.encode('utf-8'), users_account[1].get('userPassword'))
+
+                try:
+                    dn = users_account[0]
+                    modList = modlist.modifyModlist( {'userPassword': old_password}, 
+                                                    {'userPassword': [new_password.encode('utf-8')] } )
+
+                    ldap_server.modify_s(dn,modList)
+                except Exception as e:
+                    return {'error':str(e)}
+                    
             else:
                 return {'warning': 'No tiene respuestas de seguridad'}
         else:

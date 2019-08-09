@@ -119,8 +119,10 @@ class RecoverPassword extends Component{
     .then(data => {
         if(data.error === 'No tiene preguntas de seguridad'){
           alert('No tiene preguntas de seguridad agregadas.');
+          this.setState({pregunta1: '', pregunta2: ''})
         } else if(data.error){
           alert('Su correo no existe en el directorio.');
+          this.setState({pregunta1: '', pregunta2: ''})
         }
         else{
           this.setState({pregunta1: data.preguntas[0], pregunta2: data.preguntas[1]})
@@ -130,20 +132,28 @@ class RecoverPassword extends Component{
     .catch(err => {
         this.props.end_loading();
         console.error(err);
-        alert('Ha ocurrido un error al chequear su corro.');
+        alert('Ha ocurrido un error al chequear su correo.');
     });
   }
 
-  setQuestions = (event) => {
+  changePassword = (event) => {
     event.preventDefault();
 
-    if(this.state.password === '' || this.state.email === ''){
-      alert('Las credenciales son requeridas.');
+
+    if(this.state.respuesta1 === '' || this.state.respuesta2 === ''){
+      alert('Las respuestas no pueden estar en blanco.');
       return;
     }
 
-    if(this.state.pregunta1 === '' || this.state.pregunta2 === '' || this.state.respuesta1 === '' || this.state.respuesta2 === ''){
-      alert('Las preguntas y respuestas no pueden estar en blanco.');
+    if(this.state.password !== this.state.password2){
+      alert('Las contraseñas no coinciden.');
+      this.setState({loading: false});
+      return;
+    }
+
+    if(this.state.password === ''){
+      alert('La contraseña nueva no puede estar en blanco.');
+      this.setState({loading: false});
       return;
     }
 
@@ -151,11 +161,10 @@ class RecoverPassword extends Component{
 
     fetch(config.api_address + '/p/preguntasdeseguridad', {
         credentials: "include",
-        method: 'PUT',
+        method: 'POST',
         body: JSON.stringify({
           email: this.state.email,
           password: this.state.password,
-          questions: [this.state.pregunta1, this.state.pregunta2],
           answers: [this.state.respuesta1, this.state.respuesta2],
         }),
         headers: {
@@ -164,17 +173,13 @@ class RecoverPassword extends Component{
     })
     .then(res => res.json())
     .then(data => {
-        if(data.error){
-          alert('Sus credenciales son incorrectas.');
-        }else{
-          alert('Preguntas y respuestas de seguridad actualizadas satisfactoriamente.');
-        }
+        alert('Su contraseña ha sido actualizada satisfactoriamente.');
         this.props.end_loading();
     })
     .catch(err => {
         this.props.end_loading();
         console.error(err);
-        alert('Sus credenciales son incorrectas.');
+        alert('Las respuestas no son las adeduadas.');
     });
   }
 
