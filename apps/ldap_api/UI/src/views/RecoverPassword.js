@@ -275,7 +275,7 @@ class RecoverPassword extends Component{
                 fullWidth
                 margin="normal"
                 variant="filled"
-                onChange={this.handleChange("repuesta2")}
+                onChange={this.handleChange("respuesta2")}
                 InputLabelProps={{
                   shrink: true,
                 }}
