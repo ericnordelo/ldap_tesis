@@ -57,13 +57,16 @@ function recoverPassword(data) {
           'Content-Type': 'application/json'
         }
     })
-    .then(res => res.json())
-    .then(data => {
-        dispatch(push('/entrar'));
-        alert('Su contraseña ha sido actualizada satisfactoriamente.');
-        dispatch({ 
-            type: types.END_LOADING
-        });
+    .then(res => {
+      if (res.status === 200) {
+          dispatch(push('/entrar'));
+          alert('Su contraseña ha sido actualizada satisfactoriamente.');
+      } else{
+          alert('Las respuestas no son las adecuadas.');
+      }
+      dispatch({ 
+          type: types.END_LOADING
+      });
     })
     .catch(err => {
         console.error(err);
