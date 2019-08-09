@@ -317,5 +317,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   start_loading: passwordActions.start_loading,
   end_loading: passwordActions.end_loading,
-  recover: passwordActions.recover,
+  recover: passwordActions.recoverPassword,
 })(withStyles(styles)(RecoverPassword));

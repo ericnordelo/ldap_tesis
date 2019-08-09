@@ -5,6 +5,7 @@ import { push } from 'connected-react-router'
 export const passwordActions = {
     change,
     recover,
+    recoverPassword,
     start_loading,
     end_loading,
 };
@@ -43,7 +44,7 @@ function change(data) {
   };
 }
 
-function recover(data) {
+function recoverPassword(data) {
   return function(dispatch) {
     dispatch({ 
         type: types.START_LOADING
