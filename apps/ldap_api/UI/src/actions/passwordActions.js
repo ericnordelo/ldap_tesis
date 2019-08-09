@@ -43,6 +43,37 @@ function change(data) {
   };
 }
 
+function recover(data) {
+  return function(dispatch) {
+    dispatch({ 
+        type: types.START_LOADING
+    });
+    fetch(config.api_address + '/p/preguntasdeseguridad', {
+        credentials: "include",
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        dispatch(push('/entrar'));
+        alert('Su contraseña ha sido actualizada satisfactoriamente.');
+        dispatch({ 
+            type: types.END_LOADING
+        });
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Las respuestas no son las adeduadas.');
+        dispatch({ 
+          type: types.END_LOADING
+      });
+    });
+  };
+}
+
 function start_loading(){
     return function(dispatch) {
         dispatch({ 

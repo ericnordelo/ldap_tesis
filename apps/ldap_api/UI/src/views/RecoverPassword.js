@@ -157,30 +157,11 @@ class RecoverPassword extends Component{
       return;
     }
 
-    this.props.start_loading();
-
-    fetch(config.api_address + '/p/preguntasdeseguridad', {
-        credentials: "include",
-        method: 'POST',
-        body: JSON.stringify({
-          email: this.state.email,
-          password: this.state.password,
-          answers: [this.state.respuesta1, this.state.respuesta2],
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+    this.props.recover({
+      email: this.state.email,
+      password: this.state.password,
+      answers: [this.state.respuesta1, this.state.respuesta2],
     })
-    .then(res => res.json())
-    .then(data => {
-        alert('Su contraseña ha sido actualizada satisfactoriamente.');
-        this.props.end_loading();
-    })
-    .catch(err => {
-        this.props.end_loading();
-        console.error(err);
-        alert('Las respuestas no son las adeduadas.');
-    });
   }
 
   render(){
@@ -336,4 +317,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   start_loading: passwordActions.start_loading,
   end_loading: passwordActions.end_loading,
+  recover: passwordActions.recover,
 })(withStyles(styles)(RecoverPassword));
