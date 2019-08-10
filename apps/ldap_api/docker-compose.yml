@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  memcached:
+    build:
+      context: .
+      dockerfile: ./memcached-dockerfile
+    image: memcached
+    container_name: memcached_server
+    expose: 
+      - 11211
+    ports:
+    - "11211:11211"
+    restart: always
+    command: memcached -u root
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: sqlserver_db
+    environment:
+      SA_PASSWORD: "P@ssw0rd"
+      ACCEPT_EULA: "Y"
+  api:
+    build: .
+    image: flask_restful
+    container_name: ldap_api
+    environment: 
+            - LDAP_API_ENVIRONMENT=${LDAP_API_ENVIRONMENT}
+            - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+            - LDAP_SERVER_URI=${LDAP_SERVER_URI}
+            - FLASK_ENV=${LDAP_API_ENVIRONMENT}
+    expose: 
+      - 5000
+    ports:
+    - "${API_HOST_PORT}:5000"
+    volumes:
+    - .:/api
+    restart: always
+    working_dir: /api
+    command: python run.py
+    depends_on: 
+      - memcached
+      - db
+  ui:
+    build:
+      context: .
+      dockerfile: ./ui-dockerfile
+    image: react_ui
+    container_name: ldap_ui
+    ports:
+    - "3000:3000"
+    working_dir: /ui
+    volumes:
+    - ./UI:/ui
+    restart: always
+    command: bash -c "npm install && npm start"
+    
+networks: 
+  default:
+    external:
+      name: tesis

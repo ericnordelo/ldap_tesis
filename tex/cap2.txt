@@ -1,0 +1,44 @@
+1. ¿Qué endpoints estamos utilizando?
+
+Actualmente estamos utilizando dos: Faculties y StudentsByFaculty
+
+2. ¿Para qué?
+
+Para obtener todos los estudiantes matriculados en la universidad, primero obteniendo las facultades y después los estudiantes por cada una de ellas.
+
+2.1. Datos faltantes
+
+Dirección y teléfono
+
+3. Listado de problemas vistos
+
+Problema 1: Datos con caracteres no ASCII (ej: CI: 94022830908)
+Problema 2: El endpoint StudentsByFaculty devuelve estudiantes duplicados
+
+Ejemplos:
+
+CI          ID Sigenu
+95100500503 223.0.06816_14
+96090304830 223.0.06816_07
+94011831454 223.0.06816_07
+68041911210 223.0.06816_07
+94011831454 223.0.06816_07
+93011632291 223.0.06816_08
+86122208013 223.0.06816_08
+89121621142 223.0.06816_08
+89101503772 223.0.06816_08
+70030709559 223.0.06816_08
+89121621142 223.0.06816_08
+89101503772 223.0.06816_08
+88062007771 223.0.06816_08
+87073002345 223.0.06816_05
+97112908252 223.0.06816_05
+00060766496 223.0.06816_01
+00032468438 223.0.06816_01
+00021365570 223.0.06816_01
+
+4. Dudas
+
+¿De esta forma obtenemos todos los estudiantes?
+
+¿Alguna otra variante para lograr el objetivo?

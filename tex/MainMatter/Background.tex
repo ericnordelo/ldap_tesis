@@ -1,0 +1,183 @@
+\chapter{Directorio Único}
+
+\section{Surgimiento}
+
+El Directorio Único de la Universidad de La Habana es un conjunto de servicios, que fueron implementados con el objetivo de acceder a los datos del personal de la Universidad de la Habana (estudiantes, trabajadores y externos). En el momento de su surgimiento, se hacia necesario disponer de un sistema que unificara las principales fuentes de datos de Recursos Humanos. De esta manera se buscaba presentar una interfaz para el manejo de esta información. El conjunto de servicios que compone el actual Directorio fue tomando forma paulatinamente al integrar soluciones aisladas a la interfaz inicial (soluciones en distintas tecnologías y lenguajes de programación). Entre los principales y más utilizados podemos destacar un mecanismo de autenticación OAuth para los sitios y servicios de la intranet (proxy, correo...). Todos los servicios implementados sobre Directorio funcionan hasta hoy. Algunos se encargan de denegar o permitir el acceso de los usuarios a determinados recursos brindados por la Universidad. Se puede tomar como ejemplo, el acceso al servicio que administra la asignación de viajes internacionales al personal de la Universidad. Otro ejemplo, un poco más palpable, lo tenemos en el servicio que decide la cuota de internet asociada a cada usuario. Todos estos servicios se basan en información procedente de Recursos Humanos (el año que cursa, en caso de ser estudiante, o el cargo y departamento, en el caso de los trabajadores).
+
+La idea principal de un Directorio Único, es por supuesto centralizar el acceso a la información con todas las ventajas que esto brinda (estabilidad en el sistema, velocidad de acceso a la información, accesibilidad y facilidad de administración...), ya que debido a la estructura de la Universidad esta información no se genera de manera centralizada. Existen diversas fuentes de las que se nutre el Directorio Único. Una de ellas es el Sistema de Gestión para la Nueva Universidad (SIGENU), una plataforma web con una interfaz (API y página web) para consultar y administrar información relacionada con los estudiantes usando el protocolo SOAP (Simple Object Access Protocol). Este Sistema de Gestión es administrado por las secretarias de cada una de las facultades que forman parte de la Universidad y es referente solo a los estudiantes. Otra de las fuentes es el conjunto de Bases de Datos en sqlserver de los departamentos de recursos humanos de cada una de las unidades presupuestadas de la Universidad (UH, IFAL, JBN, UPA, ISDI, INSTEC). Sobre esta última el acesso es más restringido debido a que en el proceso de informatización de esta información se utilizó un software privativo (el sistem no acepta modificaciones).
+
+Entre los datos más relevantes que provee como servicios el Directorio Único están las credenciales de los usuarios de la red universitaria, debido a que esta información es la base del otorgamiento de permisos a la hora de utilizar servicios en la intranet. Esta información permite:
+
+\begin{enumerate}
+\item {\bf Autenticar al usuario:} Comprobar que la persona que solicita un servicio es quien dice ser.
+\item {\bf Administrar el acceso:} En correspondencia del nivel de privilegio de un usuario, permitir o no el acceso a ciertos servicios.
+\end{enumerate}
+
+Además se almacenan otros datos dependiendo del tipo de usuario (estudiante, trabajador o externo), como por ejemplo:
+
+\begin{enumerate}
+	\item Año que cursa (en caso de ser estudiante)
+	\item Direcci\'on Particular
+	\item Departamento al que pertenecen (trabajadores)
+	\item Datos sobre la nomina (trabajadores)
+	\item Puesto que ocupa (trabajadores)
+	\item Cargos importante (si es que los pos\'ee)
+\end{enumerate}
+
+Por último a estos datos que persistidos en el Directorio se le asocia información adicional para monitorear y gestionar la actividad realizada por el usuario. Durante su estancia en la red, podemos registrar los momentos en que se autentica, en que sistema lo hace, la cantidad de cuota de internet consumida, etc.
+
+En el listado siguiente, se encuentra un ejemplo de una posible respuesta ofrecida por el directorio cuando se consultan los datos de un trabajador de la UH.
+
+\begin{verbatim}
+	<TrabajadorInfoCuote>
+	<Id>15869</Id>
+	<CatOcupacional>técnicos docentes principal</CatOcupacional>
+	<Docente>Si</Docente>
+	<CatDocenteInvestigativa>Instructor</CatDocenteInvestigativa>
+	<Contrato>Indeterminado</Contrato>
+	<Cargo>INSTRUCTOR</Cargo>
+	<Adiestrado>No</Adiestrado>
+	<AdministradorArea>No</AdministradorArea>
+	<Tecnico>Si</Tecnico>
+	<TecnicoInformatico>No</TecnicoInformatico>
+	<EspecialistaPrincipal>No</EspecialistaPrincipal>
+	<Cuadro>No</Cuadro>
+	<Asset>1</Asset>
+	<Departamento>DIRECCION DE INFORMATIZACION</Departamento>
+	</TrabajadorInfoCuote>
+\end{verbatim}
+
+\section{Problemas del sistema actual}
+
+El sistema, tal y como existe en este momento, presenta varios problemas. Esta tesis 
+pretende brindar una propuesta de solución para la mayoría de estos, así como su implementación. Los problemas son:
+
+\subsection{Mantenimiento y extensibilidad del Sistema}
+
+Debido a la naturaleza del surgimiento del Directorio Único, es decir, el acoplamiento de varios servicios de manera escalonada sobre la idea inicial (servicios implementados en varias tecnologías y lenguajes de programación), cada componente es demasiado dependiente de la forma en que las demás brindan sus correspondientes funcionalidades. Esto se debe a que la interacción entre las mismas ha sido configurada mediante un enfoque estático. El propio sistema no dispone de herramientas que permitan su modificación de una manera cómoda para los encargados de su mantenimiento. Dicho enfoque dificulta enormemente las tareas de actualización del sistema, las cuales son necesarias para poder adecuar el mismo a las nuevas condiciones y necesidades que van surgiendo en la red a través de los años. De hecho, actualmente el personal encargado del mantenimiento de Directorio no puede responder a las necesidades de actualización. La principal causa de esta desatención, es que los desarrolladores de Directorio perdieron muchos de los cambiosen su historial de código. Tan importante es la pérdida de este historial que imposibilita la recuperación de la lógica del Directorio actual partiendo solamente del código almacenado.
+
+\subsection{Desuso de datos almacenados}
+
+Desde el surgimiento del Directorio Único, se han ido incorporando nuevos campos a las 
+fuentes de información del sistema. Estos cambios han tenido como objetivo suplir las 
+necesidades que ocupan a la Universidad en cada nuevo período escolar. 
+
+Actualmente muchos de esos campos han dejados de ser útiles para la Universidad. Como consecuencia de la rigidez del Directorio, cualquier cambio, sobre todo aquellos cuya 
+repercusión y alcance no se conocen, podrían significar la caída del sistema por tiempo indefinido. De ahí que se siga la filosofía de que "... lo que funciona no se toca...". Pero mantener este enfoque, provoca una sobrecarga innecesaria para el sistema, que aunque pueda ser pequeña, no deja de ser significante. Dicha sobrecarga se refleja sobre todo en el espacio ocupado por la información en disco.
+
+\subsection{Incumplimiento de políticas de baja de usuarios}
+
+Este es otro problema en el cual se incurre con bastante frecuencia en la Universidad. 
+Debido a la volatilidad de algunos contratos concertados con personal ajeno a nuestro 
+centro de altos estudios. 
+
+Sucede frecuentemente que al dar de baja a estos usuarios, sus cuentas son eliminadas con 
+efecto casi inmediato, lo cual va en contra de los protocolos usualmente implementados en 
+estos casos. Generalmente se debe espera una cierta cantidad de días para implementar la 
+eliminación total de las cuentas. De esta manera se puede prevenir la pérdida de acceso a 
+servicios críticos, como son el correo, el proxy y la nube recientemente desplega en la 
+intranet de la Universidad. Muchas veces estos servicios son desarrollados, administrados 
+y mantenidos por agentes externos a la Universidad. 
+
+
+\subsection{Carencia de protocolos comunes para servicios externos}
+
+A menudo, se implementan nuevos servicios en la red de la Universidad. Generalmente estos
+servicios necesitan tener control de acceso sobre los recursos que brindan a sus usuarios.
+Esto implica el tener que desarrollar para cada nuevo servicio, un mecanismo de 
+autenticación de usuarios. Este mecanismo además tiene que ser capaz de brindar una 
+funcionalidad para administrar los roles o grupos a los que pertenecen dichos usuarios.
+Un enfoque más útil, es el de delegar esta tarea a un sistema externo y centralizado. De
+esta forma se evita el tener que repetir el desarrollo de la misma funcionalidad para cada
+servicio.
+
+Teniendo esto en cuenta, es que se pretende implementar una API Rest que permita modificar 
+la lógica detrás de la información brindada, sin que esto implique modificar todos los 
+servicios que consuman información de nuestro sistema.
+
+\section{Propuesta de solución}
+
+Con el objetivo de subsanar dichos problemas, pretendemos desarrollar un sistema capaz de
+sustituir el Directorio Único. Nuestro enfoque va orientado a desplegar un servidor que
+implemente el protocolo LDAP. Este protocolo define un servicio de directorio optimizado para
+las operaciones de búsqueda. Además posee facilidades para la organización de los datos, 
+asociándolos a entidades, grupos y cualquier otra unidad organizacional en la que se necesiten
+agrupar a los datos. Dichos datos serán consumidos directamente de las mismas fuentes de las
+que se alimenta Directorio Único. Existirá, para esto, un capa de software intermedio capaz de
+transformar los datos a un formato compatible con el protocolo LDAP, específicamente el formato 
+LDIF. Dicho formato propone la declaración de los atributos, que componen la información de un 
+usuario, a través de pares de llaves y valores. A continuación se puede observar, como ejemplo,
+una entrada del servidor LDAP expresada en este formato. La misma representa la información
+comúnmente almacenada con respecto a un usuario que no está directamente asociado a la Universidad.
+
+\begin{verbatim}
+	dn: uid=labf@fq.uh.cu,ou=Externo,dc=uh,dc=cu
+	area: N/D
+	assets: 1
+	cargo: JEFE DE DEPARTAMENTO (ADM FACULTAD)
+	categoriadocenteinvestigativa: N/D
+	centrodegraduacion: N/D
+	ci: 38081015203
+	ciudadania: N/D
+	cn: Luis Enrique
+	correo: labf@fq.uh.cu
+	cuotainternet: 0
+	dependencia: UH: FACULTAD DE QUIMICA
+	direccion: N/D
+	direcciondelcentro: N/D
+	edad: 23
+	esbaja: FALSE
+	escuadro: TRUE
+	fechadecreacion: 1486962000
+	fechadebaja: 2145889787
+	fechaderegistro: 1484542800
+	gradocientifico: N/D
+	lugardenacimiento: N/D
+	municipio: N/D
+	objectclass: Externo
+	objectclass: top
+	provincia: N/D
+	raza: Blanca
+	sexo: M
+	sn: brahin Fuente
+	tienechat: TRUE
+	tienecorreo: TRUE
+	tieneinternet: TRUE
+	uid: luis.enrique.brahin.fuente_182711
+	ujc: FALSE
+	userpassword: {SSHA}n9+lgnpEQv63Ky7smvxyISK1Gb3dq
+\end{verbatim}
+
+En caso de ser necesario guardar alguna información que no este incluida en las fuentes, es en 
+esta capa donde será generada.
+
+Actualmente existe muchos servicios que saben como comunicarse directamente con el protocolo
+LDAP. Pero no todos incluyen esta funcionalidad. Por esta razón, es necesario implementar
+una interfaz, una capa de abstracción entre LDAP y el resto de los servicios, que permita su
+comunicación. El protocolo de comunicación más común entre servicios web es el de HTTP. Por eso
+pretendemos implementar una Api para garantizar la interacción de nuestro sistema, con
+todos los servicios que necesiten consumir la información que almacenaremos. Los servicios
+que brindara dicha Api son los siguiente:
+
+\begin{enumerate}
+	\item Consultar la información acerca de cualquiera de las usuario almacenados en el sistema.
+	\item Agregar la información nuevos usuarios, así como asignarles una cuota de internet y un
+		usuarion de correo.
+	\item Actualizar la información de los usuarios, tanto de estudiantes, como de 
+	trabajadores y externos.
+	\item Definir preguntas de seguridad para cada usuario, que le permitan al mismo recuperar
+		sus credenciales.
+\end{enumerate}
+
+Realizar cualquiera de estas acciones, requiere pasar el proceso de autenticación de dicha API
+y poseer los permisos necesarios para la funcionalidad correspondiente.
+
+Además como parte de la solución también implementaremos una interfaz visual para facilitar la interacción con el API.
+
+Antes de decidir el enfoque a seguir para la implementación de la solución propuesta, se tuvo en
+cuenta varias tecnologías. A continuación las presentamos y argumentamos nuestra elección.
+
+
+
+
+

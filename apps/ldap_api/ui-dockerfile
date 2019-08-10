@@ -1,0 +1,11 @@
+FROM node:10
+
+ENV APP_DIR /ui
+
+VOLUME ${APP_DIR}
+WORKDIR ${APP_DIR}
+
+
+
+
+
