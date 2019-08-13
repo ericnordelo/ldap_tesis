@@ -12,7 +12,7 @@ function addWorker(data) {
     dispatch({ 
         type: types.START_LOADING
     });
-    fetch(config.api_address + '/p/agregartrabajador', {
+    fetch(config.api_address + '/estudiantes', {
         credentials: "include",
         method: 'POST',
         body: JSON.stringify(data),
