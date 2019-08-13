@@ -164,6 +164,7 @@ class AddWorker extends Component{
               color="primary"
               disabled={this.props.loading}
               className={classes.submit}
+              onClick={this.onSubmit}
             >
               Agregar Trabajador
             </Button>
