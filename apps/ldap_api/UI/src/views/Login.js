@@ -122,6 +122,16 @@ class Login extends Component{
                 Cambiar contraseña
               </Link>
             </Typography>
+            <Typography component="p" style={{marginTop: 15}}>
+              <Link to="/p/cambiar">
+                Agregar Estudiante
+              </Link>
+            </Typography>
+            <Typography component="p" style={{marginTop: 15}}>
+              <Link to="/p/cambiar">
+                Agregar Trabajador
+              </Link>
+            </Typography>
           </form>
         </Paper>
       </main>
