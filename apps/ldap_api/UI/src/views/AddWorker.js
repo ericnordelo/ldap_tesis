@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {sections} from './_sections'
 import {footer} from './_footer'
+import {connect} from 'react-redux'
+import {userActions} from '../actions/userActions'
 
 const styles = theme => ({
   layout: {
@@ -88,6 +90,18 @@ class AddWorker extends Component{
     };
   }
 
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    
+    this.props.addWorker({
+      ci: this.state.ci,
+    })
+  }
+
   render(){
     const {classes} = this.props;
 
@@ -139,6 +153,7 @@ class AddWorker extends Component{
               fullWidth
               margin="normal"
               variant="filled"
+              onChange={this.handleChange("ci")}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -147,7 +162,7 @@ class AddWorker extends Component{
               type="submit"
               variant="contained"
               color="primary"
-              disabled={this.state.loading}
+              disabled={this.props.loading}
               className={classes.submit}
             >
               Agregar Trabajador
@@ -166,4 +181,9 @@ AddWorker.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddWorker);
+
+const mapStateToProps = (state) => ({
+  loading: state.general.loading
+});
+
+export default connect(mapStateToProps, {change: userActions.addWorker})(withStyles(styles)(AddWorker));
