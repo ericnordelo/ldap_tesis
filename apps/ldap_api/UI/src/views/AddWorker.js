@@ -99,7 +99,7 @@ class AddWorker extends Component{
     
     this.props.addWorker({
       ci: this.state.ci,
-    })
+    });
   }
 
   render(){
@@ -187,4 +187,4 @@ const mapStateToProps = (state) => ({
   loading: state.general.loading
 });
 
-export default connect(mapStateToProps, {change: userActions.addWorker})(withStyles(styles)(AddWorker));
+export default connect(mapStateToProps, {addWorker: userActions.addWorker})(withStyles(styles)(AddWorker));
