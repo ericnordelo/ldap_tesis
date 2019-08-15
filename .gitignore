@@ -12,7 +12,6 @@ apps/ldap-api/log/*
 *.blg
 *.fls
 *.log
-tex/Thesis.*
 *.bak
 apps/ldap-api/env
 scripts/env
