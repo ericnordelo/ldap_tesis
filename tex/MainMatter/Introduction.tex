@@ -9,22 +9,33 @@
     de los procesos ya no solo industriales, tambien cotidianos,
     mejora considerablemente la calidad, rapidez y robustez de los mismos, y donde el surgimiento de las redes de dipositivos facilita la comunicación y la organización de personas y
     organismos.
+    
+    \todo[inline]{Tienes una oración que es medio párrafo. Se hace muy dificil seguir ideas tan largas. Simplifica la idea en secciones mas pequeñas }
         
         Una de las ventajas que trae consigo el establecimiento de redes de dispositivos es la posibilidad de descentralizar el almacenamiento de información
     sin comprometer el acceso a la misma. Actualmente la red de la Universidad de La Habana cuenta con varios servicios consumidores y fuentes de
     diferentes tipos de información relacionada con los
-    departamentos de Recursos Humanos, careciendo de un servicio que administre de manera adecuada el flujo de comunicación entre los mismos. De
+    departamentos de Recursos Humanos, careciendo de un servicio que administre de manera adecuada el flujo de comunicación entre los mismos.
+    \todo[inline]{Igualmente, cuesta mucho seguir la oración anterior. La idea esta demasiando rebuscada. Simplificala, y si para ello es necesario dar un ejemplo ... pues proveelo para que el lector comprenda: En que consiste el servicio ofrecido? Por que lo necesitan los consumidores que no son solo las facultades?}
+     De
     estos servicios se benefician no solo las facultades pertenecientes a la Universidad, también se benefician otras instituciones asociadas a la misma como
     el Instituto Superior de Diseño (ISDI), el Instituto Superior de Ciencia y
     Tecnología Aplicada (InSTEC), el IFAL, el Jardín Botánico, y la DOM.
 
     
         La gran mayoría de estos servicios requiere la apropiada verificación
-    del usuario que solicita acceder o agregar información a los mismos (sobre todo para el manejo de los diferentes roles y permisos con los que cuentan las personas encargadas de manipular los datos). Debido a esto y con el objetivo de centralizar este proceso de verificación se han ido acumulando sobre un dominio web (directorio.uh.cu), varias actualizaciones aisladas
+    del usuario que solicita acceder o agregar información a los mismos (sobre todo para el manejo de los diferentes roles y permisos con los que cuentan las personas encargadas de manipular los datos).
+    \todo[inline]{Ofrece un ejemplo de los servicios para que quede claro porque es necesario autenticar y luego ofrece un ejemplo donde ademas sea necesario agregar roles y permisos: relaciones internacionales me parece el ejemplo perfecto.}
+     Debido a esto y con el objetivo de centralizar este proceso de verificación se han ido acumulando sobre el dominio \url{directorio.uh.cu} varias actualizaciones progresivas
     que conforman lo que se conoce como "Directorio Único de la Universidad
-    de La Habana". Sobre este dominio web se integran y administran servicios que funcionan sobre diferentes tecnologías. Esto trae consigo dificultad a la hora de integrar
+    de La Habana".
+    \todo[inline]{Antes de caer en las tecnologias quizas sea bueno que toques las responsabilidades básicas de directorio: ofrecer información de los usuarios (trabajadores y estudiantes) extrayéndola de las fuentes de datos que mencionaste y no explicaste antes (ASSETS - SIGENU), brindar la información a los usuarios a través de la página de directorio, autenticar a los usuarios dentro de una plataforma OpenID, ofrecer un API que otros servicios (o los administradores) de la red pueden utilizar para autenticar a un usuario o consultar/editar su información}
+    
+     Sobre este dominio web se integran y administran servicios que funcionan sobre diferentes tecnologías. Esto trae consigo dificultad a la hora de integrar
     nuevos servicios al directorio, así como inestabilidad y falta de robustez en
     el servicio de verificación y solicitud de información almacenada.
+    
+    \todo[inline]{Esto puede ser una pregunta del oponente. Haces una afirmación sin dar ningun nivel de detalle. Google tiene una plataforma que que funciona sobre diferentes tecnologias y no por ello deja de brindar e intergrarse con servicios nuevos todos los dias. En el contexto de la red de la universidad la forma en la que nació, creació y existe directorio representa un problema a la hora de integrar nuevos servicios de red : porque no sigue ningun estándar ... o más bien, el estándar inicial que siguió OpenID tenia un propósito diferente que integrarse con SQUID, POSTFIX-DOVECOT, etc ...}
 
     Presentado este problema, el objetivo general de este proyecto es proveer a la Universidad de
     La Habana de un servicio que se encargue de administrar los procesos de obtención, almacenamiento y publicación
@@ -33,11 +44,17 @@
     Con este objetivo en mente, el primer paso hacia la implementación de la solución consiste en un análisis del problema desde un punto de vista computacional. Este análisis se sustenta en la respuesta a una serie de preguntas, donde la primera y tal vez más importante es: ¿de qué forma almacenamos toda esa información? Existen diversas maneras que nos permiten lograr la persistencia de los datos, teniendo cada una de ellas sus ventajas y desventajas; como ejemplos podemos citar las bases de datos (relacionales o no relacionales) y los sistemas de ficheros. Ambas categorías poseen además diversas implementaciones, donde la mejora ocurre en dependencia de lo que se desee optimizar (espacio, velocidad de consulta, velocidad de modificación). Después de analizar las características de nuestro problema y de las formas de almacenamiento concluimos que lo mejor es almacenarla en una estructura de directorios\cite{whyldap}. La principal ventaja estriba en la velocidad para realizar consultas sobre grandes volúmenes de datos (perdiendo en velocidad de modificación
     de los mismos, tanto en actualizaciones, como en inserciones y eliminaciones)\cite{ldapfaster}, que es lo que necesita nuestra solución, ya que la información relacionada con Recursos Humanos se consulta mucho más de lo que se modifica.
     
+    \todo[inline]{Nada del párrafo de arriba tiene que ver con tu tesis. Es la tesis de Lian la que se encarga de decidir cual es la mejor variante desde el punto de vista computacional para almacenar la información de los usuarios. Tu trabajo se enfoca en proveer un servicio que se encargue de administrar los flujos de información, tu objetivo principal es bastante especifico en ello. }
+    
 \newpage
 
     Continuando con el análisis la siguiente pregunta puede ser: ¿qué método se debería utilizar para acceder a la información almacenada? Al utilizarse una estructura de directorios, la repuesta a esta pregunta pasa por elegir una de las implementaciones de este concepto computacional y de un protocolo de acceso, después de comparar varias de estas implementaciones concluimos que la mejor opción es utilizar el protocolo LDAP (Lightweight Directory Access Protocol o Protocolo Ligero de Acceso a Directorios) y OpenLDAP como implementación del mismo\cite{ldapimplementations}.
+    
+    \todo[inline]{Lo mismo que con el párrafo anterior.}
 
-    LLegado a este punto podemos afirmar que la hipótesis a partir del objetivo es: la implementación de un sistema LDAP para la administración
+    LLegado a este punto podemos afirmar que la hipótesis a partir del objetivo es: la implementación de un sistema LDAP 
+    \todo[inline]{Nuevamente: fuera de tu tesis ... ademas ustedes no iban a implementar nunca un sistema LDAP y si una solución enfocada en el uso de un servicio LDAP}
+    para la administración
     de la información relacionada con Recursos Humanos dentro de la Universidad de la Habana, mejorando el acceso a la información (rapidez de conultas) y la disponibilidad de la misma (sistema más estable y menos propenso a fallas que el actual servicio web), lo cual implica más estabilidad en los servicios que dependen del actual directorio como son el correo de la Universidad y el acceso a Internet.
 
     Para esto es necesario investigar sobre el estado del arte de los sistemas
@@ -47,5 +64,7 @@
     datos almacenados actualmente. Por último, se plantea implementar una
     API acorde con el protocolo OpenId para facilitar la autenticación para
     futuros servicios.
+    
+    \todo[inline]{Nuevamente, no vas a implementar nada de LDAP. Si tienes que tener a LDAP en el estado del arte porque estas basando tu solución para administrar los flujos de información sobre una solución ldap para almacenar la información. }
 
 \end{introduction} 
