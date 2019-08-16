@@ -45,6 +45,7 @@ services:
     depends_on: 
       - memcached
       - db
+      - reverse_proxy
   ui:
     build:
       context: .
@@ -58,7 +59,9 @@ services:
     - ./UI:/ui
     restart: always
     command: bash -c "npm install && npm start"
-    
+    depends_on: 
+      - api
+      - reverse_proxy
 networks: 
   default:
     external:
