@@ -88,6 +88,18 @@ class AddStudent extends Component{
     };
   }
 
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    
+    this.props.addStudent({
+      ci: this.state.ci,
+    });
+  }
+
   render(){
     const {classes} = this.props;
 
@@ -139,6 +151,7 @@ class AddStudent extends Component{
               fullWidth
               margin="normal"
               variant="filled"
+              onChange={this.handleChange("ci")}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -147,8 +160,9 @@ class AddStudent extends Component{
               type="submit"
               variant="contained"
               color="primary"
-              disabled={this.state.loading}
+              disabled={this.props.loading}
               className={classes.submit}
+              onClick={this.onSubmit}
             >
               Agregar Estudiante
             </Button>
@@ -166,4 +180,8 @@ AddStudent.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddStudent);
+const mapStateToProps = (state) => ({
+  loading: state.general.loading
+});
+
+export default connect(mapStateToProps, {addWStudent: userActions.addWStudent})(withStyles(styles)(AddStudent));
