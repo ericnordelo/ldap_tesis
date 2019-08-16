@@ -1,12 +1,12 @@
 \chapter{Implementación del sistema}
 \section{Consideraciones previas}
 
-La implementación del servidor LDAP es parte del desarrollo otra tesis que complementa a esta en la creación de la solución final. En esta se implementó lo concerniente al API y la interfaz web, incluyendo la generación de los archivos LDIF utilizados para popular y modificar de manera periódica el servidor LDAP mediante dos módulos de Python independientes al API (aunque esta los utiliza); uno para la estracción de la información pertinente a los estudiantes y otro para la pertinente a los trabajadores. 
+La implementación del servidor LDAP es parte del desarrollo otra tesis que complementa a esta en la creación de la solución final. En esta se implementó lo concerniente al API y la interfaz web, incluyendo la generación de los archivos LDIF utilizados para popular y modificar de manera periódica el servidor LDAP mediante dos módulos de Python independientes al API (aunque esta los utiliza); uno para la extracción de la información pertinente a los estudiantes y otro para la pertinente a los trabajadores. 
 Además el API brinda una bolsa de servicios a los que se pueden asociar otros sistemas que necesitan consumir la información almacenada en el servidor (como por ejemplo la cuota de internet de un estudiante).
 
-\section{Estracción de la información de estudiantes y trabajadores}
+\section{Extracción de la información de estudiantes y trabajadores}
 
-Como mencionamos antes, de la estracción de la información se encargan dos módulos independientes desarrollados en Python, los cuáles consumen la información de Recursos Humanos de los destinos correspondientes y generan archivos LDIF que utiliza el servidor LDAP para modificar los datos almacenados. Estos módulos son:
+Como mencionamos antes, de la extracción de la información se encargan dos módulos independientes desarrollados en Python, los cuáles consumen la información de Recursos Humanos de los destinos correspondientes y generan archivos LDIF que utiliza el servidor LDAP para modificar los datos almacenados. Estos módulos son:
 
 \subsection{Módulo para generar los LDIF de los estudiantes}
 
@@ -74,7 +74,7 @@ La generación del archivo LDIF final queda estructurada de la forma que puede a
 	\item {\bf uid:} 5000
 \end{enumerate}
 
-\section{API}
+\section{Implementaci\'on de la API}
 
 La API se desarrolló utlizando el framework Flask de Python, debido a la eficiencia de este framework minimalista, y al poder de este lenguaje de programación en cuanto a soluciones ya implementadas (librerías). Consiste en un conjunto de recursos creados utilizando la librería flask-restful a los cuales se accede utilizando el protocolo HTTP (los recursos se publican como URLs).  Utilizando la librería python-ldap, el API se conecta y se comunica con el servidor LDAP. 
 
@@ -134,7 +134,7 @@ Este recurso es accesible también mediante 3 métodos HTTP, para realizar 3 acc
 
 \subsubsection{/externos}
 
-Este recurso es accesible mediante 2 métodos HTTP, para realizar 2 acciones distintas. Método GET para obtener la información pertinente a un conjunto de externos de la universidad en base a parámetros de búsqueda. Método POST para agregar un externo al directorio (cuando se hace mención al directorio nos referimos al servidor LDAP que almacena la información).
+Este recurso es accesible mediante 2 métodos HTTP, para realizar 2 acciones distintas. Método GET para obtener la información pertinente a un conjunto de externos de la universidad en base a parámetros de búsqueda. Método POST para agregar un externo (persona que utiliza de forma temporal los servicios de la universidad, como un profesor de otra universidad que viene a impartir un curso de verano, etc...) al directorio (cuando se hace mención al directorio nos referimos al servidor LDAP que almacena la información).
 
 \textbf{Métodos:} GET, POST
 
