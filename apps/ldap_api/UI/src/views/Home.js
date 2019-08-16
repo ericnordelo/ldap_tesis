@@ -95,13 +95,6 @@ function Home(props) {
           </Typography>
 
         </Toolbar>
-        <Toolbar variant="dense" className={classes.toolbarSecondary}>
-          {sections.map(section => (
-            <Typography color="inherit" noWrap key={section}>
-              {section}
-            </Typography>
-          ))}
-        </Toolbar>
         <main>
           {/* Main featured post */}
           <Paper className={classes.mainFeaturedPost}>
@@ -112,7 +105,7 @@ function Home(props) {
                     Directorio Único
                   </Typography>
                   <Typography variant="h5" color="inherit" paragraph>
-                    Administración de credenciales y consultas de usuarios en la universidad de la Habana.
+                    Administración de credenciales y consultas de usuarios en la Universidad de La Habana.
                   </Typography>
                 </div>
               </Grid>
