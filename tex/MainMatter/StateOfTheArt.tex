@@ -2,215 +2,16 @@
 
 \section{LDAP}
 \subsection{¿Qué es el protocolo LDAP?}
-LDAP (Lightweight Directory Access Protocol) es un protocolo perteneciente a la capa de 
-aplicaciones \footnote{ TANENBAUM, ANDREW S. Redes de computadoras PEARSON EDUCACIÓN, México, 
-2003 ISBN: 970-26-0162-2}, tanto para servidores como para clientes. Es abierto y 
+LDAP (Lightweight Directory Access Protocol o Protocolo de Acceso a Directorios Ligero) es un protocolo perteneciente a la capa de 
+aplicaciones \cite{ ldap1}, tanto para servidores como para clientes. Es abierto y 
 multiplataforma. Está pensado para la implementación de servicios de directorio, como son: 
 \textbf{IBM Security Directory Server}, \textbf{Active Directory}, \textbf{Oracle Internet 
 Directory} y \textbf{OpenLDAP}; facilitando el acceso rápido a la información almacenada. 
 Presenta una estructura arbórea, la cual organiza la información en ramas y permite realizar 
 búsquedas de manera eficiente, debido a que la cardinalidad de las posibles repuestas se 
-reduce a medida que se avanza por cualquiera de estas ramas. Es una versión ligera del 
-protocolo DAP (Directory Access Protocol)\footnote{ \url{https://es.wikipedia.org/wiki/Directory_Access_Protocol}},
-el cual a su vez es parte del estándar para servicios de directorios en la red: X.500
-\footnote{ \url{https://es.wikipedia.org/wiki/X.500}}.
+reduce a medida que se avanza por cualquiera de estas ramas.
 
-\newpage
-
-\subsection{Conceptos Importantes dentro de LDAP}
-
-\subsubsection{Servidor de Directorio}
-Un servidor de directorio, no es más que un tipo de base de datos pensada para ser utilizada 
-directamente en la red. A diferencia de las bases de datos tradicionales\footnote{Bases de 
-datos relacionales, definidas por Edgar F. Codd en su artículo: A Relational Model of Data 
-for Large Shared Data Banks}, que representan los datos en tablas y cada instancia es una 
-fila, en este cada entrada en el directorio es un árbol de entradas, donde cada árbol puede 
-contener datos o ser una hoja (un árbol vacío)
-	
-\subsubsection{Entradas}
-Cada entrada en un servidor de directorio representa una colección de información referente 
-a cierta entidad. Está compuesta principalmente, por un nombre distinguido, que es el 
-identificador unívoco de la misma. Además cuenta con un conjunto de atributos y de clases de 
-objetos los cuales definen la estructura y el comportamiento de la entrada.
-
-\subsubsection{Nombre Distinguido} 
-Este es el identificador unívoco de la entrada. Esta compuesto por lo que se conoce en la 
-literatura como 'Nombres distinguidos relativos' o 'RDN' por sus siglas en inglés. Estos RDN 
-no son más que un conjunto ordenado de pares atributo-valor. Usualmente se escogen los 
-atributos más representativos de cada entrada para la representación del DN.
-
-\subsubsection{Artibutos}
-Los atributos son los encargados de guardar la información de cada entrada y tiene asociados 
-un tipo, un conjunto de opciones.
-
-Los atributos representan una parte importante del esquema del directorio LDAP. A través de 
-estos podemos definir nuevas clases de objetos para poder suplir las necesidad de 
-almacenamiento de información. Para poder definir tanto atributos como clases de objetos es 
-necesario proveerle a ambos un identificador, el cual presenta un formato similar al 
-siguiente: \verb|1.3.6.1.4.1.<Identificador global>.1.5| . A continuación podemos ver un ejemplo de 
-como se puede definir un nuevo atributo.
-
-\newpage
-
-\begin{lstlisting}
-	dn: cn=UHAccount,cn=schema,cn=config
-	objectClass: olcSchemaConfig
-	cn: UHAccount
-	olcAttributeTypes: ( 1.3.6.1.4.1.53027.1.1 NAME 'assets'
-	DESC 'assets'
-	EQUALITY integerMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
-\end{lstlisting}
-
-Este listado presenta el formato de un archivo ldif, con los cuales se administra tanto las 
-configuraciones como los datos almacenados en el servidor LDAP. De la línea 1 a la 3, 
-se configura bajo cuál entrada del directorio LDAP se agrega la configuración correspondiente.
-Luego se describe la inclusión de un nuevo atributo llamado 'assets'.
-
-El identificador global, como se puede ver en el listado, no es más que un nímero de serie 
-que distingue a la implementación del protocolo LDAP utilizada a nivel global. Este se puede 
-obtener realizando una solicitud a IANA(Internet Assigned Numbers Authority)
-\footnote{ \url{https://www.iana.org}}.
-
-\subsubsection{Clases de Objetos}
-Estos también representan una parte importante del esquema del protocolo LDAP. No son más que 
-conjunto de atributos que definen la información almacenada en cada entrada. Pueden ser de 
-dos tipos: estructurales o auxiliares. Cada entrada puede tener asociada una clase de 
-objetos estructural y cero o más clases auxiliares. En el listado siguiente tenemos un ejemplo
-de como definir una nueva clase de objeto.
-
-\begin{lstlisting}
-	olcObjectClasses: ( 1.3.6.1.4.1.53027.2.1 NAME 'UHAccount'
-	DESC 'Base user account for UH`s authentication system'
-	SUP person
-	MUST (userPassword $ email )
-	MAY (givenName $ NoCI $ assets $ isAdmin ))
-\end{lstlisting}
-
-\subsubsection{Filtros}
-Los filtros representan el mecanismo utilizado para realizar consultas al directorio. 
-La lógica utilizada para filtrar las entidades almacenadas en el servidor se define a través 
-de reglas de comparación, las cuales, a su vez se definen en los atributos.
-
-\subsection{Implementaciones más utilizadas}
-\subsubsection{IBM Security Directory Server}
-Este servicio implementa las especificaciones de Internet Engineering Task Force (IETF) LDAP 
-V3. Permite la comunicación con clientes basados en IETF LDAP V3. Esta alternativa presenta 
-una amplia variedad de funcionalidades que facilitarían la integración con el sistema de la 
-Universidad , pero esta herramienta es de pago, por lo que no podemos utilizarla
-\footnote{ \url{https://www.ibm.com/support/knowledgecenter/en/SSVJJU_6.3.1/com.ibm.IBMDS.doc_6.3.1/admin_gd13.htm}}.
-
-\subsubsection{Active Directory}
-Esta es la implementación que brinda Microsoft\footnote{\url{https://support.microsoft.com/es-es/help/196464}}
-del protocolo LDAP. Entre las principales ventajas que presenta esta implementación, se encuentra
-la integración que brinda con los propios programas de Microsoft como por el ejemplo el 
-Outlook. En este caso no es necesario proveer las credenciales para utilizar estos servicios.
-Pero peca de los mismo que la mayoría de los programas de Microsoft. Es dependiente del sistema
-operativo por lo que necesita del sistema Windows Server. Para poder utilizar este sistema,
-es necesario comprar la correspondiente licencia y posiblemente mejores servidores que sean capaz
-de soportarlo.
-\subsubsection{Oracle Internet Directory}
-Oracle Internet Directory es un servicio de directorio de proposito general que facilita realizar
-consultas rápidas y administración centralizada de la información almacenada sobre los usuarios
-que utilizan la red. El mismo combina el protocolo LDAP en su version número 3 con el eficiente
-funcionamiento, escalabilidad y robustez de una base de datos de Oracle \footnote{ 
-\url{https://docs.oracle.com/cd/B14099\_19/idmanage.1012/b14082/intro.htm\#i1001669}}.
-
-\newpage
-
-
-\subsubsection{OpenLDAP}
-OpenLDAP es la alternativa de software libre que implementa el protocolo LDAP. Como la mayoría de
-las implementaciones de servicios asociados a la ideología del software libre, esta variante se
-ejecuta sobre sistemas basados en el kernel de Linux \footnote{ \url{https://es.wikipedia.org/wiki/Núcleo_Linux}}. Esto facilita su despliegue en el ecosistema de la red
-universitaria, ya que la mayoría de los servidores, ejecutan sistemas basados en dicho kernel.
-Además esta implementación se encuentra disponible en los repositorios de las distribuciones más
-populares entre la comunidad de software libre, lo cual facilita la elección de uno u otro 
-sistema base en dependencia de las necesidades.
-
-Junto al programa de instalación, se encuentran predefinidas varios tipos de atributos y 
-clases de objetos. Estos  pretenden suplir las necesidades más comunes de aquellos que 
-necesitan utilizar un servicio de directorio. Podemos destacar:
-
-\begin{enumerate}
-	\item Asignar grupos a los usuarios registrados y de esta manera controlar su rango de acceso.
-	\item Estructurar la información almacenada de manera que simule las áreas y departamentos
-	que componen a la Universidad.
-	\item Definir, sin mucho esfuerzo, aquellos atributos que se suelen almacenar sobre una persona
-	como recurso humano o como internauta o directivo, etc.
-	\item Facilitar la integración con distintos sistemas de autenticación a través de las clases
-	predefinidas.
-\end{enumerate}
-
-Además de incluir estos esquemas por defecto, es fácilmente extensible. Brinda, dentro de sus
-funcionalidades, la capacidad de definir nuevos tipos de atributos y de clases de objetos. Incluso
-es posible extender los ya existentes a través de mecanismos simples de herencia de clases, así como
-definir campos obligatorios u opcionales.
-
-Con respecto al apartado de seguridad, OpenLDAP permite la encriptación de la información
-almacenada a través de distintos métodos. Para algunos brinda soporte de manera nativa, para 
-otros realiza el proceso de encriptación a través de la libreria CRYPT \footnote{ 
-\url{https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_node/libc_650.html}}.
-
-\newpage
-
-El soporte nativo lo brinda para:
-
-\begin{enumerate}
-	\item {\bf MD5\footnote{\url{https://www.ietf.org/rfc/rfc1321.txt}} :} Codificación basada 
-		en el algoritmo MD5
-	\item {\bf SMD5:} Codificación basada en el algoritmo MD5 con un secuencia aleatoria de 
-		caracteres conocida como salt
-	\item {\bf SHA\footnote{\url{https://www.ietf.org/rfc/rfc3174.txt}}:} Codificación basada 
-		en el algoritmo SHA-1
-	\item {\bf SSHA:} Codificación basada en el algoritmo SHA-1 con un secuencia aleatoria de 
-		caracteres conocida como salt 
-\end{enumerate}
-
-A través de CRYPT y el formato PHC string \footnote{ \url{https://github.com/P-H-C/phc-string-format}}
-brinda soporte para:
-
-\begin{enumerate}
-	\item {\bf MD5:} Codificación basada en el algoritmo MD5
-	\item {\bf 	Blowfish / bcrypt:} 
-	\item {\bf NTHASH:} 
-	\item {\bf SHA-256:} 
-	\item {\bf SHA-512:} 
-	\item {\bf Solaris MD5:} 
-	\item {\bf PBKDF1 with SHA-1:} 
-\end{enumerate}
-
-Existe además, una interfaz web ya implementada conocida phpLDAPadmin \footnote{ 
-\url{http://phpldapadmin.sourceforge.net/wiki/index.php/Main_Page}} que permite administrar 
-de manera básica, el contenido del servidor LDAP. La misma permite listar los datos 
-almacenados, modificarlos, añadir nuevas entradas, etc. En resumen, permite realizar las 
-operaciones usuales sobre un conjunto de datos.
-
-\subsection{Modos de empleo usuales}
-\subsubsection{DNS}
-LDAP es usualmente utilizado con una estructura de DNS. Las clases de objetos que existen por 
-defecto en el esquema de OpenLDAP, permite simular una estructura de delegación de zonas, 
-arborea, similar a la del DNS. Esto da la oportunidad de brindar las mismas funcionalidades 
-de servicio de nombres de dominios y a la vez utilizar las ventajas de búsqueda y modificación 
-de los LDAP.
-
-\subsubsection{Sistema de Autenticación}
-Esta implementación también brinda ventajas a la hora de implementar un sistema de 
-autenticación de usuarios. Esto se debe principalmente al amplio soporte que tiene el protocolo 
-LDAP para varios servicios. La posibilidad de agrupar a los usuario mediante unidades 
-organizativas (Organizational Unit [OU]) y de representar su pertenencia a determinados 
-grupos, permite administrar fácilmente el acceso que cada uno de los usuarios 
-debe tener a los servicios ofrecidos por la universidad. Este modo de organizar la información 
-de los usuarios se asemeja bastante a la manera en que se asigna permisos a un usuario en los 
-sistemas operativos basados en Linux. De hecho, una de las funcionalidades implementadas 
-como cliente de este protocolo, permite autenticar un usuario en una máquina, ya sea virtual o 
-física, a pesar de que realmente no exista en el sistema. Basta con que el usuario exista en el 
-servidor LDAP. En el caso específico de OpenLDAP, cuenta con dos clases de objetos que permiten
-este comportamiento. Se trata de la clase posixAccount y shadowAccount. Entre ellas guardan 
-información referente a los atributos de un usuario en un sistema basado en linux. Las principales
-son: el directorio "home" del usuario, el número que lo identifica en el sistema, el grupo al que 
-pertenece.
-
+La selecci\'on de la implementación utilizada es objetivo de la tesis que se encarga del servidor LDAP, en esta se utiliza el este protocolo para comunicarse con este servidor, por eso se menciona qu\'e es este protocolo. En los anexos se puede encontrar información más espec\'ifica sobre el mismo, pero no es objetivo principal de esta investigación.
 
 \section{Docker}
 
@@ -230,12 +31,24 @@ es posible planificar todo el proceso de despliegue de un sistema, plasmarlo en 
 pasos lógicos y luego simplemente ejecutarlo. De esta manera se reduce el tiempo necesario para
 este proceso evitando errores frecuentes y acciones repetitivas.
 
+En el caso espec\'ifico que concierne a esta tesis, es posible utilizar Docker para automatizar todo el proceso de despliegue en producci\'on de la solución que se propone.
+
+\subsection{¿Qui\'en utiliza Docker \cite{webinars}?}
+
+Muchas grandes empresas se han apoyado en Docker para automatizar el desarrollo de software. Como ejemplo encontramos algunas muy conocidas mundialmente como son Spotify, Uber, eBay o PayPal.
+
+Tomando como caso específico a eBay, ésta ha centrado sus esfuerzos en la implementación de Docker en su proceso de integración continua, estandarizando sus instalaciones mediante despliegues en una red distribuida de servidores que se ejecutan y trabajan en grupo. Esto permite a los desarrolladores o testers (encargados de realizar pruebas de software) sólo tengan que montar contenedores sobre sus sistemas para poder ponerse a trabajar, con toda la configuración, herramientas o servicios precargados, lo que agiliza enormemente los tiempos de desarrollo o testeo de versiones.
+
+En general estas empresas (y muchas otras) vieron en Docker la respuesta a sus preguntas de cómo poder obtener mayor rendimiento invirtiendo menos horas de supervisión y desarrollo. Creando una imagen que contenga el sistema, las configuraciones y servicios listos para ser desplegados; se ahorraron multitud de horas de gestión de sistemas, reparación, recuperación y reinstalación de éstos.
+
+Gracias a los contenedores las pruebas se realizan en entornos “cerrados” por lo que si se diese algún error la mayor complicación que se encontrarán será la de volver a desplegar el contenedor de nuevo.
+
 \subsection{¿Qué es un contenedor de docker?}
 
 Como parte fundamental de Docker se encuentran los contenedores. Estos, según los propios
 desarrolladores, \textit{son unidades de software estandarizadas} \footnote{
 \url{https://www.docker.com/resources/what-container}}. Se encargan de empaquetar
-el código y las dependencias de la aplicacion de manera que pueda ser ejecutado en cualquier 
+el código y las dependencias de la aplicación de manera que pueda ser ejecutado en cualquier 
 entorno capaz de ejecutar Docker. Para ejecutar un contenedor, se necesita una imagen de Docker 
 base. Una imagen de Docker no es más que un paquete que contiene todas las dependencias y 
 configuraciones necesarias para ejecutar un contenedor a partir de esta. Los contenedores aíslan
@@ -246,45 +59,249 @@ interactuar a través de servicios de red. Incluso es posible crear una red priv
 ciertos contenedores. Con esta facilidad, se puede diseñar soluciones estructuradas en módulos
 atómicos que se integren como sistema.
 
+\subsection{Docker Compose}
+
+Compose es una herramienta para definir y ejecutar aplicaciones en Docker con contenedores múltiples. Con Compose, se utiliza un archivo YAML para configurar los servicios de la aplicación. Luego, con un solo comando, crea e inicia todos los servicios desde la configuración \cite{compose}. Un ejemplo de archivo de configuración para Docker Compose es el siguiente:
+
+\begin{tabbing}
+	vers\=ion: '3' \\
+
+	services: \\
+	\> memc\=ached:  \\
+	\> \>	build: \\
+	\> \>	context: . \\
+	\> \>	dockerfile: ./memcached-dockerfile \\
+	\> \>	image: memcached \\
+	\> \>	container\_name: memcached\_server \\
+	\> \>	expose: \\
+	\> \>	- 11211 \\
+	\> \>	ports: \\
+	\> \>	- "11211:11211" \\
+	\> \>	restart: always \\
+	\> \>	command: memcached -u root \\
+	\> db  \=: \\
+	\>\>	image: "mcr.microsoft.com/mssql/server" \\
+	\>\>	container\_name: sqlserver\_db \\
+	\>\>	environment: \\
+	\>\>	SA\_PASSWORD: "P@ssw0rd" \\
+	\>\>	ACCEPT\_EULA: "Y" \\
+	\> api \=: \\
+	\>\>	build: . \\
+	\>\>	image: flask\_restful \\
+	\>\>	container\_name: ldap\_api \\
+	\>\>	expose: \\
+	\>\>	- 5000 \\
+	\>\>	ports: \\
+	\>\>	- "5000:5000" \\
+	\>\>	volumes: \\
+	\>\>	- .:/api \\
+	\>\>	restart: always \\
+	\>\>	working\_dir: /api \\
+	\>\>	command: python run.py \\
+	\>\>	depends\_on: \\
+	\>\>	- memcached \\
+	\>\>	- db \\
+	\> ui  \=: \\
+	\>\>	build: \\
+	\>\>	context: . \\
+	\>\>	dockerfile: ./ui-dockerfile \\
+	\>\>	image: react\_ui \\
+	\>\>	container\_name: ldap\_ui \\
+	\>\>	ports: \\
+	\>\>	- "3000:3000" \\
+	\>\>	working\_dir: /ui \\
+	\>\>	volumes: \\
+	\>\>	- ./UI:/ui \\
+	\>\>	restart: always \\
+	\>\>	command: bash -c "npm install \&\& npm start" \\
+		
+	\> netw\=orks: \\ 
+	\>\> defa\=ult: \\
+	\>\>\>	exte\=rnal: \\
+	\>\>\>\>	name: tesis \\
+	% If \= it's raining \\
+	% \> then \= put on boots,\\
+	% \> \> take hat;\\
+	% \> or \> smile. \\
+	% Leave house.
+\end{tabbing}
+
+\subsection{Casos de uso comunes de Docker Compose}
+
+\subsubsection{Entornos de desarrollo}
+
+Cuando se desarrolla software, la capacidad de ejecutar una aplicación en un entorno aislado e interactuar con ella es crucial. La herramienta Compose se puede utilizar para crear el entorno e interactuar con él.
+
+El archivo de configuración proporciona una forma de documentar y configurar todas las dependencias de la aplicación (bases de datos, colas, cachés, API de servicios web, etc.). Con esta herramienta, se puede crear e iniciar uno o más contenedores para cada dependencia con un solo comando (docker-compose up).
+
+Juntas, estas características proporcionan una manera conveniente para que los desarrolladores comiencen un proyecto. Compose puede reducir una "guía de inicio para desarrolladores" de varias páginas a un solo archivo Compose y algunos comandos.
+
+
+\subsubsection{Entornos de pruebas automatizadas}
+
+Una parte importante de cualquier proceso de implementación continua o integración continua es el conjunto de pruebas automatizadas. Las pruebas automatizadas de extremo a extremo requieren un entorno en el que ejecutarse. Compose proporciona una forma conveniente de crear y destruir entornos de prueba aislados. Al definir el entorno completo en un archivo de configuración, se puede crear y destruir estos entornos con solo unos pocos comandos:
+
+docker-compose up -d
+
+./run\_tests
+
+docker-compose down
+
+
+
 \section{API}
 
 \subsection{¿Qué es una API?}
 
-Una API es un conjunto de funciones y procedimientos que cumplen una o muchas funciones con el fin de ser utilizadas por otro software. Las siglas API vienen del inglés Application Programming Interface. En español sería Interfaz de Programación de Aplicaciones. 
-\footnote{\url{https://hipertextual.com/archivo/2014/05/que-es-api/}}
+Una API es un conjunto de funciones y procedimientos que cumplen una o muchas funciones con el fin de ser utilizadas por otro software. Las siglas API vienen del inglés Application Programming Interface. En español sería Interfaz de Programación de Aplicaciones. Es una especificación formal sobre cómo un módulo de un software se comunica o interactúa con otro \cite{api}.
 
 \subsection{Ventajas de implementar una API}
 
-Tener una API como intermediaria entre el servidor LDAP, las demás fuentes de información (SIGENU y Bases de Datos de trabajadores) y los mecanismos de gestión de información (interfaces visuales para manejo de externos, cuotas, etc...), permite manipular los diversos componentes del Directorio Único utilizando un lenguaje común muy estandarizado (protocolo HTTP en este caso), permitiendo a los distintos clientes consumidores de la información de directorio abstraerse comunicarse mediante el protocolo LDAP (menos estandarizado). Además permite que al modificarse la estructura del Directorio, los clientes no tengan que ser modificados, ya que al modificar solamente la API como capa intermedia podemos cambiar la forma de obtener información de las fuentes mientras mantenemos la estructura a la hora de publicar la información. 
+Las API simplifican en gran medida el trabajo de un creador de programas, ya que no tiene que escribir códigos desde cero. Estas permiten al programador utilizar funciones predefinidas para interactuar con el sistema operativo o con otro programa. También reducen los costes de mantenimiento, al organizar de forma estructurada los sistemas y procesos internos, lo cual permite la integración de nuevos proyectos de una manera uniforme. También agilizan los procesos de transformaci\'on, ya que mientras la interfaz sea la misma, los procesos internos pueden cambiar tanto como sea necesario, sin la necesidad de modificar los servicios que consumen una API espec\'ifica.
+
+En el caso de la solución que propone esta tesis, tener una API como intermediaria entre el servidor LDAP, las demás fuentes de información (SIGENU y Bases de Datos de trabajadores) y los mecanismos de gestión de información (interfaces visuales para manejo de externos, cuotas, etc...), permite manipular los diversos componentes del Directorio Único utilizando un lenguaje común muy estandarizado (protocolo HTTP en este caso). Esto permite a los distintos clientes consumidores de la información de directorio abstraerse del protocolo LDAP (menos estandarizado). Además permite que al modificarse la estructura del Directorio, los clientes no tengan que ser modificados, ya que al modificar solamente la API como capa intermedia podemos cambiar la forma de obtener información de las fuentes mientras mantenemos la estructura a la hora de publicar la información. 
 
 \subsection{Tecnologías para implementación más utilizadas}
 
-Para la implementación de una API como servicio web existen gran cantidad de \textit{frameworks} \footnote{\url{https://www.ecured.cu/Framework}} sobre una gran variedad de lenguajes de programación. Entre los más utilizados tenemos:
+Para la implementación de una API como servicio web existen gran cantidad de \textit{frameworks} \cite{framework} sobre una gran variedad de lenguajes de programación. Entre los más utilizados tenemos:
 
-\subsubsection{ASP.NET}
+\subsubsection{ASP.NET Core}
 
-ASP.NET es un framework web de código abierto implementado por Microsoft, para desarrollar aplicaciones web dinámicas utlizando C Sharp o Visual Basic como lenguaje de programación. Entre sus principales ventajas está la facilidad de integración con programas y servicios de Microsoft y Windows.
+ASP.NET Core es un framework web de código abierto implementado por Microsoft, para desarrollar aplicaciones web dinámicas utlizando C Sharp o Visual Basic como lenguaje de programación. 
+
+Este framework es un rediseño de ASP.NET 4.x, para crear aplicaciones web. Aquí tenemos los beneficios que brinda según la documentación oficial de Microsoft \cite{netcore}:
+
+\begin{itemize}
+    \item Una historia unificada para desarrollar interfaces web y APIs.
+    \item Arquitectura diseñada para pruebas.
+    \item Las páginas Razor facilitan y hacen más productiva la codificación enfocada en páginas web.
+    \item Blazor te permite utilizar C Sharp junto a Javascript en el navegador.
+    \item Permite desarrollar y ejecutar aplicaciones tanto en Windows, como en Linux y macOS.
+    \item Es de código abierto y basado en la comunidad.
+    \item Permite una fácil integración de frameworks del lado del cliente modernos.
+    \item Se adapta fácilmente a distintos flujos de desarrollo modernos.
+    \item Aplicaciones listas para desplegar en la nube.
+    \item Inyección de dependencias integrada.
+    \item Un flujo de peticiones HTTP ligero, eficiente y modular.
+    \item Permite ser desplegado utilizando IIS, Nginx, Apache, Docker.
+    \item Posee varias herramientas que simplifican el desarrollo web moderno.
+\end{itemize}
+
+\subsubsection{ASP.NET MVC}
+
+Este es otro framework desarrolladores por Microsoft basado en .NET, con la diferencia fundamental de que implementa el patr\'on Modelo Vista Controlador. Es de código abierto también, exceptuando ASP.NET Web Forms que es un software propietario.
+
+El patrón Modelo Vista Controlador (MVC) es un estilo de arquitectura de software que separa los datos de una aplicación, la interfaz de usuario, y la lógica de control en tres componentes distintos: el Modelo que contiene una representación de los datos que maneja el sistema, su lógica de negocio, y sus mecanismos de persistencia; la Vista, o interfaz de usuario, que compone la información que se envía al cliente y los mecanismos interacción con éste; el Controlador, que actúa como intermediario entre el Modelo y la Vista, gestionando el flujo de información entre ellos y las transformaciones para adaptar los datos a las necesidades de cada uno \cite{mvc}.
+
+Entre las ventajas de la utilizaci\'on de este framework est\'an:
+
+\begin{itemize}
+    \item Posibilidad de dividir la lógica de negocio del diseño, haciendo el proyecto más escalable.
+    \item Facilita el uso de URL amigables, importantes para el SEO (posicionamiento web), la mayoría de frameworks MVC lo controlan.
+    \item Puedes utilizar abstracción de datos, como lo hacen también otros frameworks como Ruby on Rails, mediante el uso de ORMs (Object-Relational Mapping), permitiendo comunicarte con la base de datos de la aplicaci\'on de una forma orientada a objetos y no mediante SQL.
+\end{itemize}
 
 \subsubsection{Ruby on Rails}
 
-Este es un framework web de código abierto con una de las comunidades de desarrolladores más grandes. Esta implementado sobre el lenguage Ruby. Entre sus principales ventajas está que es un framework sobre un lenguaje dinámico (esto es una ventaja para la velocidad de implementación) y que consta de una enorme cantidad de gemas (soluciones ya implementadas a muchos problemas de diversos tipos) gracias a su gran comunidad.
+Este es un framework web de código abierto con una de las comunidades de desarrolladores más grandes. Esta implementado sobre el lenguage Ruby. Utiliza también el patrón Modelo Vista Controlador (MVC), con las ventajas que vimos anteriormente. Es un sistema web integrado que incorpora por defecto muchas de las herramientas necesarias para escalar un sitio web de manera rápida y eficiente. Como Ruby es un lenguage dinámico \cite{dynamic} el desarrollo es más veloz debido a que no se necesita recompilar el código para probar cambios. Entre las principales ventajas de elegir Ruby on Rails tenemos:
 
-\subsubsection{Django y Flask}
+\begin{itemize}
+    \item Utiliza el patrón MVC.
+    \item Permite desplegar de forma separada contenido estático y dinámico.
+    \item Dispone de un sistema de caché integrada que se puede utilizar a nivel de página, o en cualquier fragmento según sea necesario en cada caso.
+    \item ORM Integrado. El famoso ORM ActiveRecord permite lanzar consultas a la DB de forma extremadamente fácil y sin necesidad de escribir nada de SQL.
+    \item Sistema de testing integrado. Cuando hay la necesidad de implementar algoritmos complejos es mejor utilizar TDD para tener una buena cobertura que les dé validez y estabilidad.
+    \item Ecosistema de librerías maduro. Existen librerías para casi cualquier necesidad (existe una gran cantidad de módulos denominados gemas, que agregan casi cualquier funcionalidad a la aplicación).
+\end{itemize}
 
-Estos son dos frameworks implementados sobre el lenguaje de programación Python (lenguaje dinámico al igual que Ruby). Su principal diferencia es que Django es un framework monolítico que integra una gran cantidad de funcionalidades y patrones, mientras que Flask es un framework minimalista extensible en el cual los distintos módulos deben ser integrados o implementados por los desarrolladores (módulo de autenticación, etc...). Al ser frameworks web de Python, tienen como ventaja la posibilidad de usar de manera directa todas las librarías existentes para este lenguaje de programación.
+\subsubsection{Django}
+
+Django es un framework gratuito y de código abierto basado en Python, que sigue el patrón Modelo Plantilla Vista. Lo mantiene Django Software Foundation, una organización independiente establecida como una organización sin fines de lucro. El objetivo principal de Django es facilitar la creación de sitios web complejos basados en bases de datos.
+
+En este patrón MTV, la M significa Model (Modelo), la capa de acceso a la base de datos. Esta capa contiene toda la información sobre los datos: cómo acceder a estos, cómo validarlos, cuál es el comportamiento que tiene, y las relaciones entre los datos.
+T significa Template (Plantilla), la capa de presentación. Esta capa contiene las decisiones relacionadas a la presentación: como algunas cosas son mostradas sobre una página web o otro tipo de documento.
+V significa View (Vista), la capa de la lógica de negocios. Esta capa contiene la lógica que accede al modelo y la delega a la plantilla apropiada: se puede pensar en esto como un puente entre el modelos y las plantillas \cite{mtv}. 
+
+Es un patrón muy similar a MVC, excepto que la C (Controlador) es gestionada en el mismo framework (a diferencia de otros como ASP.NET MVC o Ruby on Rails). En Django, las vistas tienen más relación con los controladores de MVC, y las plantillas con las vistas. Resumiendo las ventajas de usar Django encontramos:
+
+\begin{itemize}
+    \item Utiliza el patrón MTV (muy similar a MVC).
+    \item Está escrito en Python, lenguaje con una gran cantidad de librerías para resolver diversos tipos de problemas.
+    \item Es el único framework que por defecto viene con un sistema de administración activo, listo para ser utilizado sin ningún tipo de configuración.
+    \item ORM Integrado.
+\end{itemize}
+
+\subsubsection{Flask}
+
+Flask es un microframework web escrito en Python. Se clasifica como un microframework debido a que no requiere de herramientas ni librerías particulares. No tiene una capa de abstracción de base de datos ni sigue un patrón de desarrollo específico. Las funciones específicas como la autenticación y el manejo de base de datos son brindadas por software de terceros. Entre las principales ventajas de este framework minimalista tenemos que es muy eficiente, ya que te permite seleccionar que componentes utilizar específicos a la plataforma que estés desarrollando. Es muy utilizada para desarrollar APIs debido a la facilidad con que se pueden desarrollar las mismas (muy pocas líneas de código), y debido a que está montado sobre python permite utilizar todas las libreríascon las que cuenta este poderoso lenguaje de programación. Tiene una comunidad de desarrolladores activa y una buena cantidad de módulos para agregar distintas funcionalidades a los servicios web.
+
+\section{python-ldap}
+
+\subsection{¿Qué es python-ldap?}
+
+Es una librería del lenguaje de programación Python, la cual se encarga de proveer una API orientada a objetos para acceder a servidores de directorios basados en el protocolo LDAP desde los programas de Python. Esto facilita mucho la interacción con el servidor LDAP, ya que brinda una capa de abstracción superior. Funciona solamente con las versiones OpenLDAP superiores a la 2.3, y puede ser utilizado tanto en Windows, como en Linux o macOS, instalando las dependencias necesarias \cite{pythonldap}.
+
 
 \section{Interfaz web}
 
-Por último, existen diferentes tecnologías para implementar la interfaz web, que facilitará la interacción de los usuarios, tanto familiarizados con la programación como ajenos a la misma (secretarias y personal de Recursos Humanos), con el API e indirectamente con el servidor LDAP y las fuentes de información. Como para mantener modularizada la solución, el API y la interfaz deben ser dos programas separados, en este caso es muy factible utilizar una SPA (Single Page Application), que funcione como una aplicación independiente. Algunas de las tecnologías mas usadas para desarrollar SPAs actualmente son:
+Por último, existen diferentes tecnologías para implementar la interfaz web, que facilitará la interacción de los usuarios, tanto familiarizados con la programación como ajenos a la misma (secretarias y personal de Recursos Humanos), con el API e indirectamente con el servidor LDAP y las fuentes de información. Como para mantener modularizada la solución, el API y la interfaz deben ser dos programas separados, en este caso es muy factible utilizar una SPA (Single Page Application) \cite{spa}, que funcione como una aplicación independiente. Algunas de las tecnologías mas usadas para desarrollar SPAs actualmente son:
 
-\subsubsection{Angular}
+\subsection{Angular}
 
-Este es un framework monolítico de código abierto desarrollado por Google, muy poderoso por la cantidad de funcionalidades internas que provee pero con una curva de aprendizaje excesiva. 
+Angular es un framework de desarrollo para JavaScript creado por Google. La finalidad de Angular es facilitarnos el desarrollo de aplicaciones web SPA y además darnos herramientas para trabajar con los elementos de una web de una manera más sencilla y óptima.
 
-\subsubsection{React}
+Otro propósito que tiene Angular es la separación completa entre el front-end y el back-end en una aplicación web.
 
-Este es la alternativa de Facebook, ampliamente utilizada al igual que Angular, también es de código abierto y aunque no es un framework en sí (es una librería para renderizar vistas), unida con otras tecnologías como redux, se convierte en una herramienta poderosa para dessarrollar SPAs. Es muy eficiente y su curva de aprendizaje es más suave que la de Angular.
+Ventajas de Angular:
 
-\subsubsection{Vuejs}
+\begin{itemize}
+    \item Velocidad de carga lenta la primera vez que se abre la web, pero luego navegar por la misma es instantáneo debido a que se carga toda a la vez.
+    \item Cómo SPA es una única página, por lo tanto solo hay una ruta que tiene que enviar el servidor (eficiencia).
+    \item Aplicaciones modulares y escalares.
+    \item Lenguaje Typescript, tiene una sintaxis muy parecida a C Sharp, con tipado estático.
+    \item Sigue el patrón MVC (Modelo Vista Controlador), con la vista separada de los controladores.
+    \item Basado en componentes, es decir, podemos escribir componentes web con vista y lógica para después reutilizarlos en otras páginas.
+    \item Comunidad muy grande con multitud de tutoriales y librerías.
+    \item Inyección de dependencias, un patrón de diseño que se basa en pasar las dependencias directamente a los objetos en lugar de crearlas localmente.
+    \item Programación reactiva, la vista se actualiza automáticamente a los cambios.
+    \item Dispone de asistente por línea de comandos para crear proyectos base (Angular cli).
+    \item Se integra bien con herramientas de prueba.
+\end{itemize}
 
-Este es la alternativa más joven de las tres, la cuál aún con la comunidad más pequeña a obtenido una gran cantidad de estrellas en github.com debido a que tiene la curva de aprendizaje más suave, y a las comodidades que brinda por su semántica sensilla a los desarrolladores.
+\subsection{React}
+
+React es una librería Javascript focalizada en el desarrollo de interfaces de usuario. Así se define la propia librería y evidentemente, esa es su principal área de trabajo. Sin embargo, lo cierto es que en React encontramos un excelente aliado para hacer todo tipo de aplicaciones web, SPA (Single Page Application) o incluso aplicaciones para móviles. Para ello, alrededor de React existe un completo ecosistema de módulos, herramientas y componentes capaces de ayudar al desarrollador a cubrir objetivos avanzados con relativamente poco esfuerzo. 
+
+Ventajas que tiene React:
+
+\begin{itemize}
+    \item La primera gran ventaja que debemos mencionar, es que es una librería Open Source, lo que facilita modificaciones por parte de otros programadores ajenos a los creadores originales.
+    \item La velocidad es otra gran ventaja de React, ya que es perfecta para rendimiento, para aquellas aplicaciones con mucha carga de datos y tablas enormes.
+    \item Tiene un accionar Isomórfico que le da un mayor rendimiento que por ejemplo Angular o Polymer.
+    \item Mantiene un virtual DOM propio, en lugar de confiar solamente en el DOM del navegador. Esto deja a la biblioteca determinar qué partes del DOM han cambiado comparando contenidos entre la versión nueva y la almacenada en el virtual DOM, y utilizando el resultado para determinar cómo actualizar eficientemente el DOM del navegador.
+    \item Sigue el patrón MVC (Modelo Vista Controlador), con la vista separada de los controladores.
+    \item Funciona mediante Componentes, los cuales son reutilizables, así que solo tendrás que hacer las cosas una vez y podrás reutilizarlas, y puede que incluso ni la primera, ya que hay una gran comunidad y hay muchísimos componentes ya hechos.
+    \item Comunidad muy grande con multitud de tutoriales y librerías.
+    \item Programación reactiva, la vista se actualiza automáticamente a los cambios.
+    \item Por último, está hecho de forma que podemos usarlo con los nuevos estándares de Javascript, pudiendo aprovechar el potencial de las nuevas características que nos ofrece ES6, ES7, ES8 y los nuevo estándares que vayan entrando a futuro.
+\end{itemize}
+
+
+\subsection{Vue}
+
+Vue es un framework progresivo para construir interfaces de usuario. A diferencia de otros frameworks monolíticos, Vue está diseñado desde el inicio para ser adoptado incrementalmente. La biblioteca principal se enfoca solo en la capa de la vista, y es muy simple de utilizar e integrar con otros proyectos o bibliotecas existentes. Por otro lado, Vue también es perfectamente capaz de soportar aplicaciones sofisticadas de una sola página (en inglés Single Page Application o SPA) cuando se utiliza en combinación con herramientas modernas y librerías compatibles.
+
+Ventajas de Vue:
+
+\begin{itemize}
+    \item Framework MVVM \cite{mvvm}. La ventaja de este tipo de frameworks es la facilidad para construir codigo bien estructurado, para poder construir aplicaciones complejas.
+    \item Solución Ligera. Una de las grandes ventajas de Vue es el tamaño en Kilobytes del core. Este tamaño puede ir aumentando, debido a la flexibilidad y facilidad para extender el framework con variedad de soluciones de terceros que son bien recibidas por la comunidad. Este tamaño compactado es una opción inteligente ya que reducirá los tiempos de carga y velocidad de las aplicaciones web.
+    \item Templates declarativos. Los templates en Vue se escriben en html fácilmente modificable por cualquier involucrado en el proyecto, sin tener que aprender nueva sintaxis como JSX (utilizada en React).
+    \item La implementación del DOM Virtual proporciona un alto performance (varios expertos ponen a Vue como líder de rendimiento de renderizado).
+    \item Two-way Data Binding. Al igual que Angular emplea un data-binding bidireccional que sincroniza automáticamente el modelo con el DOM (React carece de este mecanismo de manera directa).
+	\item Curva de Aprendizaje Baja. Comparado con Angular y React, Vue es una de las tecnologías javascript más sencillas para comenzar a desarrollar. Una de las mejores características es que se trata de un framework amigable para el desarrollador. 
+	\item Posee una excelente documentación, con muchos ejemplos: esto se puede comprobar mirando la documentación oficial, además se pueden ver muchos ejemplos en Codepen y en Jsfiddle.
+    \item Gran Popularidad. Gran numero de estrellas de Github y buen número de descargas mensuales.
+\end{itemize}
+
+

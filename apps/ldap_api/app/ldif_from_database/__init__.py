@@ -17,7 +17,7 @@ class LDIFFromSQLServer:
             except yaml.YAMLError:
                 perror('Error while parsing the config yml file in LDIFFromSQLServer!')
 
-    def generate_first_time_population(self, restore=False, number_of_rows=0):
+    def generate_ldif(self, restore=False, number_of_rows=0):
         """Generates the ldif file from the database to populate the ldap
         for the first time overriding existing data.
         The optional second parameter defines wheter the database is restored or not.

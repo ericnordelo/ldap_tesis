@@ -1,3 +1,3 @@
-const config = {api_address: "http://10.6.143.50:5000"};
+const config = {api_address: "http://api.directorio.uh.cu"};
 
 export default config;
