@@ -5,7 +5,6 @@ import zeep
 import sys
 
 wsdl = 'http://sigenuwebservices.uh.cu/servicedefinition.wsdl'
-client = zeep.Client(wsdl=wsdl)
 
 class SigenuClient:
     """Encapsulation for methods wich populate and modify the ldap server
@@ -25,6 +24,7 @@ class SigenuClient:
         """Generates the ldif file from the webservices to populate the ldap
         for the first time overriding existing data.
         The second parameter is for testing and should be ignored."""
+        client = zeep.Client(wsdl=wsdl)
         
         faculties = client.service.Faculties()
         problems = []
