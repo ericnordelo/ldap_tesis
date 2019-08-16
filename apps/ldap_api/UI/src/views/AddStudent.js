@@ -184,4 +184,4 @@ const mapStateToProps = (state) => ({
   loading: state.general.loading
 });
 
-export default connect(mapStateToProps, {addWStudent: userActions.addWStudent})(withStyles(styles)(AddStudent));
+export default connect(mapStateToProps, {addStudent: userActions.addStudent})(withStyles(styles)(AddStudent));
