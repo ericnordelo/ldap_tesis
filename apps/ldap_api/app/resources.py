@@ -162,7 +162,7 @@ class Workers(Resource):
 
                 return {'email': new_email}
 
-        return {'workers_account': workers_account}
+        return {'error': 'Este trabajador no existe en el directorio.'}, 404
 
     # @jwt_required
     def patch(self):
@@ -238,7 +238,7 @@ class Students(Resource):
 
                 return {'email': new_email}
 
-        return {'student_accounts': student_accounts}
+        return {'error': 'Este estudiante no existe en el directorio.'}, 404
 
     # @jwt_required
     def patch(self):
