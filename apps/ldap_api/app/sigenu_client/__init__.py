@@ -21,7 +21,7 @@ class SigenuClient:
             except yaml.YAMLError:
                 perror('Error while parsing the config yml file in LDIFFromSQLServer!')
 
-    def generate_first_time_population(self, number_of_rows=0):
+    def generate_ldif(self, number_of_rows=0):
         """Generates the ldif file from the webservices to populate the ldap
         for the first time overriding existing data.
         The second parameter is for testing and should be ignored."""

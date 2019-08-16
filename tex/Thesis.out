@@ -1,4 +1,4 @@
-\BOOKMARK [0][-]{section*.7}{Introducci\363n}{}% 1
+\BOOKMARK [0][-]{section*.6}{Introducci\363n}{}% 1
 \BOOKMARK [0][-]{chapter.1}{Descripci\363n del Problema}{}% 2
 \BOOKMARK [1][-]{section.1.1}{Directorio \332nico}{chapter.1}% 3
 \BOOKMARK [2][-]{subsection.1.1.1}{Surgimiento}{section.1.1}% 4
@@ -27,31 +27,34 @@
 \BOOKMARK [1][-]{section.2.4}{python-ldap}{chapter.2}% 27
 \BOOKMARK [2][-]{subsection.2.4.1}{\277Qu\351 es python-ldap?}{section.2.4}% 28
 \BOOKMARK [1][-]{section.2.5}{Interfaz web}{chapter.2}% 29
-\BOOKMARK [0][-]{chapter.3}{Implementaci\363n del sistema}{}% 30
-\BOOKMARK [1][-]{section.3.1}{Consideraciones previas}{chapter.3}% 31
-\BOOKMARK [1][-]{section.3.2}{Extracci\363n de la informaci\363n de estudiantes y trabajadores}{chapter.3}% 32
-\BOOKMARK [2][-]{subsection.3.2.1}{M\363dulo para generar los LDIF de los estudiantes}{section.3.2}% 33
-\BOOKMARK [2][-]{subsection.3.2.2}{M\363dulo para generar los LDIF de los trabajadores}{section.3.2}% 34
-\BOOKMARK [1][-]{section.3.3}{Implementaci\363n de la API}{chapter.3}% 35
-\BOOKMARK [2][-]{subsection.3.3.1}{Listado de recursos}{section.3.3}% 36
-\BOOKMARK [1][-]{section.3.4}{Interfaz web}{chapter.3}% 37
-\BOOKMARK [1][-]{section.3.5}{Bolsa de servicios}{chapter.3}% 38
-\BOOKMARK [0][-]{chapter.4}{Anexos}{}% 39
-\BOOKMARK [1][-]{section.4.1}{Conceptos Importantes dentro de LDAP}{chapter.4}% 40
-\BOOKMARK [2][-]{subsection.4.1.1}{Servidor de Directorio}{section.4.1}% 41
-\BOOKMARK [2][-]{subsection.4.1.2}{Entradas}{section.4.1}% 42
-\BOOKMARK [2][-]{subsection.4.1.3}{Nombre Distinguido \(DN\)}{section.4.1}% 43
-\BOOKMARK [2][-]{subsection.4.1.4}{Artibutos}{section.4.1}% 44
-\BOOKMARK [2][-]{subsection.4.1.5}{Clases de Objetos}{section.4.1}% 45
-\BOOKMARK [2][-]{subsection.4.1.6}{Filtros}{section.4.1}% 46
-\BOOKMARK [1][-]{section.4.2}{Implementaciones m\341s utilizadas}{chapter.4}% 47
-\BOOKMARK [2][-]{subsection.4.2.1}{IBM Security Directory Server}{section.4.2}% 48
-\BOOKMARK [2][-]{subsection.4.2.2}{Active Directory}{section.4.2}% 49
-\BOOKMARK [2][-]{subsection.4.2.3}{Oracle Internet Directory}{section.4.2}% 50
-\BOOKMARK [2][-]{subsection.4.2.4}{OpenLDAP}{section.4.2}% 51
-\BOOKMARK [1][-]{section.4.3}{Modos de empleo usuales}{chapter.4}% 52
-\BOOKMARK [2][-]{subsection.4.3.1}{DNS}{section.4.3}% 53
-\BOOKMARK [2][-]{subsection.4.3.2}{Sistema de Autenticaci\363n}{section.4.3}% 54
-\BOOKMARK [0][-]{section*.30}{Recomendaciones}{}% 55
-\BOOKMARK [0][-]{section*.32}{Conclusiones}{}% 56
-\BOOKMARK [0][-]{chapter*.34}{Bibliograf\355a}{}% 57
+\BOOKMARK [2][-]{subsection.2.5.1}{Angular}{section.2.5}% 30
+\BOOKMARK [2][-]{subsection.2.5.2}{React}{section.2.5}% 31
+\BOOKMARK [2][-]{subsection.2.5.3}{Vue}{section.2.5}% 32
+\BOOKMARK [0][-]{chapter.3}{Implementaci\363n del sistema}{}% 33
+\BOOKMARK [1][-]{section.3.1}{Consideraciones previas}{chapter.3}% 34
+\BOOKMARK [1][-]{section.3.2}{Extracci\363n de la informaci\363n de estudiantes y trabajadores}{chapter.3}% 35
+\BOOKMARK [2][-]{subsection.3.2.1}{M\363dulo para generar los LDIF de los estudiantes}{section.3.2}% 36
+\BOOKMARK [2][-]{subsection.3.2.2}{M\363dulo para generar los LDIF de los trabajadores}{section.3.2}% 37
+\BOOKMARK [1][-]{section.3.3}{Implementaci\363n de la API}{chapter.3}% 38
+\BOOKMARK [2][-]{subsection.3.3.1}{Listado de recursos}{section.3.3}% 39
+\BOOKMARK [1][-]{section.3.4}{Interfaz web}{chapter.3}% 40
+\BOOKMARK [1][-]{section.3.5}{Bolsa de servicios}{chapter.3}% 41
+\BOOKMARK [0][-]{chapter.4}{Anexos}{}% 42
+\BOOKMARK [1][-]{section.4.1}{Conceptos Importantes dentro de LDAP}{chapter.4}% 43
+\BOOKMARK [2][-]{subsection.4.1.1}{Servidor de Directorio}{section.4.1}% 44
+\BOOKMARK [2][-]{subsection.4.1.2}{Entradas}{section.4.1}% 45
+\BOOKMARK [2][-]{subsection.4.1.3}{Nombre Distinguido \(DN\)}{section.4.1}% 46
+\BOOKMARK [2][-]{subsection.4.1.4}{Artibutos}{section.4.1}% 47
+\BOOKMARK [2][-]{subsection.4.1.5}{Clases de Objetos}{section.4.1}% 48
+\BOOKMARK [2][-]{subsection.4.1.6}{Filtros}{section.4.1}% 49
+\BOOKMARK [1][-]{section.4.2}{Implementaciones m\341s utilizadas}{chapter.4}% 50
+\BOOKMARK [2][-]{subsection.4.2.1}{IBM Security Directory Server}{section.4.2}% 51
+\BOOKMARK [2][-]{subsection.4.2.2}{Active Directory}{section.4.2}% 52
+\BOOKMARK [2][-]{subsection.4.2.3}{Oracle Internet Directory}{section.4.2}% 53
+\BOOKMARK [2][-]{subsection.4.2.4}{OpenLDAP}{section.4.2}% 54
+\BOOKMARK [1][-]{section.4.3}{Modos de empleo usuales}{chapter.4}% 55
+\BOOKMARK [2][-]{subsection.4.3.1}{DNS}{section.4.3}% 56
+\BOOKMARK [2][-]{subsection.4.3.2}{Sistema de Autenticaci\363n}{section.4.3}% 57
+\BOOKMARK [0][-]{section*.26}{Recomendaciones}{}% 58
+\BOOKMARK [0][-]{section*.28}{Conclusiones}{}% 59
+\BOOKMARK [0][-]{chapter*.30}{Bibliograf\355a}{}% 60

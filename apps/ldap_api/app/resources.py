@@ -177,7 +177,7 @@ class Workers(Resource):
 
         try:
             handler = LDIFFromSQLServer("./app/ldif_from_database/config.yml", uidNumberCounter)
-            newUidNumber = handler.generate_first_time_population(number_of_rows=10, restore=True)
+            newUidNumber = handler.generate_ldif(number_of_rows=10, restore=True)
             client.set('uidNumberCounter',newUidNumber)
         except Exception as e:
             return {'e': str(e)}
@@ -253,7 +253,7 @@ class Students(Resource):
 
         try:
             handler = SigenuClient("./app/sigenu_client/config.yml", uidNumberCounter)
-            newUidNumber = handler.generate_first_time_population(number_of_rows=10)
+            newUidNumber = handler.generate_ldif(number_of_rows=10)
             client.set('uidNumberCounter', newUidNumber)
         except Exception as e:
             return {'e': str(e)}

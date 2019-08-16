@@ -153,8 +153,7 @@ docker-compose down
 
 \subsection{¿Qué es una API?}
 
-Una API es un conjunto de funciones y procedimientos que cumplen una o muchas funciones con el fin de ser utilizadas por otro software. Las siglas API vienen del inglés Application Programming Interface. En español sería Interfaz de Programación de Aplicaciones. Es una especificación formal sobre cómo un módulo de un software se comunica o interactúa con otro.
-\footnote{\url{https://hipertextual.com/archivo/2014/05/que-es-api/}}
+Una API es un conjunto de funciones y procedimientos que cumplen una o muchas funciones con el fin de ser utilizadas por otro software. Las siglas API vienen del inglés Application Programming Interface. En español sería Interfaz de Programación de Aplicaciones. Es una especificación formal sobre cómo un módulo de un software se comunica o interactúa con otro \cite{api}.
 
 \subsection{Ventajas de implementar una API}
 
@@ -164,7 +163,7 @@ En el caso de la solución que propone esta tesis, tener una API como intermedia
 
 \subsection{Tecnologías para implementación más utilizadas}
 
-Para la implementación de una API como servicio web existen gran cantidad de \textit{frameworks} \footnote{\url{https://www.ecured.cu/Framework}} sobre una gran variedad de lenguajes de programación. Entre los más utilizados tenemos:
+Para la implementación de una API como servicio web existen gran cantidad de \textit{frameworks} \cite{framework} sobre una gran variedad de lenguajes de programación. Entre los más utilizados tenemos:
 
 \subsubsection{ASP.NET Core}
 
@@ -240,21 +239,69 @@ Flask es un microframework web escrito en Python. Se clasifica como un microfram
 
 \subsection{¿Qué es python-ldap?}
 
-python-ldap es una librería del lenguaje de programación Python, la cual se encarga de proveer una API orientada a objetos para acceder a servidores de directorios basados en el protocolo LDAP desde los programas de Python.
+Es una librería del lenguaje de programación Python, la cual se encarga de proveer una API orientada a objetos para acceder a servidores de directorios basados en el protocolo LDAP desde los programas de Python. Esto facilita mucho la interacción con el servidor LDAP, ya que brinda una capa de abstracción superior. Funciona solamente con las versiones OpenLDAP superiores a la 2.3, y puede ser utilizado tanto en Windows, como en Linux o macOS, instalando las dependencias necesarias \cite{pythonldap}.
 
 
 \section{Interfaz web}
 
-Por último, existen diferentes tecnologías para implementar la interfaz web, que facilitará la interacción de los usuarios, tanto familiarizados con la programación como ajenos a la misma (secretarias y personal de Recursos Humanos), con el API e indirectamente con el servidor LDAP y las fuentes de información. Como para mantener modularizada la solución, el API y la interfaz deben ser dos programas separados, en este caso es muy factible utilizar una SPA (Single Page Application), que funcione como una aplicación independiente. Algunas de las tecnologías mas usadas para desarrollar SPAs actualmente son:
+Por último, existen diferentes tecnologías para implementar la interfaz web, que facilitará la interacción de los usuarios, tanto familiarizados con la programación como ajenos a la misma (secretarias y personal de Recursos Humanos), con el API e indirectamente con el servidor LDAP y las fuentes de información. Como para mantener modularizada la solución, el API y la interfaz deben ser dos programas separados, en este caso es muy factible utilizar una SPA (Single Page Application) \cite{spa}, que funcione como una aplicación independiente. Algunas de las tecnologías mas usadas para desarrollar SPAs actualmente son:
 
-\subsubsection{Angular}
+\subsection{Angular}
 
-Este es un framework monolítico de código abierto desarrollado por Google, muy poderoso por la cantidad de funcionalidades internas que provee pero con una curva de aprendizaje excesiva. 
+Angular es un framework de desarrollo para JavaScript creado por Google. La finalidad de Angular es facilitarnos el desarrollo de aplicaciones web SPA y además darnos herramientas para trabajar con los elementos de una web de una manera más sencilla y óptima.
 
-\subsubsection{React}
+Otro propósito que tiene Angular es la separación completa entre el front-end y el back-end en una aplicación web.
 
-Este es la alternativa de Facebook, ampliamente utilizada al igual que Angular, también es de código abierto y aunque no es un framework en sí (es una librería para renderizar vistas), unida con otras tecnologías como redux, se convierte en una herramienta poderosa para dessarrollar SPAs. Es muy eficiente y su curva de aprendizaje es más suave que la de Angular.
+Ventajas de Angular:
 
-\subsubsection{Vuejs}
+\begin{itemize}
+    \item Velocidad de carga lenta la primera vez que se abre la web, pero luego navegar por la misma es instantáneo debido a que se carga toda a la vez.
+    \item Cómo SPA es una única página, por lo tanto solo hay una ruta que tiene que enviar el servidor (eficiencia).
+    \item Aplicaciones modulares y escalares.
+    \item Lenguaje Typescript, tiene una sintaxis muy parecida a C Sharp, con tipado estático.
+    \item Sigue el patrón MVC (Modelo Vista Controlador), con la vista separada de los controladores.
+    \item Basado en componentes, es decir, podemos escribir componentes web con vista y lógica para después reutilizarlos en otras páginas.
+    \item Comunidad muy grande con multitud de tutoriales y librerías.
+    \item Inyección de dependencias, un patrón de diseño que se basa en pasar las dependencias directamente a los objetos en lugar de crearlas localmente.
+    \item Programación reactiva, la vista se actualiza automáticamente a los cambios.
+    \item Dispone de asistente por línea de comandos para crear proyectos base (Angular cli).
+    \item Se integra bien con herramientas de prueba.
+\end{itemize}
 
-Este es la alternativa más joven de las tres, la cuál aún con la comunidad más pequeña a obtenido una gran cantidad de estrellas en github.com debido a que tiene la curva de aprendizaje más suave, y a las comodidades que brinda por su semántica sensilla a los desarrolladores.
+\subsection{React}
+
+React es una librería Javascript focalizada en el desarrollo de interfaces de usuario. Así se define la propia librería y evidentemente, esa es su principal área de trabajo. Sin embargo, lo cierto es que en React encontramos un excelente aliado para hacer todo tipo de aplicaciones web, SPA (Single Page Application) o incluso aplicaciones para móviles. Para ello, alrededor de React existe un completo ecosistema de módulos, herramientas y componentes capaces de ayudar al desarrollador a cubrir objetivos avanzados con relativamente poco esfuerzo. 
+
+Ventajas que tiene React:
+
+\begin{itemize}
+    \item La primera gran ventaja que debemos mencionar, es que es una librería Open Source, lo que facilita modificaciones por parte de otros programadores ajenos a los creadores originales.
+    \item La velocidad es otra gran ventaja de React, ya que es perfecta para rendimiento, para aquellas aplicaciones con mucha carga de datos y tablas enormes.
+    \item Tiene un accionar Isomórfico que le da un mayor rendimiento que por ejemplo Angular o Polymer.
+    \item Mantiene un virtual DOM propio, en lugar de confiar solamente en el DOM del navegador. Esto deja a la biblioteca determinar qué partes del DOM han cambiado comparando contenidos entre la versión nueva y la almacenada en el virtual DOM, y utilizando el resultado para determinar cómo actualizar eficientemente el DOM del navegador.
+    \item Sigue el patrón MVC (Modelo Vista Controlador), con la vista separada de los controladores.
+    \item Funciona mediante Componentes, los cuales son reutilizables, así que solo tendrás que hacer las cosas una vez y podrás reutilizarlas, y puede que incluso ni la primera, ya que hay una gran comunidad y hay muchísimos componentes ya hechos.
+    \item Comunidad muy grande con multitud de tutoriales y librerías.
+    \item Programación reactiva, la vista se actualiza automáticamente a los cambios.
+    \item Por último, está hecho de forma que podemos usarlo con los nuevos estándares de Javascript, pudiendo aprovechar el potencial de las nuevas características que nos ofrece ES6, ES7, ES8 y los nuevo estándares que vayan entrando a futuro.
+\end{itemize}
+
+
+\subsection{Vue}
+
+Vue es un framework progresivo para construir interfaces de usuario. A diferencia de otros frameworks monolíticos, Vue está diseñado desde el inicio para ser adoptado incrementalmente. La biblioteca principal se enfoca solo en la capa de la vista, y es muy simple de utilizar e integrar con otros proyectos o bibliotecas existentes. Por otro lado, Vue también es perfectamente capaz de soportar aplicaciones sofisticadas de una sola página (en inglés Single Page Application o SPA) cuando se utiliza en combinación con herramientas modernas y librerías compatibles.
+
+Ventajas de Vue:
+
+\begin{itemize}
+    \item Framework MVVM \cite{mvvm}. La ventaja de este tipo de frameworks es la facilidad para construir codigo bien estructurado, para poder construir aplicaciones complejas.
+    \item Solución Ligera. Una de las grandes ventajas de Vue es el tamaño en Kilobytes del core. Este tamaño puede ir aumentando, debido a la flexibilidad y facilidad para extender el framework con variedad de soluciones de terceros que son bien recibidas por la comunidad. Este tamaño compactado es una opción inteligente ya que reducirá los tiempos de carga y velocidad de las aplicaciones web.
+    \item Templates declarativos. Los templates en Vue se escriben en html fácilmente modificable por cualquier involucrado en el proyecto, sin tener que aprender nueva sintaxis como JSX (utilizada en React).
+    \item La implementación del DOM Virtual proporciona un alto performance (varios expertos ponen a Vue como líder de rendimiento de renderizado).
+    \item Two-way Data Binding. Al igual que Angular emplea un data-binding bidireccional que sincroniza automáticamente el modelo con el DOM (React carece de este mecanismo de manera directa).
+	\item Curva de Aprendizaje Baja. Comparado con Angular y React, Vue es una de las tecnologías javascript más sencillas para comenzar a desarrollar. Una de las mejores características es que se trata de un framework amigable para el desarrollador. 
+	\item Posee una excelente documentación, con muchos ejemplos: esto se puede comprobar mirando la documentación oficial, además se pueden ver muchos ejemplos en Codepen y en Jsfiddle.
+    \item Gran Popularidad. Gran numero de estrellas de Github y buen número de descargas mensuales.
+\end{itemize}
+
+
