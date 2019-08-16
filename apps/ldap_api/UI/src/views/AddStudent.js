@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {sections} from './_sections'
 import {footer} from './_footer'
+import {connect} from 'react-redux'
+import {userActions} from '../actions/userActions'
 
 const styles = theme => ({
   layout: {
