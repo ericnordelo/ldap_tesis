@@ -1,54 +1,57 @@
 \BOOKMARK [0][-]{section*.7}{Introducci\363n}{}% 1
-\BOOKMARK [0][-]{chapter.1}{Directorio \332nico}{}% 2
-\BOOKMARK [1][-]{section.1.1}{Surgimiento}{chapter.1}% 3
-\BOOKMARK [1][-]{section.1.2}{Problemas del sistema actual}{chapter.1}% 4
-\BOOKMARK [2][-]{subsection.1.2.1}{Mantenimiento y extensibilidad del Sistema}{section.1.2}% 5
-\BOOKMARK [2][-]{subsection.1.2.2}{Desuso de datos almacenados}{section.1.2}% 6
-\BOOKMARK [2][-]{subsection.1.2.3}{Incumplimiento de pol\355ticas de baja de usuarios}{section.1.2}% 7
-\BOOKMARK [2][-]{subsection.1.2.4}{Carencia de protocolos comunes para servicios externos}{section.1.2}% 8
-\BOOKMARK [1][-]{section.1.3}{Propuesta de soluci\363n}{chapter.1}% 9
-\BOOKMARK [0][-]{chapter.2}{Estado del arte}{}% 10
-\BOOKMARK [1][-]{section.2.1}{LDAP}{chapter.2}% 11
-\BOOKMARK [2][-]{subsection.2.1.1}{\277Qu\351 es el protocolo LDAP?}{section.2.1}% 12
-\BOOKMARK [1][-]{section.2.2}{Docker}{chapter.2}% 13
-\BOOKMARK [2][-]{subsection.2.2.1}{\277Qu\351 es Docker?}{section.2.2}% 14
-\BOOKMARK [2][-]{subsection.2.2.2}{Ventajas de utilizar Docker}{section.2.2}% 15
-\BOOKMARK [2][-]{subsection.2.2.3}{\277Qui\351n utiliza Docker webinars?}{section.2.2}% 16
-\BOOKMARK [2][-]{subsection.2.2.4}{\277Qu\351 es un contenedor de docker?}{section.2.2}% 17
-\BOOKMARK [2][-]{subsection.2.2.5}{Docker Compose}{section.2.2}% 18
-\BOOKMARK [2][-]{subsection.2.2.6}{Casos de uso comunes de Docker Compose}{section.2.2}% 19
-\BOOKMARK [1][-]{section.2.3}{API}{chapter.2}% 20
-\BOOKMARK [2][-]{subsection.2.3.1}{\277Qu\351 es una API?}{section.2.3}% 21
-\BOOKMARK [2][-]{subsection.2.3.2}{Ventajas de implementar una API}{section.2.3}% 22
-\BOOKMARK [2][-]{subsection.2.3.3}{Tecnolog\355as para implementaci\363n m\341s utilizadas}{section.2.3}% 23
-\BOOKMARK [1][-]{section.2.4}{python-ldap}{chapter.2}% 24
-\BOOKMARK [2][-]{subsection.2.4.1}{\277Qu\351 es python-ldap?}{section.2.4}% 25
-\BOOKMARK [1][-]{section.2.5}{Interfaz web}{chapter.2}% 26
-\BOOKMARK [0][-]{chapter.3}{Implementaci\363n del sistema}{}% 27
-\BOOKMARK [1][-]{section.3.1}{Consideraciones previas}{chapter.3}% 28
-\BOOKMARK [1][-]{section.3.2}{Extracci\363n de la informaci\363n de estudiantes y trabajadores}{chapter.3}% 29
-\BOOKMARK [2][-]{subsection.3.2.1}{M\363dulo para generar los LDIF de los estudiantes}{section.3.2}% 30
-\BOOKMARK [2][-]{subsection.3.2.2}{M\363dulo para generar los LDIF de los trabajadores}{section.3.2}% 31
-\BOOKMARK [1][-]{section.3.3}{Implementaci\363n de la API}{chapter.3}% 32
-\BOOKMARK [2][-]{subsection.3.3.1}{Listado de recursos}{section.3.3}% 33
-\BOOKMARK [1][-]{section.3.4}{Interfaz web}{chapter.3}% 34
-\BOOKMARK [1][-]{section.3.5}{Bolsa de servicios}{chapter.3}% 35
-\BOOKMARK [0][-]{chapter.4}{Anexos}{}% 36
-\BOOKMARK [1][-]{section.4.1}{Conceptos Importantes dentro de LDAP}{chapter.4}% 37
-\BOOKMARK [2][-]{subsection.4.1.1}{Servidor de Directorio}{section.4.1}% 38
-\BOOKMARK [2][-]{subsection.4.1.2}{Entradas}{section.4.1}% 39
-\BOOKMARK [2][-]{subsection.4.1.3}{Nombre Distinguido \(DN\)}{section.4.1}% 40
-\BOOKMARK [2][-]{subsection.4.1.4}{Artibutos}{section.4.1}% 41
-\BOOKMARK [2][-]{subsection.4.1.5}{Clases de Objetos}{section.4.1}% 42
-\BOOKMARK [2][-]{subsection.4.1.6}{Filtros}{section.4.1}% 43
-\BOOKMARK [1][-]{section.4.2}{Implementaciones m\341s utilizadas}{chapter.4}% 44
-\BOOKMARK [2][-]{subsection.4.2.1}{IBM Security Directory Server}{section.4.2}% 45
-\BOOKMARK [2][-]{subsection.4.2.2}{Active Directory}{section.4.2}% 46
-\BOOKMARK [2][-]{subsection.4.2.3}{Oracle Internet Directory}{section.4.2}% 47
-\BOOKMARK [2][-]{subsection.4.2.4}{OpenLDAP}{section.4.2}% 48
-\BOOKMARK [1][-]{section.4.3}{Modos de empleo usuales}{chapter.4}% 49
-\BOOKMARK [2][-]{subsection.4.3.1}{DNS}{section.4.3}% 50
-\BOOKMARK [2][-]{subsection.4.3.2}{Sistema de Autenticaci\363n}{section.4.3}% 51
-\BOOKMARK [0][-]{section*.27}{Recomendaciones}{}% 52
-\BOOKMARK [0][-]{section*.29}{Conclusiones}{}% 53
-\BOOKMARK [0][-]{chapter*.31}{Bibliograf\355a}{}% 54
+\BOOKMARK [0][-]{chapter.1}{Descripci\363n del Problema}{}% 2
+\BOOKMARK [1][-]{section.1.1}{Directorio \332nico}{chapter.1}% 3
+\BOOKMARK [2][-]{subsection.1.1.1}{Surgimiento}{section.1.1}% 4
+\BOOKMARK [2][-]{subsection.1.1.2}{Estructura}{section.1.1}% 5
+\BOOKMARK [2][-]{subsection.1.1.3}{Fuentes de informaci\363n}{section.1.1}% 6
+\BOOKMARK [2][-]{subsection.1.1.4}{Problemas del sistema actual}{section.1.1}% 7
+\BOOKMARK [2][-]{subsection.1.1.5}{Mantenimiento y extensibilidad del Sistema}{section.1.1}% 8
+\BOOKMARK [2][-]{subsection.1.1.6}{Carencia de una interfaz centralizada para servicios externos}{section.1.1}% 9
+\BOOKMARK [2][-]{subsection.1.1.7}{Existencia de cuentas duplicadas}{section.1.1}% 10
+\BOOKMARK [2][-]{subsection.1.1.8}{Existencia de datos corruptos}{section.1.1}% 11
+\BOOKMARK [1][-]{section.1.2}{Propuesta de soluci\363n}{chapter.1}% 12
+\BOOKMARK [0][-]{chapter.2}{Estado del arte}{}% 13
+\BOOKMARK [1][-]{section.2.1}{LDAP}{chapter.2}% 14
+\BOOKMARK [2][-]{subsection.2.1.1}{\277Qu\351 es el protocolo LDAP?}{section.2.1}% 15
+\BOOKMARK [1][-]{section.2.2}{Docker}{chapter.2}% 16
+\BOOKMARK [2][-]{subsection.2.2.1}{\277Qu\351 es Docker?}{section.2.2}% 17
+\BOOKMARK [2][-]{subsection.2.2.2}{Ventajas de utilizar Docker}{section.2.2}% 18
+\BOOKMARK [2][-]{subsection.2.2.3}{\277Qui\351n utiliza Docker webinars?}{section.2.2}% 19
+\BOOKMARK [2][-]{subsection.2.2.4}{\277Qu\351 es un contenedor de docker?}{section.2.2}% 20
+\BOOKMARK [2][-]{subsection.2.2.5}{Docker Compose}{section.2.2}% 21
+\BOOKMARK [2][-]{subsection.2.2.6}{Casos de uso comunes de Docker Compose}{section.2.2}% 22
+\BOOKMARK [1][-]{section.2.3}{API}{chapter.2}% 23
+\BOOKMARK [2][-]{subsection.2.3.1}{\277Qu\351 es una API?}{section.2.3}% 24
+\BOOKMARK [2][-]{subsection.2.3.2}{Ventajas de implementar una API}{section.2.3}% 25
+\BOOKMARK [2][-]{subsection.2.3.3}{Tecnolog\355as para implementaci\363n m\341s utilizadas}{section.2.3}% 26
+\BOOKMARK [1][-]{section.2.4}{python-ldap}{chapter.2}% 27
+\BOOKMARK [2][-]{subsection.2.4.1}{\277Qu\351 es python-ldap?}{section.2.4}% 28
+\BOOKMARK [1][-]{section.2.5}{Interfaz web}{chapter.2}% 29
+\BOOKMARK [0][-]{chapter.3}{Implementaci\363n del sistema}{}% 30
+\BOOKMARK [1][-]{section.3.1}{Consideraciones previas}{chapter.3}% 31
+\BOOKMARK [1][-]{section.3.2}{Extracci\363n de la informaci\363n de estudiantes y trabajadores}{chapter.3}% 32
+\BOOKMARK [2][-]{subsection.3.2.1}{M\363dulo para generar los LDIF de los estudiantes}{section.3.2}% 33
+\BOOKMARK [2][-]{subsection.3.2.2}{M\363dulo para generar los LDIF de los trabajadores}{section.3.2}% 34
+\BOOKMARK [1][-]{section.3.3}{Implementaci\363n de la API}{chapter.3}% 35
+\BOOKMARK [2][-]{subsection.3.3.1}{Listado de recursos}{section.3.3}% 36
+\BOOKMARK [1][-]{section.3.4}{Interfaz web}{chapter.3}% 37
+\BOOKMARK [1][-]{section.3.5}{Bolsa de servicios}{chapter.3}% 38
+\BOOKMARK [0][-]{chapter.4}{Anexos}{}% 39
+\BOOKMARK [1][-]{section.4.1}{Conceptos Importantes dentro de LDAP}{chapter.4}% 40
+\BOOKMARK [2][-]{subsection.4.1.1}{Servidor de Directorio}{section.4.1}% 41
+\BOOKMARK [2][-]{subsection.4.1.2}{Entradas}{section.4.1}% 42
+\BOOKMARK [2][-]{subsection.4.1.3}{Nombre Distinguido \(DN\)}{section.4.1}% 43
+\BOOKMARK [2][-]{subsection.4.1.4}{Artibutos}{section.4.1}% 44
+\BOOKMARK [2][-]{subsection.4.1.5}{Clases de Objetos}{section.4.1}% 45
+\BOOKMARK [2][-]{subsection.4.1.6}{Filtros}{section.4.1}% 46
+\BOOKMARK [1][-]{section.4.2}{Implementaciones m\341s utilizadas}{chapter.4}% 47
+\BOOKMARK [2][-]{subsection.4.2.1}{IBM Security Directory Server}{section.4.2}% 48
+\BOOKMARK [2][-]{subsection.4.2.2}{Active Directory}{section.4.2}% 49
+\BOOKMARK [2][-]{subsection.4.2.3}{Oracle Internet Directory}{section.4.2}% 50
+\BOOKMARK [2][-]{subsection.4.2.4}{OpenLDAP}{section.4.2}% 51
+\BOOKMARK [1][-]{section.4.3}{Modos de empleo usuales}{chapter.4}% 52
+\BOOKMARK [2][-]{subsection.4.3.1}{DNS}{section.4.3}% 53
+\BOOKMARK [2][-]{subsection.4.3.2}{Sistema de Autenticaci\363n}{section.4.3}% 54
+\BOOKMARK [0][-]{section*.30}{Recomendaciones}{}% 55
+\BOOKMARK [0][-]{section*.32}{Conclusiones}{}% 56
+\BOOKMARK [0][-]{chapter*.34}{Bibliograf\355a}{}% 57

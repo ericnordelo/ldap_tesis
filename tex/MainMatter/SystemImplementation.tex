@@ -1,7 +1,7 @@
 \chapter{Implementación del sistema}
 \section{Consideraciones previas}
 
-La implementación del servidor LDAP es parte del desarrollo otra tesis que complementa a esta en la creación de la solución final. En esta se implementó lo concerniente al API y la interfaz web, incluyendo la generación de los archivos LDIF utilizados para popular y modificar de manera periódica el servidor LDAP mediante dos módulos de Python independientes al API (aunque esta los utiliza); uno para la extracción de la información pertinente a los estudiantes y otro para la pertinente a los trabajadores. 
+La implementación del servidor LDAP es parte del desarrollo de otra tesis que complementa a esta en la creación de la solución final. En este trabajo se implementó lo concerniente al API y la interfaz web, incluyendo la generación de los archivos LDIF utilizados para popular y modificar de manera periódica el servidor LDAP mediante dos módulos de Python independientes al API (aunque esta los utiliza); uno para la extracción de la información pertinente a los estudiantes y otro para la pertinente a los trabajadores. 
 Además el API brinda una bolsa de servicios a los que se pueden asociar otros sistemas que necesitan consumir la información almacenada en el servidor (como por ejemplo la cuota de internet de un estudiante).
 
 \section{Extracción de la información de estudiantes y trabajadores}
@@ -13,6 +13,8 @@ Como mencionamos antes, de la extracción de la información se encargan dos mó
 Este módulo se llama sigenu-client. Consume utilizando el protocolo SOAP los recursos que ofrece el sistema SIGENU para consultar información relacionada a los estudiantes de la universidad. Específicamente consume dos recursos: Faculties y getStudentsByFaculty. El primero se utiliza para obtener todas las facultades miembros de la universidad, y a partir de estas se utiliza el segundo para obtener todos los estudiantes matriculados en cada una de estas.
 
 Al desarrollar este módulo se tuvo que lidiar con problemas inherentes al sistema SIGENU, como datos en mal estado (caracteres no alfanuméricos) y duplicación de cuentas. La política para el primer caso es no almacenar los estudiantes con datos en mal estado en el servidor LDAP, para que soliciten la apertura de la cuenta nuevamente y quede en correcto estado. La política para el segundo caso es no almacenar ninguna de las cuentas para que también sea necesario la creación de una nueva en correcto estado.
+
+
 
 La generación del archivo LDIF final queda estructurada de la forma que puede apreciarse en el siguiente ejemplo:
 
