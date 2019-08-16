@@ -143,7 +143,7 @@ class Workers(Resource):
             workers_account = workers_account[0]
             email = workers_account[1].get('Correo', None)
             if email and email[0] != "N/D":
-                return {'warning': 'true', 'message': 'Este usuario ya existe en directorio', 'email': email[0]}
+                return {'error': 'Este usuario ya existe en directorio', 'email': email[0]}, 403
             else:
                 name = workers_account[1]['cn'][0].split()[0].lower()
                 last_name, second_last_name = workers_account[1]['sn'][0].split(
@@ -219,7 +219,7 @@ class Students(Resource):
             student_accounts = student_accounts[0]
             email = student_accounts[1].get('Correo', None)
             if email and email[0] != "N/D":
-                return {'warning': 'true', 'message': 'Este usuario ya existe en directorio', 'email': email[0]}
+                return {'error': 'Este usuario ya existe en directorio', 'email': email[0]}, 403
             else:
                 name = student_accounts[1]['cn'][0].split()[0].lower()
                 last_name, second_last_name = student_accounts[1]['sn'][0].split(
