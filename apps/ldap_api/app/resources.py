@@ -566,10 +566,10 @@ def __set_filters__(args):
     return filters
 
 def __generate_new_email__(basedn,name,last_name,second_last_name,category,area):
-    possible_email = name  + '.' + last_name.lower() + __map_area_to_email_domain__(area)
+    possible_email = name  + '.' + last_name.lower() + __map_area_to_email_domain__(area, category)
 
     if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=%s))" % (possible_email, category))):
-        possible_email = name.lower() + '.' +second_last_name + __map_area_to_email_domain__(area)
+        possible_email = name.lower() + '.' +second_last_name + __map_area_to_email_domain__(area, category)
         if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=%s))" % (possible_email, category))):
             for i in range(1,1000):
                 possible_email = name.lower() + '.' +second_last_name +str(i) + __map_area_to_email_domain__(area, category)
