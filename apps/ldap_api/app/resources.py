@@ -336,30 +336,27 @@ class Externs(Resource):
         dn = 'uid=%s,ou=Externos,dc=uh,dc=cu' % email
         password = '{CRYPT}' + __sha512_crypt__(data.get('password'), 500000)
 
-        try:
-            created_at = data.get('created_at').split('-')
-            created_at = created_at[0] + created_at[1] + created_at[2]
-            expires = data.get('expires').encode('utf-8')
-            expires = expires[0] + expires[1] + expires[2]
-            modList = modlist.addModlist({
-                'CI':                   [data.get('ci').encode('utf-8')],
-                'cn':                   [name.encode('utf-8')],
-                'sn':                   [last_name.encode('utf-8')],
-            	'correo':               [email.encode('utf-8')],
-                'fechadecreacion':      [str(created_at).encode('utf-8')],
-                'fechadebaja':          [str(expires).encode('utf-8')],
-                'tienecorreo':          [b'TRUE' if data.get('email') else b'FALSE'],
-                'tieneinternet':        [b'TRUE' if data.get('internet') else b'FALSE'],
-                'tienechat':            [b'TRUE' if data.get('chat') else b'FALSE'],
-                'description':          [data.get('comments').encode('utf-8') if data.get('comments') != "" else b"N/D"],
-                'userpassword':         [password.encode('utf-8')],
-                'uid':                  email.encode('utf-8'),
-                'objectClass':          [b'Externo'],
-                'uidNumber':            [uidNumberCounter]
-            })
-            ldap_server.add_s(dn, modList)
-        except Exception as e:
-            return {'error': str(e), 'aqui': 'error'}
+        created_at = data.get('created_at').split('-')
+        created_at = created_at[0] + created_at[1] + created_at[2]
+        expires = data.get('expires').encode('utf-8')
+        expires = expires[0] + expires[1] + expires[2]
+        modList = modlist.addModlist({
+            'CI':                   [data.get('ci').encode('utf-8')],
+            'cn':                   [name.encode('utf-8')],
+            'sn':                   [last_name.encode('utf-8')],
+            'correo':               [email.encode('utf-8')],
+            'fechadecreacion':      [str(created_at).encode('utf-8')],
+            'fechadebaja':          [str(expires).encode('utf-8')],
+            'tienecorreo':          [b'TRUE' if data.get('email') else b'FALSE'],
+            'tieneinternet':        [b'TRUE' if data.get('internet') else b'FALSE'],
+            'tienechat':            [b'TRUE' if data.get('chat') else b'FALSE'],
+            'description':          [data.get('comments').encode('utf-8') if data.get('comments') != "" else b"N/D"],
+            'userpassword':         [password.encode('utf-8')],
+            'uid':                  email.encode('utf-8'),
+            'objectClass':          [b'Externo'],
+            'uidNumber':            uidNumberCounter
+        })
+        ldap_server.add_s(dn, modList)
 
         result = {'extern_data': 'success'}
         return jsonify(result)
