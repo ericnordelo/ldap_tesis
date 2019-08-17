@@ -26,7 +26,7 @@ class ConnectionManager:
             perror('Invalid server address in config file!')
 
         self._connection = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
-                                            'Server=localhost,1433;'
+                                            'Server=api.directorio.uh.cu,1433;'
                                             'User=sa;Password=P@ssw0rd;'
                                             'Trusted_Connection=yes;',
                                             autocommit=True)
