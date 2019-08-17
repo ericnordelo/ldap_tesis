@@ -200,6 +200,7 @@ class Students(Resource):
                 "ci":x[1].get('CI', '-'),
                 "id":x[0],
                 "faculty": x[1].get('Facultad', '-'),
+                "carrer": x[1].get('Carrera', '-'),
                 "grade": x[1].get('Grade ', '-')
             } for x in students_account]
         students_account_json = json.dumps(

@@ -121,7 +121,9 @@ class StudentsTable extends Component {
 
     return (
       <Paper className={classes.root}>
-        <EnhancedTableToolbar label="Estudiantes" numSelected={selected.length} />
+        <EnhancedTableToolbar label="Estudiantes" numSelected={selected.length}>
+          {this.props.children}
+        </EnhancedTableToolbar>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead

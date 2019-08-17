@@ -3,15 +3,27 @@ import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
 import {Link} from 'react-router-dom';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import StudentsTable from '../components/StudentsTable';
 import config from '../config';
 import CircularIndeterminated from '../components/CircularIndeterminated';
+import FiltersDialog from '../components/FiltersDialog';
 
 class Students extends Component {
   state = { students: [], loading: true };
 
+  constructor(props){
+    super(props);
+    this.fetchData = this.fetchData.bind(this);
+  }
+
   componentDidMount() {
-    fetch(config.api_address + '/estudiantes', {credentials: "include"})
+    this.fetchData('');
+  }
+
+  fetchData(params){
+    this.setState({loading: true});
+    fetch(config.api_address + '/estudiantes' + params, {credentials: "include"})
       .then(results => results.json())
       .then(data => {
         const ldap_students = data.students;
@@ -19,7 +31,7 @@ class Students extends Component {
           this.setState({ students: ldap_students });
         }
         else{
-          alert('No se pudieron obtener los trabajadores del API.');
+          alert('No se pudieron obtener los estudiantes del API.')
         }
         this.setState({loading: false});
       }).catch(err => {
@@ -39,7 +51,12 @@ class Students extends Component {
         </Breadcrumbs>
         {this.state.loading ?
           <CircularIndeterminated></CircularIndeterminated> :
-          <StudentsTable students={this.state.students} loading={this.state.loading} />
+          <StudentsTable students={this.state.students} loading={this.state.loading}>
+            <FiltersDialog fetchMethod={this.fetchData}/>
+            <Button style={{marginLeft: 20}} to="/externos/agregar" size="small" onClick={() => this.fetchData('')} variant="outlined" color="primary">
+              Limpiar Filtros
+            </Button> 
+          </StudentsTable>
         }
       </div>
     );
