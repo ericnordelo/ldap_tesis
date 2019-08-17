@@ -158,6 +158,7 @@ class ExternsTable extends Component {
                       </TableCell>
                       <TableCell>{n.last_name}</TableCell>
                       <TableCell>{n.ci}</TableCell>
+                      <TableCell>{n.email}</TableCell>
                     </TableRow>
                   );
                 })}

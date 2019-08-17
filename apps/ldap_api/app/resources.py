@@ -275,7 +275,7 @@ class Externs(Resource):
                 "last_name":x[1]['sn'][0],
                 "ci":x[1].get('CI', '-'),
                 "id":x[0],
-                "correo": x[1].get('Correo', 'N/D')
+                "email": x[1].get('Correo', 'N/D')
 
             } for x in externs_account]
         externs_account_json = json.dumps(externs_account, cls=utils.MyEncoder)

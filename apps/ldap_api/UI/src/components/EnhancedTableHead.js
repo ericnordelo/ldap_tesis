@@ -32,7 +32,8 @@ class EnhancedTableHead extends React.Component {
         rows = [
           { id: 'name', numeric: false, disablePadding: true, label: 'Nombre' },
           { id: 'last_name', numeric: false, disablePadding: false, label: 'Apellidos' },
-          { id: 'ci', numeric: false, disablePadding: false, label: 'CI' }
+          { id: 'ci', numeric: false, disablePadding: false, label: 'CI' },
+          { id: 'email', numeric: false, disablePadding: false, label: 'Correo' },
         ];
       }else if(this.props.students){
         rows = [
