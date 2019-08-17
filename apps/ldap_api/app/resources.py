@@ -301,7 +301,7 @@ class Externs(Resource):
         first_last_name, second_last_name = last_name.lower().split()
         possible_email = name.lower() + '.' + first_last_name + \
                                     __map_area_to_email_domain__(
-                                        data.get('area'))
+                                        data.get('area'), "Externo")
 
         if can_use_old_login:
             email = data.get('old_login_email')
@@ -309,12 +309,12 @@ class Externs(Resource):
             if len(ldap_server.search_s("ou=Externos,dc=uh,dc=cu", ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=Externo))" % possible_email)):
                 possible_email = name.lower() + '.' + second_last_name + \
                                             __map_area_to_email_domain__(
-                                                data.get('area'))
+                                                data.get('area'), "Externo")
                 if len(ldap_server.search_s("ou=Externos,dc=uh,dc=cu", ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=Externo))" % possible_email)):
                     for i in range(1, 1000):
                         possible_email = name.lower() + '.' + second_last_name + str(i) + \
                                                     __map_area_to_email_domain__(
-                                                        data.get('area'))
+                                                        data.get('area'), "Externo")
                         if len(ldap_server.search_s("ou=Externos,dc=uh,dc=cu", ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=Externo))" % possible_email)):
                             continue
                         email = possible_email
