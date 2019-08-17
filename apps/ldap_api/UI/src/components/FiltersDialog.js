@@ -9,7 +9,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 export default class FiltersDialog extends React.Component {
   constructor(props){
     super(props);
-    console.log(props)
     this.state = {
       open: false,
       name: props.name,
@@ -53,7 +52,7 @@ export default class FiltersDialog extends React.Component {
         params += '&correo=' + this.state.email;
       }
     }
-    this.props.fetchMethod(params);
+    this.props.fetchMethod(params, this.state.name, this.state.last_name, this.state.email);
   }
 
   render() {
@@ -82,6 +81,7 @@ export default class FiltersDialog extends React.Component {
               margin="dense"
               id="last_name"
               label="Apellidos"
+              value={this.state.last_name}
               onChange={this.handleChange("last_name")}
             />
             <TextField
@@ -89,6 +89,7 @@ export default class FiltersDialog extends React.Component {
               id="email"
               label="Correo"
               type="email"
+              value={this.state.email}
               onChange={this.handleChange("email")}
               fullWidth
             />

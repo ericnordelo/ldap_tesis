@@ -37,7 +37,7 @@ class People extends Component {
           this.setState({ people: ldap_people });
         }
         else{
-          alert('No se pudieron obtener los trabajadores del API.');
+          alert('No se pudieron obtener los usuarios del API.');
         }
         this.setState({loading: false});
       }).catch(err => {

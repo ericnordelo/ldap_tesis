@@ -11,21 +11,23 @@ import ExternsFiltersDialog from '../components/ExternsFiltersDialog';
 
 class Externs extends Component {
   state = { 
-    externs: [],
-    loading: true
+    externs: [], 
+    loading: true,
+    name: '',
+    last_name: '',
+    email: '',
   };
-
   constructor(props){
     super(props);
     this.fetchData = this.fetchData.bind(this);
   }
 
   componentDidMount() {
-    this.fetchData('');
+    this.fetchData('', '', '', '');
   }
 
-  fetchData(params){
-    this.setState({loading: true});
+  fetchData(params, name, last_name, email){
+    this.setState({loading: true, name: name, last_name: last_name, email: email});
     fetch(config.api_address + '/externos' + params, {credentials: "include"})
       .then(results => results.json())
       .then(data => {
@@ -55,8 +57,8 @@ class Externs extends Component {
         {this.state.loading ?
           <CircularIndeterminated></CircularIndeterminated> :
           <ExternsTable externs={this.state.externs} loading={this.state.loading}>
-            <ExternsFiltersDialog fetchMethod={this.fetchData}/>
-            <Button style={{marginLeft: 20}} to="/externos/agregar" size="small" onClick={() => this.fetchData('')} variant="outlined" color="primary">
+            <ExternsFiltersDialog name={this.state.name} last_name={this.state.last_name} email={this.state.email} fetchMethod={this.fetchData}/>
+            <Button style={{marginLeft: 20}} to="/externos/agregar" size="small" onClick={() => this.fetchData('', '', '', '')} variant="outlined" color="primary">
               Limpiar Filtros
             </Button>
             <Button style={{marginLeft: 20}} to="/externos/agregar" size="small" component={Link} variant="contained" color="primary">

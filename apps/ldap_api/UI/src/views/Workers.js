@@ -10,19 +10,24 @@ import CircularIndeterminated from '../components/CircularIndeterminated';
 import FiltersDialog from '../components/FiltersDialog';
 
 class Workers extends Component {
-  state = { workers: [], loading: true };
-
+  state = { 
+    workers: [], 
+    loading: true,
+    name: '',
+    last_name: '',
+    email: '',
+  };
   constructor(props){
     super(props);
     this.fetchData = this.fetchData.bind(this);
   }
 
   componentDidMount() {
-    this.fetchData('');
+    this.fetchData('', '', '', '');
   }
 
-  fetchData(params){
-    this.setState({loading: true});
+  fetchData(params, name, last_name, email){
+    this.setState({loading: true, name: name, last_name: last_name, email: email});
     fetch(config.api_address + '/trabajadores' + params, {credentials: "include"})
       .then(results => results.json())
       .then(data => {
@@ -53,8 +58,8 @@ class Workers extends Component {
         {this.state.loading ?
           <CircularIndeterminated/> :
           <WorkersTable workers={this.state.workers} loading={this.state.loading}>
-            <FiltersDialog fetchMethod={this.fetchData}/>
-            <Button style={{marginLeft: 20}} to="/externos/agregar" size="small" onClick={() => this.fetchData('')} variant="outlined" color="primary">
+            <FiltersDialog name={this.state.name} last_name={this.state.last_name} email={this.state.email} fetchMethod={this.fetchData}/>
+            <Button style={{marginLeft: 20}} to="/externos/agregar" size="small" onClick={() => this.fetchData('', '', '', '')} variant="outlined" color="primary">
               Limpiar Filtros
             </Button> 
           </WorkersTable>
