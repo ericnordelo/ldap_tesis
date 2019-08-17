@@ -353,8 +353,7 @@ class Externs(Resource):
             'description':          [data.get('comments').encode('utf-8') if data.get('comments') != "" else b"N/D"],
             'userpassword':         [password.encode('utf-8')],
             'uid':                  email.encode('utf-8'),
-            'objectClass':          [b'Externo'],
-            'uidNumber':            5000
+            'objectClass':          [b'Externo']
         })
         ldap_server.add_s(dn, modList)
 
