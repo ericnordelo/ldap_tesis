@@ -25,7 +25,7 @@ class ConnectionManager:
         if server_addr == "":
             perror('Invalid server address in config file!')
 
-        self._connection = pyodbc.connect('Driver={ODBC Driver 13 for SQL Server};'
+        self._connection = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
                                             'Server={'+server_addr+'};'
                                             'Trusted_Connection=yes;',
                                             autocommit=True)
