@@ -156,8 +156,9 @@ class StudentsTable extends Component {
                       </TableCell>
                       <TableCell>{n.last_name}</TableCell>
                       <TableCell>{n.ci}</TableCell>
-                      <TableCell>{n.area}</TableCell>
-                      <TableCell>{n.ocupation}</TableCell>
+                      <TableCell>{n.faculty}</TableCell>
+                      <TableCell>{n.carrer}</TableCell>
+                      <TableCell>{n.grade}</TableCell>
                     </TableRow>
                   );
                 })}

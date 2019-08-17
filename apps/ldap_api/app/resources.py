@@ -199,8 +199,8 @@ class Students(Resource):
                 "last_name":x[1]['sn'],
                 "ci":x[1].get('CI', '-'),
                 "id":x[0],
-                "correo": x[1].get('Correo', 'N/D')
-
+                "faculty": x[1].get('Facultad', '-'),
+                "grade": x[1].get('Grade ', '-')
             } for x in students_account]
         students_account_json = json.dumps(
             students_account, cls=utils.MyEncoder)
