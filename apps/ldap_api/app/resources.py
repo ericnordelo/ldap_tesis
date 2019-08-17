@@ -530,7 +530,7 @@ class ServiceStudentInternetQuote(Resource):
 
 def __map_area_to_email_domain__(area, category):
     if category == "Externo":
-        return area
+        return '@'+area
     # THIS SHOULD BE DOMAIN FOR DDI
     return "@iris.uh.cu"
 
