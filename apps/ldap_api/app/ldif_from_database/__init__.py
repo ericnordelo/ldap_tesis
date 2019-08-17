@@ -1,5 +1,8 @@
 import yaml
-from .dependences.sqlserver_manager import ConnectionManager
+if __name__ == "__main__":
+    from dependences.sqlserver_manager import ConnectionManager
+else:
+    from app.ldif_from_database.dependences.sqlserver_manager import ConnectionManager
 
 
 class LDIFFromSQLServer:
