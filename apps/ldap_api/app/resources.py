@@ -355,7 +355,7 @@ class Externs(Resource):
                 'userpassword':         [password.encode('utf-8')],
                 'uid':                  email.encode('utf-8'),
                 'objectClass':          [b'Externo'],
-                'uidNumber':            uidNumberCounter
+                'uidNumber':            [uidNumberCounter]
             })
             ldap_server.add_s(dn, modList)
         except Exception as e:
