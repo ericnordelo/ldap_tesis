@@ -56,21 +56,7 @@ let EnhancedTableToolbar = props => {
           )}
         </div>
         <div className={classes.spacer} />
-        <div className={classes.actions}>
-          {numSelected > 0 ? (
-            <Tooltip title="Eliminar">
-              <IconButton disabled aria-label="Eliminar">
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-          ) : (
-            <Tooltip title="Lista de Filtros">
-              <IconButton aria-label="Lista de Filtros">
-                <FilterListIcon />
-              </IconButton>
-            </Tooltip>
-          )}
-        </div>
+        
       </Toolbar>
     );
   };

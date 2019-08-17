@@ -10,7 +10,13 @@ import Button from '@material-ui/core/Button';
 import FiltersDialog from '../components/FiltersDialog';
 
 class People extends Component {
-  state = { people: [], loading: true };
+  state = { 
+    people: [], 
+    loading: true,
+    name: '',
+    last_name: '',
+    email: '',
+  };
 
   constructor(props){
     super(props);
@@ -18,11 +24,11 @@ class People extends Component {
   }
 
   componentDidMount() {
-    this.fetchData('');
+    this.fetchData('', '', '', '');
   }
 
-  fetchData(params){
-    this.setState({loading: true});
+  fetchData(params, name, last_name, email){
+    this.setState({loading: true, name: name, last_name: last_name, email: email});
     fetch(config.api_address + '/usuarios' + params, {credentials: "include"})
       .then(results => results.json())
       .then(data => {
@@ -53,8 +59,8 @@ class People extends Component {
         {this.state.loading ?
           <CircularIndeterminated/> :
           <PeopleTable people={this.state.people} loading={this.state.loading}>
-            <FiltersDialog fetchMethod={this.fetchData}/>
-            <Button style={{marginLeft: 20}} size="small" onClick={() => this.fetchData('')} variant="outlined" color="primary">
+            <FiltersDialog name={this.state.name} last_name={this.state.last_name} email={this.state.email} fetchMethod={this.fetchData}/>
+            <Button style={{marginLeft: 20}} size="small" onClick={() => this.fetchData('', '', '', '')} variant="outlined" color="primary">
               Limpiar Filtros
             </Button>
           </PeopleTable>

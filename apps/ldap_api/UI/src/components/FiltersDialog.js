@@ -9,12 +9,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 export default class FiltersDialog extends React.Component {
   constructor(props){
     super(props);
-
+    console.log(props)
     this.state = {
       open: false,
-      name: '',
-      last_name: '',
-      email: '',
+      name: props.name,
+      last_name: props.last_name,
+      email: props.email,
     }
   }
 
