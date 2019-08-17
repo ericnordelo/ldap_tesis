@@ -170,10 +170,9 @@ class AddExtern extends Component{
     })
     .then(res => {
       if (res.status === 200) {
-        console.log(res)
+        alert('El externo fue agregado satisfactoriamente.');
       } else {
-        const error = new Error(res.error);
-        throw error;
+        alert('No se ha podido agregar el externo. Por favor inténtelo de nuevo.');
       }
       this.setState({loading: false});
     })

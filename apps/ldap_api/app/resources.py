@@ -355,6 +355,7 @@ class Externs(Resource):
             'uid':                  email.encode('utf-8'),
             'objectClass':          [b'Externo']
         })
+        #    'uidNumber':            uidNumberCounter
         ldap_server.add_s(dn, modList)
 
         result = {'extern_data': 'success'}
@@ -528,6 +529,8 @@ class ServiceStudentInternetQuote(Resource):
             return {'error': 'No existe un estudiante registrado con ese correo.'} 
 
 def __map_area_to_email_domain__(area, category):
+    if category == "Externo":
+        return area
     # THIS SHOULD BE DOMAIN FOR DDI
     return "@iris.uh.cu"
 
