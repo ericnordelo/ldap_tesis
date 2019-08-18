@@ -1,9 +1,28 @@
 \begin{conclusions}
-    En la presente tesis se desarrolló un sistema que da solución al problema que presenta la utilización del actual Directorio Único de la Universidad de La Habana, manteniendo las ventajas que el mismo brinda para tener acceso a la información relacionada con Recursos Humanos, y eliminando las carencias más importantes del mismo como la falta de estabilidad, de modularidad y la dificultad para actualizaciones. Para esto se analizaron distintas formas de almacenamiento de información, y mecanismos de consulta, para elegir la solución más adecuada para las especificidades del problema en cuestión.
+    En la presente tesis se desarrolló un sistema que da solución al problema que presenta la utilización del actual Directorio Único de la Universidad de La Habana, manteniendo las ventajas que el mismo brinda para tener acceso a la información relacionada con Recursos Humanos, 
+    
+    \todo[inline]{Refierete nuevamente a que recursos humanos nos referimos: trabajadores, estudiantes y externos.}
+    
+    y eliminando las carencias más importantes del mismo como la falta de estabilidad, de modularidad y la dificultad para actualizaciones
+    
+    \todo[inline]{Re-capitula cuales son las carencias o problemas a los que te refieres.}
+    
+    \todo[inline]{A partir de aqui toca ir cubriendo uno a uno los objetivos especificos.}
+    . Para esto se analizaron distintas formas de almacenamiento de información, y mecanismos de consulta, para elegir la solución más adecuada para las especificidades del problema en cuestión.
+    
+    \todo[inline]{Tu no escogiste el macnismo de almacenamiento de informacion. Tu trabajaste sobre uno ya existente. Si tuviste que escoger la variante para almacenar la informacion. Si no queda claro que buscar la manera optima de almacenar la informacion es un objetivo especifico, lo tienes que aclarar en la introduccion y aqui poner que el resultado es ldif para grandes volumenes y python ldap para inserciones y modificaciones puntuales. }
 
-    La estrategia de solución diseñada consiste en un servidor LDAP, una API para comunicar este servidor con los servicios que lo requieran, dos módulos independientes para extraer la información de las fuentes (SIGENU y bases de datos de Assets), y una interfaz web para gestionar las funcionalidades principales (que actualmente brinda la interfaz publicada en directorio.uh.cu). 
+    La estrategia de solución diseñada consiste en un servidor LDAP,
+    
+    \todo[inline]{Consiste en implantar un api sobre el servidor LDAP ya existente ...}
+    
+     una API para comunicar este servidor con los servicios que lo requieran, dos módulos independientes para extraer la información de las fuentes (SIGENU y bases de datos de Assets), y una interfaz web para gestionar las funcionalidades principales (que actualmente brinda la interfaz publicada en directorio.uh.cu). 
+     
+     \todo[inline]{tienes que ser mucho mas especifico, por cada uno de los objetivos decir: 1. cual era el objetivo, 2. que alternativas estudiaste, 3. la alternativa ganadora.}
 
     Esta solución ha sido implementada de manera que sea fácilmente despegable y modificable. Gracias al uso de la tecnología Docker el despliegue requiere una configuración manual mínima, así como ninguna dependencia en la computadora final en la que se publique el sistema como servicio (exceptuando Docker). Además, el uso de lenguajes dinámicos (como lo son Python y Javascript), disminuye el riesgo de la pérdida del código fuente, ya que la aplicación en producción no es un archivo binario ilegible, sino el código en si.
+    
+	\todo[inline]{Las conclusiones estan muy verdes. Re-escribelas y ponle mas seriedad. Cualquiera deberia ser capaz de leer la introducci'on y luego las conclusiones y determinar de que va el trabajo y como conluyo.}
 
     
 \end{conclusions} 
