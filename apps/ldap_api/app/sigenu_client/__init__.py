@@ -141,7 +141,7 @@ class SigenuClient:
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('homeDirectory', '---------'))
         open_file.write("%s: %d\n" % ('uid', uidNumber))
-        open_file.write("%s: %d\n" % ('sn', str(row["middle_name"])+str(row["last_name"])))
+        open_file.write("%s: %s\n" % ('sn', str(row["middle_name"])+str(row["last_name"])))
 
 
         open_file.write("\n")
