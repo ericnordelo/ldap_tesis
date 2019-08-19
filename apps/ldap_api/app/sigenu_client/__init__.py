@@ -151,7 +151,6 @@ class SigenuClient:
         open_file.write("%s: %s\n" % ('objectclass', 'Estudiante'))
         open_file.write("%s: %s\n" % ('objectclass', 'posixAccount'))
         open_file.write("%s: %s\n" % ('objectclass', 'shadowAccount'))
-        open_file.write("%s: %s\n" % ('objectclass', 'shadowAccount'))
         open_file.write("%s: %d\n" % ('uidNumber', uidNumber))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('password', '12345678'))
