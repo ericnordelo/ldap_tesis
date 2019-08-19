@@ -35,5 +35,6 @@ RUN pip3 install flask \
     pyyaml \
     pyodbc \
     pymssql \
+    unidecode \
     tqdm \
     zeep

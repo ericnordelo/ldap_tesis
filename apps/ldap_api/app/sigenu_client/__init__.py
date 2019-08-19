@@ -6,6 +6,7 @@ import sys
 import os
 import ldif
 import ldap
+import unidecode
 from ldap import modlist
 
 ldap_server = ldap.initialize('ldap://10.6.143.50')
@@ -98,6 +99,10 @@ class SigenuClient:
         return final_list
 
     def __get_uid(self, name, last_name, second_last_name):
+        name = unidecode.unidecode(name)
+        last_name = unidecode.unidecode(last_name)
+        second_last_name = unidecode.unidecode(second_last_name)
+        
         name = name.split()[0].lower()
         last_name = last_name.split(' ')[0].lower()
         second_last_name = second_last_name.split(' ')[0].lower()
