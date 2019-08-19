@@ -27,7 +27,7 @@ class ConnectionManager:
 
         self._connection = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
                                             'Server=api.directorio.uh.cu,1433;'
-                                            'User=SA;Password=P@ssw0rd;'
+                                            'UID=SA;PWD=P@ssw0rd;'
                                             'Trusted_Connection=yes;',
                                             autocommit=True)
         self._cursor = self._connection.cursor()
