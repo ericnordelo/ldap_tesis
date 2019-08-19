@@ -3,8 +3,26 @@
 import yaml
 import zeep
 import sys
+import os
+import ldif
+import ldap
+
+ldap_server = ldap.initialize('ldap://10.6.143.50')
+
+admin_password = os.getenv("LDAP_ADMIN_PASSWORD")
+
+ldap_server.simple_bind_s('cn=admin,dc=uh,dc=cu', admin_password)
 
 wsdl = 'http://sigenuwebservices.uh.cu/servicedefinition.wsdl'
+
+class MyLDIF(ldif.LDIFParser):
+    def __init__(self, input):
+        ldif.LDIFParser.__init__(self,input)
+
+    def handle(self,dn,entry):
+        ldif = modlist.addModlist(entry)
+        ldap_server.add_s(dn, ldif)
+
 
 class SigenuClient:
     """Encapsulation for methods wich populate and modify the ldap server
@@ -52,7 +70,12 @@ class SigenuClient:
                 f.write("# Problem %d (Sigenu ID): %s\n" % (counter, problem))
                 counter+=1
 
-            return uidNumber
+        # populate ldap
+        parser = MyLDIF(open('/output/students.ldif', 'rb'))
+        parser.parse()
+
+
+        return uidNumber
 
     def __remove_duplicates(self, cursor):
         correct_list = []
@@ -104,5 +127,5 @@ def perror(msg, exit_status=1):
 
 
 if __name__ == "__main__":
-    handler = SigenuClient("config.yml")
-    handler.generate_first_time_population(number_of_rows=10)
+    handler = SigenuClient("config.yml", 5000)
+    handler.generate_ldif(number_of_rows=10)
