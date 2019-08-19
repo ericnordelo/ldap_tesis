@@ -1,15 +1,10 @@
-\chapter{Descripción del Problema}
-
-\todo[inline]{El nombre del capitulo esta abtracto. Un nombre como flujo de informacion relacionada con los recursos humanos seria mas adecuado. Dejo el nombre final a tu decision.}
+\chapter{Flujo de información relacionada con los recursos humanos}
 
 \section{Directorio Único}
 
 \subsection{Surgimiento}
 
-El Directorio Único de la Universidad de La Habana es un conjunto de servicios, que fueron implementados con el objetivo de acceder a los datos del personal de la misma (estudiantes, trabajadores y externos al centro). En el momento de su surgimiento, se hacía necesario disponer de un sistema que unificara las principales fuentes de datos de Recursos Humanos. De esta manera se buscaba presentar una interfaz para gestionar esta información de manera centralizada. Así los administradores podían modificar la información concerniente al departamento de Recursos Humanos, utilizando una interfaz de usuario publicada como un servicio web (actualmente en el dominio directorio.uh.cu); y los servicios (como SQUID y el correo electrónico) que requieren de esta información para su funcionamiento podían obtenerla a través de una interfaz de programación.
-
-\todo[inline]{publicada como servicio web ... a traves de una interfaz de programacion ... por favor, re-escrobir.}
-
+El Directorio Único de la Universidad de La Habana es un conjunto de servicios, que fueron implementados con el objetivo de acceder a los datos del personal de la misma (estudiantes, trabajadores y externos al centro) y lograr la verificación centralizada de la indentidad de los usuarios. En el momento de su surgimiento, se hacía necesario disponer de un sistema que unificara las principales fuentes de datos de Recursos Humanos. De esta manera se buscaba presentar una interfaz para gestionar esta información de manera centralizada. Así los administradores podían modificar la información concerniente al departamento de Recursos Humanos, utilizando una interfaz de usuario publicada como una página web (actualmente en el dominio directorio.uh.cu); y los servicios (como SQUID y el correo electrónico) que requieren de esta información para su funcionamiento podían obtenerla a través de una API.
 
 El conjunto de servicios que compone el actual Directorio fue tomando forma paulatinamente al integrarse soluciones aisladas a la interfaz inicial (soluciones en distintas tecnologías y lenguajes de programación). Entre los principales y más utilizados podemos destacar un mecanismo de autenticación OAuth para los sitios y servicios de la intranet (como el proxy y el correo electrónico). Todos los servicios implementados sobre Directorio funcionan hasta hoy. Algunos se encargan de denegar o permitir el acceso de los usuarios a determinados recursos brindados por la universidad. Se puede tomar como ejemplo, el acceso al servicio que administra la asignación de viajes internacionales al personal de la universidad.
 
@@ -18,29 +13,11 @@ El conjunto de servicios que compone el actual Directorio fue tomando forma paul
 
 \subsection{Estructura}
 
-Hablar de la estructura específica del directorio como un sistema único es difícil, debido a que está conformado actualmente por una gran cantidad de softwares independientes entre sí en su mayoría.
+Hablar de la estructura específica del directorio como un sistema único es difícil, debido a que está conformado actualmente por una gran cantidad de sistemas independientes entre sí en su mayoría.
 
-\todo[inline]{softwares independientes ... yo les llamaria somplemente sistemas independientes. Software, aunque dichos sistemas son software, no se ajusta al contexto. }
-
- Algunos de los procesos necesarios para el funcionamiento de directorio, están automatizados mediante el uso de varias tecnologías, con métodos poco mantenibles. Ejemplo de esto es la  extracción de información de la fuente de ASSETS (de la cual se habla más adelante)
- \todo[inline]{Puedes hablar de un tema antes de definirlo, solo si lo referencias. Usa cite para citar la seccion donde hables de assets. }
- , donde se extrae la información de una base de datos en sqlserver
+ Algunos de los procesos necesarios para el funcionamiento de directorio, están automatizados mediante el uso de varias tecnologías, con métodos poco mantenibles. Ejemplo de esto es la  extracción de información de la fuente de ASSETS (\hyperref[assets]{ver aquí}), donde se extrae la información de una base de datos en MS SQL Server, la cual se transforma en una base de datos MySQL gestionada con Drupal, de la cuál se lee la información con la que se actualiza la base de datos final, todo esto utilizando scripts de Bash y cronjobs para ejecutarse de manera periódica.\todo[inline]{Revisar con fernando}, mientras que el software para la transformación está desarrollado en PHP y en C Sharp. Esto hace que el código fuente sea muy difícil de mantener.
  
- \todo[inline]{El nombre del sistema de gestion de bases de datos no es sqlserver es MS SQL Server.}
- 
- , la cual se transforma en una base de datos de Drupal
- 
- \todo[inline]{Drupal no es una base de datos, es un cms. Por favor arreglar.}
- 
- , de la cuál se lee la información con la que se actualiza la base de datos final, todo esto utilizando scripts de Bash y cronjobs para ejecutarse de manera periódica
- 
- \todo[inline]{No creo, directorio esta en una maquina windows. O sea que nada de cronjobs y bash ... tu  sabes realmente como se efectua ese proceso como para afirmarlo?}
- 
- , mientras que el software para la transformación está desarrollado en PHP y en C Sharp. Esto hace que el código fuente sea muy difícil de mantener.
- 
- \todo[inline]{No puedo evitar notar que todo va en un mismo parrafo}
- 
-  A grandes rasgos, el Directorio Único se compone de las fuentes de información, de una interfaz web publicada en el dominio directorio.uh.cu, y de un conjunto de servicios que proveen los datos necesarios a los softwares que dependen de información relacionada con el departamento de Recursos Humanos. 
+  A grandes rasgos, el Directorio Único se compone de las fuentes de información, de una interfaz web publicada en el dominio directorio.uh.cu, y de un conjunto de servicios que proveen los datos necesarios a los sistemas que dependen de información relacionada con el departamento de Recursos Humanos. 
   
   \todo[inline]{Provee un esquema grafico para ver todo esto}
   
@@ -50,33 +27,21 @@ Hablar de la estructura específica del directorio como un sistema único es dif
 
 \subsection{Fuentes de información}
 
-El flujo de información relacionada con los departamentos de Recursos Humanos en la universidad, tiene diversas fuentes, de las cuales se obtiene la información requerida de todo el personal perteneciente al centro. Algunas de estas fuentes han sido mencionadas anteriormente en el documento, como es el caso de la base de datos de ASSETS (que contiene la información respecto a los trabajadores de la universidad, exceptuando algunos puntos externos como IFAL, JBN, UPA, el ISDI y el INSTEC) y el SIGENU, que es el sistema de gestión de la información pertinente a los estudiantes.
-
-\todo[inline]{sigenu no tiene nada que ver con el departamento de recursos humanos de la UH, por eso he estado diciendo que hay que definir que se entiende como recursos humanos en esta tesis. SIGENU pertenece a las secretarias docentes y por encima de ello a la secretaria docente de la universidad que es un departamento enteramente aparte. }
-
- Además existen otras fuentes de datos como IFAL, JBN, UPA, el ISDI y el INSTEC (mencionadas como excepciones de la base de datos de ASSETS)
- 
- \todo[inline]{Excepciones? Son otras db de assets que pertenecen a departamentos de RH diferentes al de la UH (cuando digo UH aqui me refiero a la UH como unidad presupuestada). Los trabajadores de la Universidad de la Habana son todos aquellos que esten en una base de datos de Assets de la universidad; la universidad tiene tantas bases de datos assets como unidades presupuestadas tenga; la universidad tiene 6 unidades presupuestadas: uh, jbn, ifal, isdi, instec, upa}
- 
- , de las cuales se obtiene la información de manera manual, o sea, se copian las bases de datos de forma periódica en dispositivos de almacenamiento extraíbles, como discos duros y memorias flash. Esto se debe a la mala conectividad que poseen estos centros debido a la lejanía y cabe mencionar que el ISDI y el INSTEC se incorporaron a la universidad hace relativamente poco tiempo, por lo que los servicios están en proceso de integración. 
- 
- \todo[inline]{No solo la mala conectividad, tambien el desconocimiento. En esos lugares no hay personal capacitado para montar un FTP y descargar la base de datos semanalmente para que pueda leerse desde un lugar remoto.}
- 
- Luego estas bases de datos se unen mediante un servicio del directorio en una sola, para extraer la información que se utiliza para modificar la base de datos del Directorio Único. El SIGENU no entra en esta lista (si la base de datos de ASSETS) ya que presenta una interfaz SOAP, de la cual se obtiene la información mediante consultas utilizando servicios web.  
-
-\todo[inline]{No entendi que paso con SIGENU en el ultimo parrafo. }
+El flujo de información relacionada con los departamentos de Recursos Humanos en la universidad, tiene diversas fuentes, de las cuales se obtiene la información requerida de todo el personal perteneciente al centro. Algunas de estas fuentes han sido mencionadas anteriormente en el documento, como es el caso de las bases de datos de ASSETS (que contienen la información respecto a los trabajadores de la universidad y de los puntos externos que conforman las demás unidades presupuestadas asociadas a la misma, que son IFAL, JBN, UPA, el ISDI y el INSTEC). En estos puntos externos existe el problema de la obtención de la información de manera manual, o sea, se copian las bases de datos de forma periódica en dispositivos de almacenamiento extraíbles, como discos duros y memorias flash. Esto se debe a la mala conectividad que poseen estos centros debido a la lejanía, así como a la falta de personal capacitado para montar los servicios necesarios para automatizar la extracción de los datos, y cabe mencionar que el ISDI y el INSTEC se incorporaron a la universidad hace relativamente poco tiempo, por lo que los servicios están en proceso de integración. Por la parte de los estudiantes la fuente de información es el SIGENU, sistema que pertenece al departamento de la secretaría docente de la universidad. De este se obtiene la información mediante el uso de una interfaz que utiliza el protocolo SOAP para publicar los datos como servicios que pueden ser consultados de manera directa al estar conectado a la red de la universidad.
 
 \subsubsection{SIGENU}
 
-Este como mencionamos es la fuente de la información relacionada con los estudiantes de la universidad. Es un sistema web, que publica los datos utilizando el protocolo SOAP (Simple Object Access Protocol o Protocolo Simple de Acceso a Objetos), los cuales pueden ser consultados por cualquier servicio (ya que no requieren autenticación). De aquí se obtiene información como las facultades, los estudiantes que pertenecen a las mismas, y la información de estos (la cual puede ser obtenida de manera sencilla mediante el carnet de identidad o el correo electrónico).
+Este como mencionamos es la fuente de la información relacionada con los estudiantes de la universidad. Es un sistema web, que como se mencionó anteriormente, publica los datos utilizando el protocolo SOAP (Simple Object Access Protocol o Protocolo Simple de Acceso a Objetos), los cuales pueden ser consultados por cualquier servicio (ya que no requieren autenticación) que se encuentra dentro de la red de la UH. De aquí se obtiene información como las facultades, los estudiantes que pertenecen a las mismas, y la información de estos (la cual puede ser obtenida de manera sencilla mediante el carnet de identidad o el correo electrónico). 
 
-\todo[inline]{De sigenu como sistema se puede decir mucho mas que esto, parte lo has mencionado en lo que he leido hasta ahora. Definitivamente, si vas a decir solo eso esta seccion sobra ...  y cuando digo sobra no es que me parece bien que sobre.  }
+\todo[inline]{Que mas puede hablarse aqui de SIGENU}
 
 \subsubsection{Bases de datos de ASSETS}
 
-Esta es la fuente de información relacionada con los trabajadores de los centros que pertenecen a la universidad (con las excepciones anteriormente mencionadas). Esta base de datos se maneja en un sistema de código propietario el cual no puede ser modificado, que utiliza sqlserver como tecnología, que utilizan los departamentos de Recursos Humanos para gestionar su información. Esta base de datos se publica en un ftp periódicamente, del cual se descarga para ser procesada, al modificarse los datos almacenados en el Directorio Único.
+\label{assets}
 
-\todo[inline]{Lo mismo que con la seccion de sigenu}
+Esta es la fuente de información relacionada con los trabajadores de los centros que pertenecen a la universidad. Estas bases de datos se maneja en un sistema de código propietario el cual no puede ser modificado, que utiliza MS SQL Server como tecnología, el cual utilizan los departamentos de Recursos Humanos para gestionar su información. Está compuesta por 6 bases de datos (una por cada departamento de Recursos Humanos en cada unidad presupuestada). 
+
+\todo[inline]{Que mas puede hablarse aqui de ASSETS}
 
 \subsubsection{Base de datos de externos}
 
@@ -98,9 +63,9 @@ Debido a la naturaleza del surgimiento del Directorio Único, es decir, el acopl
 
 \todo[inline]{Ya aclaraste en la introduccion porque esto es un problema, usa el mismo contexto aqui porque de lo contrario tu  afirmacion se puede refutar}
 
-cada componente es demasiado dependiente de la forma en que las demás brindan sus correspondientes funcionalidades. Esto se debe a que la interacción entre las mismas ha sido configurada mediante un enfoque estático. El propio sistema no dispone de herramientas que permitan su modificación de una manera cómoda para los encargados de su mantenimiento. Dicho enfoque dificulta enormemente las tareas de actualización del sistema, las cuales son necesarias para poder adecuar el mismo a las nuevas condiciones y necesidades que van surgiendo en la red. De hecho, actualmente el personal encargado del mantenimiento de Directorio no puede responder a las necesidades de actualización. La principal causa de esta desatención, es que los desarrolladores de Directorio perdieron muchos de los cambios en su historial de código. Tan importante es la pérdida de este historial que imposibilita la recuperación de la lógica del Directorio actual partiendo solamente del código almacenado. 
+cada componente es demasiado dependiente de la forma en que las demás brindan sus correspondientes funcionalidades. Esto se debe a que la interacción entre las mismas ha sido configurada mediante un enfoque estático. El propio sistema no dispone de herramientas que permitan su modificación de una manera cómoda para los encargados de su mantenimiento. 
 
-\todo[inline]{Estas escribiendo en un solo parrafo, ademas con ideas largas ... simplifica.}
+Este enfoque dificulta enormemente las tareas de actualización del sistema, las cuales son necesarias para poder adecuar el mismo a las nuevas condiciones y necesidades que van surgiendo en la red. De hecho, actualmente el personal encargado del mantenimiento de Directorio no puede responder a las necesidades de actualización. La principal causa de esta desatención, es que los desarrolladores de Directorio perdieron muchos de los cambios en su historial de código. Tan importante es la pérdida de este historial que imposibilita la recuperación de la lógica del Directorio actual partiendo solamente del código almacenado. 
 
 \subsection{Carencia de una interfaz centralizada para servicios externos}
 
@@ -113,46 +78,22 @@ Un enfoque más útil, es el de delegar esta tarea a un sistema externo y centra
 esta forma se evita el tener que repetir el desarrollo de la misma funcionalidad para cada
 servicio.
 
-
-\todo[inline]{Deja el api para la propuesta de solucion}
-Teniendo esto en cuenta, es que se pretende implementar una API que permita modificar 
-la lógica detrás de la información brindada, sin que esto implique modificar todos los 
-servicios que consuman información del nuevo sistema a implementar.
-
 \subsection{Existencia de cuentas duplicadas}
 
 Las fuentes de información de las cuales se nutre el Directorio, son populadas por personal humano (secretarias de las facultades y centros pertenecientes a la universidad). Esto hace que este proceso esté sujeto a errores. Ocurre a veces que las cuentas de los usuarios aparecen duplicadas.
 
-Esto es un problema ya que el sistema no tiene manera de comprobar cual de las cuentas es la correcta, comprometiendo la información y el correcto funcionamiento de los servicios que de ella dependen. Por ejemplo, cuando un estudiante se traslada de una facultad a otra, a veces la cuenta anterior no es eliminada, y en el sistema aparece duplicado, en facultades distintas (y muchas veces en cursos distintos), lo cual hace que el cálculo de la cuota de internet esté propenso a errores, 
-
-\todo[inline]{Y a veces ni se cambia, sino que sigue usando el correo de la facultad anterior. Errores humanos y de los otros sistemas.}
-
-\todo[inline]{lo que queda abajo va a la propuesta de solucion o a los detalles deimplementacion.}
-por poner un ejemplo. En el sistema actual, esto se resuelve tomando la primera cuenta que aparece, e ignorando las demás. Esto es debido a que la información que se solicita en la mayoría de los casos es la pertinente al proceso de verificación, para lo cuál solo es necesario conocer que el estudiante está en el sistema. Sin embargo, esto provoca que el correo que se le asigna al mismo pueda no estar en el área correcta.
+Esto es un problema ya que el sistema no tiene manera de comprobar cual de las cuentas es la correcta, comprometiendo la información y el correcto funcionamiento de los servicios que de ella dependen. Por ejemplo, cuando un estudiante se traslada de una facultad a otra, a veces la cuenta anterior no es eliminada, y en el sistema aparece duplicado, en facultades distintas (y muchas veces en cursos distintos), lo cual hace que el cálculo de la cuota de internet esté propenso a errores, por poner un ejemplo. En el sistema actual, esto se resuelve tomando la primera cuenta que aparece, e ignorando las demás. Esto es debido a que la información que se solicita en la mayoría de los casos es la pertinente al proceso de verificación, para lo cuál solo es necesario conocer que el estudiante está en el sistema. Sin embargo, esto provoca que el correo que se le asigna al mismo pueda no estar en el área correcta.
 
 \subsection{Existencia de datos corruptos}
 
 Otro de los problemas relacionados al ingreso manual de datos, es la corrupción de los mismos, ya que no existe un adecuado proceso de verificación de su integridad. En el directorio, al extraerse los datos de las fuentes, a veces ocurre que existen caracteres no alfanuméricos, los cuáles provocan que procesos como el de la autenticación fallen (en el caso de un correo en mal estado). Actualmente estos datos se procesan utilizando expresiones regulares, para eliminar los caracteres incorrectos.
 
-\todo[inline]{A la propuesta o a la implementacion.}
-
- Lo cual no soluciona el problema del todo, porque provoca que el estado en que queda la información pueda ser incorrecto (en el caso de que el caracter no alfanumérico se haya introducido sustituyendo un caracter del dato en cuestión).
-
-
 \todo[inline]{Las dos ultimas secciones han sido referentes al sigenu. Revisa la introduccion porque me parece que se te quedan otros problemas ... o quizas los comprimiste dentro de lo que explicaste anteriormente ... no se, me da esa impresion. }
 
 \section{Propuesta de solución}
 
-Con el objetivo de subsanar dichos problemas
-
-\todo[inline]{No digamos problemas, digamos las deficiencias discutidas hasta ahora.}
-
-, pretendemos desarrollar un sistema capaz de
-sustituir 
-
-\todo[inline]{No digamos sustituir, digamos que sea capaz de relevar a directorio unico de sus funciones actuales a la vez que resuelva las principales deficiencias descritas.}
-
-el Directorio Único. Para esto se trabaja conjuntamente en dos tesis: una encargada de desplegar un servidor LDAP para el almacenamiento de la información, y esta para sustituir (como objetivo final) todos los servicios aislados que conforman el actual directorio.
+Con el objetivo de subsanar las deficiencias discutidas hasta ahora, pretendemos desarrollar un sistema capaz de
+relevar a Directorio Único de sus funcionalidades actuales. Para esto se trabaja conjuntamente en dos tesis: una encargada de desplegar un servidor LDAP para el almacenamiento de la información, y esta para sustituir (como objetivo final) todos los servicios aislados que conforman el actual directorio.
 
 Actualmente existen muchos servicios que saben como comunicarse directamente con el protocolo
 LDAP. Pero no todos incluyen esta funcionalidad. Por esta razón, es necesario implementar
@@ -179,9 +120,9 @@ que brindara dicha API son los siguientes:
 Realizar cualquiera de estas acciones, requiere pasar el proceso de autenticación en dicha API
 y poseer los permisos necesarios para la funcionalidad correspondiente. Por lo tanto se requiere además un sistema de roles y permisos.
 
-Además como parte de la solución también implementaremos una interfaz visual para facilitar la interacción con el API, la cual será publicada como una página web, para que sea fácil el acceso a la misma.
+Esta API debe integrarse con las fuentes de datos (ASSETS y SIGENU) para traer los datos de forma periódica y actualizarlos en el servidor LDAP, resolviendo las deficiencias mencionadas en la sección anterior.
 
-\todo[inline]{A partir de lo de arriba parece que tu sistema es solo un APi. Y realmente es mas que eso. Se integra con las fuentes de datos configuradas: ASSETS y SUIGENU para traer los datos de forma periodica y actualizarlos en el ldap de una u otra forma en dependencia de la cantidad manejando problema de formato y datos repetidos, etc .... ves a lo que me refiero?}
+Además como parte de la solución también implementaremos una interfaz visual para facilitar la interacción con el API, la cual será publicada como una página web, para que sea fácil el acceso a la misma.
 
 \todo[inline]{Necesito un esquema grafico de tu sistema completo. }
 

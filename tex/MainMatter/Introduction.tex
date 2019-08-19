@@ -11,94 +11,42 @@
     organismos.
 
         Una de las ventajas que trae consigo el establecimiento de redes de dispositivos (como las redes locales o intranet de las empresas), es la posibilidad de descentralizar el almacenamiento de la información
-    sin comprometer el acceso a la misma. Por ejemplo, gracias a estas redes un centro como la Universidad de La Habana, que posee varios departamentos de Recursos Humanos independientes (en las distintas facultades y dem\'as instituciones que pertenecen a la misma),
-    \todo[inline]{El concepto de Recursos Humanos en la UH esta asociado al departamento de recursos humanos (los que existen por unidad presupuestada). En el caso de las secretarias de las facultades aunque semanticamente hablando sea verdad que administren el estudiantado como recurso humano, esto nunca se ve asi. Por ello es necesario quizas redefinir el concepto de Recurso Humano sobre esta tesis para aclarar que cubre el amplio espectro del personal laboral y no laboral de la UH. Esto evitaria confusiones.}
-     puede gestionar la informaci\'on de todos estos departamentos de la universidad como un todo. Esto facilita la consulta y la modificación de esta información, que puede ser gestionada de manera adecuada con un \'unico sistema. 
+    sin comprometer el acceso a la misma. Por ejemplo, gracias a estas redes un centro como la Universidad de La Habana (a la que usualmente nos referiremos como UH), que posee varios departamentos de Recursos Humanos independientes (en las distintas facultades y dem\'as instituciones que pertenecen a la misma), puede gestionar la informaci\'on de todos estos departamentos de la universidad como un todo. Esto facilita la consulta y la modificación de esta información, que puede ser gestionada de manera adecuada con un \'unico sistema (cuando se hace referencia a Recursos Humanos en este documento, se habla del amplio espectro que cubre todo el personal laboral y no laboral de la universidad). 
     
         Actualmente la red de la universidad cuenta con varios servicios consumidores y fuentes de
-    diferentes tipos de información relacionada con Recursos Humanos. Como ejemplo tenemos el servicio que gestiona la conexi\'on de los usuarios a la internet, el cual necesita consultar por ejemplo el curso actual en caso de un estudiante. Este y otros servicios (como el correo) carecen de un sistema que administre de manera adecuada el flujo de comunicación entre los mismos.
-    
-    \todo[inline]{Es preciso definir que es adecuado o inadecuado a la hora de establecer un flujo de información para que el lector pueda apoyar con hechos concretos tu afirmación.}
+    diferentes tipos de información relacionada con Recursos Humanos. Como ejemplo tenemos el servicio que gestiona la conexi\'on de los usuarios a la internet, el cual necesita consultar por ejemplo el curso actual en caso de un estudiante. Este y otros servicios (como el correo) carecen de un sistema que administre de manera adecuada el flujo de comunicación entre los mismos (con manera adecuada se hace referencia a controlar este flujo sin la necesidad de la modificación de los servicios finales o la creaci\'on se servicios que funcionen como capas intermedias).
 
     De estos servicios se benefician no solo las facultades pertenecientes a la Universidad, también se benefician otras instituciones asociadas a la misma como
     el Instituto Superior de Diseño (ISDI), el Instituto Superior de Ciencia y
     Tecnología Aplicada (InSTEC), el IFAL, el Jardín Botánico, y la DOM.
 
-\todo[inline]{Uhhh, todas esas institciones son la UH, antes eran centros y universidades separadas, pero ahora son la Universidad de la Habana. Se tratan de manera diferente porque son unidades presupuestadas distintas que administran su capital como estiman conveniente.}
-
-\todo[inline]{importantes definir acrónimos también,  quizas en algun momento utilices UH sin definir que es Universidad de la Habana. En el primer chance que pongas Universidad de la Habana pon entre parentesis (a la que usualmente nos referiremos como UH). Esto es una buena práctica con todas los acrónimos que uses, la otra opción es definir una sección de acrónimos en el documento.}
+    La mayoria de los servicios ofrecidos a través de la red de la UH requieren: la apropiada verificación del usuario que solicita consultar o agregar información (sobre todo para el manejo de los diferentes roles y permisos con los que cuentan las personas encargadas de manipular los datos). Como ejemplo tenemos el sistema de relaciones internacionales y el planificador, que adem\'as de autenticación requieren verificación de permisos (roles), para separar las responsabilidades en la utilizaci\'on (El primero para la autorizacion de viajes y el segundo para preparar el plan de trabajo de la universidad).
     
-        La gran mayoría de estos requiere 
-        
-        \todo[inline]{Se preciso con la ideas, aqui se pierde el sentido de que estas hablando de los servicios. Puedes decir: La mayoria de los servicios ofrecidos a través de la red de la UH requieren ...}
-        la apropiada verificación
-    del usuario que solicita consultar o agregar información (sobre todo para el manejo de los diferentes roles y permisos con los que cuentan las personas encargadas de manipular los datos). Como ejemplo tenemos los dos servicios mencionados anteriormente (acceso a internet y correo), los cuales requieren de la adecuada verificación del usuario
+    Con el objetivo de lograr la verificación centralizada de la indentidad de los usuarios surgió el Directorio Único de la Universidad de la Habana. A lo largo de los años, ha sufrido varias actualizaciones progresivas para ir cubriendo necesidades puntuales de distintos sistemas (como la cuota de internet para el proxy).
     
-    \todo[inline]{Cuidado con la redundacia de palabras ... acabas de usar una frase semejante a la anterior al comienzo del párrafo.}
+    Este sistema tiene un conjunto de responsabilidades b\'asicas. Entre las mismas encontramos por ejemplo ofrecer información de los usuarios (tanto de trabajadores y externos, como de estudiantes), extrayéndola de las fuentes de datos correspondientes. En el caso de los trabajadores la fuente es un conjunto de bases de datos conocido como ASSETS (que son en total 6: la de la UH, IFAL, JBN, UPA, el ISDI y el INSTEC).
+     Estas bases de datos se obtienen de distintas maneras dependiendo de la distancia y de la calidad 
+    de la conexi\'on con los destinos (por ejemplo la base de datos de IFAL se trae a mano en un disco duro o memoria flash peri\'odicamente). Por la parte de los estudiantes, la fuente es un sistema denominado SIGENU, del cual se obtiene la información consultando una serie de servicios SOAP (Simple Object Access Protocol o Protocolo Simple de Acceso a Objetos), sin la necesidad de descargar ni copiar bases de datos. Esta información de los usuarios se publica a trav\'es de una interfaz web (en el dominio de directorio), y adem\'as se ofrece una API que otros servicios (o los administradores) de la red pueden utilizar para autenticar un usuario (existe una plataforma openID a partir de los datos almacenados en el Directorio). 
     
-     para su correcto uso, adem\'as de verificación de permisos (roles), para separar las responsabilidades en la utilizaci\'on (permiso para crear listas de distribuci\'on en el correo o retirar el acceso a internet a usuarios por uso indebido).
+     Sobre el dominio web directorio.uh.cu se integran y administran servicios que funcionan sobre diferentes tecnologías. 
      
-     \todo[inline]{Estos son malos ejemplos para la verificación de roles, ninguno de esos servicio utiliza la información de recursos humanos (de ahora en adelante cada vez que diga recursos humanos me voy a referir a recursos humanos en el contexto de esta tesis y cuando sea lo opuesto lo aclarare.). El sistema de creación de listas de correo no utiliza las credenciales de directorio, mucho menos los roles. El sitios de administración de externos: gestion.directorio.uh.cu mucho menos, son cuentas cableadas. Creo que los dos servicios que se pudiesen mencionar aqui que cumplen con el paradigma que enuncias son el de relaciones internacionales y el planificador. El primero para la autorizacion de viajes, el segundo para preparar el plan de trabajo de la universidad.}
+     Esto no es necesariamente un problema, empresas como Google poseen plataformas que funcionan sobre diversas tecnolog\'ias (como Google+ \cite{googleplus}) y tienden a integrar cada vez mayor cantidad de servicios. A\'un as\'i, en este caso en particular, el Directorio \'Unico en su creaci\'on no fue pensado para integrarse con servicios como SQUID o POSTFIX-DOVECOT, sino que fue diseñado para brindar la información asociada a los usuarios y un módulo basado en OAuth (específicamente openID) para la autenticación. Este diseño conllev\'o a que la integraci\'on de nuevos servicios requiriera desarrollar capas intermedias para comunicar al Directorio con estos. Estas capas intermedias se han implementado en su mayoría como m\'odulos independientes, en distintos lenguajes y tecnologías, y se ha agregado c\'odigo al directorio para suplir las necesidades de estas capas intermedias sin seguir un est\'andar. Esto trae consigo dificultad a la hora de integrar nuevos servicios al directorio, y además, hace sumamente dif\'icil darle mantenimiento a el c\'odigo, ya que una modificación en el mismo puede traer como consecuencia la necesidad de modificar en cascada varios servicios independientes (que como ya mencionamos est\'an en varios lenguages de programaci\'on y diferentes tecnologías).
      
-    
-     Debido a esto y con el objetivo de centralizar este proceso de verificación se han ido acumulando sobre el dominio \url{directorio.uh.cu} varias actualizaciones progresivas
-    que conforman lo que se conoce como "Directorio Único de la Universidad
-    de La Habana".
-    
-    \todo[inline]{Referente al parrafo anterior me gustaria mas que dijeras: Con el objetivo de lograr la veerificación centralizada de la indentidad de los usuarios surgio el Directorio Unico de la unviersiad de la habana ...  de manera simple y llana, despues tu ya entras a explicar las fuentes y problemas de integración del directorio, asi que con aclarar el avance progresivo del servicio queda cubierta tambien la parte de que ha sufrido muchas actualizaciones. }
-    
-
-    Este sistema tiene un conjunto de responsabilidades b\'asicas. Entre las mismas encontramos por ejemplo ofrecer información de los usuarios (tanto de trabajadores como de estudiantes)
-    \todo[inline]{Trabajadores, estudiantes + externos deben haber quedado definidos ocmo Recursos Humanos desde antes}
-    , extrayéndola de las fuentes de datos correspondientes. En el caso de los trabajadores la fuente es un conjunto de bases de datos conocido como ASSETS.
-    \todo[inline]{No queda claro cuantas bases de datos ASSETS tiene la Universidad.}
-     Estas bases de datos se obtienen de distintas maneras dependiendo de la distancia y de la caldidad 
-    
-    \todo[inline]{Cuidado con los typos: caldidad}
-    
-    de la conexi\'on con los destinos (por ejemplo la base de datos de IFAL se trae a mano en un disco duro o memoria flash peri\'odicamente). Por la parte de los estudiantes, la fuente es un sistema denominado SIGENU, del cual se obtiene la información consultando una serie de servicios SOAP (Simple Object Access Protocol o Protocolo Simple de Acceso a Objetos), sin la necesidad de descargar ni copiar bases de datos. Esta información de los usuarios se publica a trav\'es de una interfaz web (en el dominio de directorio), y adem\'as se ofrece una API que otros servicios (o los administradores) de la red pueden utilizar para autenticar un usuario (existe una plataforma openID a partir de los datos almacenadosen el Directorio). 
-    
-    \todo[inline]{Revisar el párrafo anterior en general}
-    
-     Sobre este dominio web se integran y administran servicios que funcionan sobre diferentes tecnologías. 
-     
-     \todo[inline]{Sobre que dominio?}
-     
-     Esto no es necesariamente un problema, empresas como Google poseen plataformas que funcionan sobre diversas tecnolog\'ias (como Google+ \cite{googleplus}) y tienden a integrar cada vez mayor cantidad de servicios. A\'un as\'i, en este caso en particular, el Directorio \'Unico en su creaci\'on no fue pensado para integrarse con servicios como SQUID o POSTFIX-DOVECOT, sino que fue diseñado para brindar la información asociada a los usuarios y un módulo basado en OAuth (específicamente openID) para la autenticación. Este diseño conllev\'o a que a integraci\'on de nuevos servicios requiriera desarrollar capas intermedias para comunicar al Directorio con estos. Estas capas intermedias se han implementado en su mayoría como m\'odulos independientes, en distintos lenguajes y tecnologías, y se ha agregado c\'odigo al directorio para suplir las necesidades de estas capas intermedias sin seguir un est\'andar. Esto trae consigo dificultad a la hora de integrar nuevos servicios al directorio, y además, hace sumamente dif\'icil darle mantenimiento a el c\'odigo, ya que una modificación en el mismo puede traer como consecuencia la necesidad de modificar en cascada varios servicios independientes (que como ya mencionamos est\'an en varios lenguages de programaci\'on y diferentes tecnologías).
-     
-     \todo[inline]{Me gusta como se cocinó el párrafo anterior. Muy declarativo y concreto.}
-
     Presentado este problema, el objetivo general de este proyecto es proveer a la Universidad de
     La Habana de un servicio que se encargue de administrar los procesos de obtención, almacenamiento y publicación
     de la información relacionada con Recursos Humanos, que sea robusto, modular, fácil de integrar, fácil de mantener y fácil de modificar.
 
     Con este objetivo en mente, el primer paso hacia la implementación de la solución consiste en un análisis del problema desde un punto de vista computacional. Este análisis se sustenta en la respuesta a una serie de preguntas, donde la primera y tal vez más importante es: ¿de qué forma almacenamos toda esa información? Este objetivo se apoya en una tesis que se desarrolla en paralelo, la cual se encarga del despliegue de un servidor LDAP \cite{whyldap, ldapfaster} para la persistencia de la información. Esa tesis también se encarga de la forma en que esta información es almacenada (esquema de los datos).
-    
-    \todo[inline]{No pongas que esta tesis tambien se encarga de la forma en que la informaci'on es almacenada. SI lo vas a poner di que es porque provee vias de almacenamiento de informacion utilizando el formato LDIF para almacenar los datos o porque exploras nuevas variantes de almacenamiento de información usando LDIF o python LDAP, pero no digas que es por el esquema (que entiendo es el formato de los datos) eso lo hizo lian.}
 
-    Continuando con el análisis la siguiente pregunta puede ser: ¿qué método se debería utilizar para publicar y gestionar esta información? Actualmente existen varias implementaciones de servicios como SQUID que pueden integrarse de manera directa con un servidor LDAP para la autenticación. Aún as\'i, el uso de LDAP no es estandarizado, y para no recurrir a uno de los problemas del actual directorio, como es la necesidad de implementar capas intermedias para comunicar los servicios,
+    Continuando con el análisis la siguiente pregunta puede ser: ¿qué método se debería utilizar para publicar y gestionar esta información? Actualmente existen varias implementaciones de servicios como SQUID que pueden integrarse de manera directa con un servidor LDAP para la autenticación. Aún as\'i, el uso de LDAP no es estandarizado, y para no recurrir a uno de los problemas del actual directorio, como es la necesidad de implementar capas intermedias para comunicar los servicios, esta tesis se encarga de proveer un sistema que funcione como ese intermediario para comunicar todos los servicios que lo requieran con el servidor LDAP. Esto hace que la integraci\'on sea m\'as f\'acil, y que la modificación del servidor, o de los servicios utilizados sea m\'as sencilla. 
     
-    \todo[inline]{Aqui solamente tienes que enunciar los objetivos especificos, no es necesario que des o propongas la solucion. De hecho, la propuesta de solucion (definir el api) la das al finale del capitulo 1, y la manera de hacerlo queda discutida entre el capitulo 2 y 3. Nada de lo que pones abajo del API debe ir en la introducción. Ojo si tienes que cubrirlo en las conclusiones, y con ello me refiero al resultado dado por cada objetivo específico.}
-     en esta tesis se propone la implementación de una API, que funcione como ese intermediario para comunicar todos los servicios que lo requieran con el servidor LDAP. Esto hace que la integraci\'on sea m\'as f\'acil, y que la modificación del servidor, o de los servicios utilizados, solo conlleve la modificación m\'inima de esta API. 
-    
-    Además de esto, la implementación de una API como servicio web (utlizando HTTP como protocolo) facilita la integraci\'on de una interfaz web que sustituya la interfaz del actual directorio. Este es también un objetivo de esta tesis, desarrollar una interfaz web que facilite la gesti\'on manual de la información (agregar externos al sistema, buscar datos de usuarios...).
-    
-    \todo[inline]{El objetivo especifico del párrafo anterior debe ser implementar una interfaz web para sustituir las funcionalidades actuales de directorio. Menciona especificamente que entre las deficiencias del sistema actual se encuentra la falta de velocidad de los sitios de directorio, gestion y cuentas(este ultimo no tanto) para operar.}
+    Además de esto, el sistema actual entre sus deficiencias tiene la falta de velocidad de los sitios web de directorio, gesti\'on y cuentas, por lo que también es un objetivo de esta tesis, desarrollar una interfaz web que facilite la gesti\'on manual de la información (agregar externos al sistema, buscar datos de usuarios...).
 
+    Llegado a este punto podemos afirmar que el objetivo es: la implementación de un sistema que facilite la integraci\'on del servidor LDAP de la universidad, con los distintos servicios que dependen de la información de Recursos Humanos, resolviendo la obtención de los datos a partir de las fuentes correspondientes, y brindando una interfaz web para gestionar manualmente la información que lo requiera. 
 
-    Llegado a este punto podemos afirmar que la hipótesis a partir del objetivo es: la implementación de un sistema que facilite la integraci\'on del servidor LDAP de la universidad, con los distintos servicios que dependen de la información de Recursos Humanos, resolviendo la obtención de los datos a partir de las fuentes correspondientes, y brindando una interfaz web para gestionar manualmente la información que lo requiera. 
-    
-    \todo[inline]{Plantea la hipotesis antes del objetivo principal. La hipotesis no es mas que el objetivo principal enunciado, ejemplifico. hipotesis: se puede implementar un sistema que facilite ... y el objetivo seria: implementar un sistema para facilitar ...  espero que eso deje clara la idea. Ojo la hipotesis va antes del objetivo, nunca al reves. }
-    
-    Además se propone que el API brinde una bolsa de servicios para publicar información a partir del servidor LDAP (no necesariamente almacenada en el mismo, pero si dependiente), para los servicios que la requieran. Como ejemplo tenemos la cuota de internet, que se calcula a partir del curso del estudiante (almacenado en el servidor LDAP), pero no necesariamente se almacena en este servidor.
-    
-    \todo[inline]{Esto es basicamente extender el API ... no creo que califique como objetivo especifico. }
-
-    Para esto es necesario investigar sobre el estado del arte del actual Directorio, de las distintas tecnologías para implementar una API que satisfaga todas las necesidades anteriormente mencionadas (incluyendo la extracci\'on de información
+    Para esto es necesario discutir en detalle como ocurre el flujo de información dentro del la UH y el papel que ocupa directorio en ello e investigar sobre las distintas tecnologías para implementar una API que satisfaga todas las necesidades anteriormente mencionadas (incluyendo la extracci\'on de información
     de las fuentes), y de las tecnologías para la implementación de una interfaz web a partir de los servicios que brinda el API.
-    
-    \todo[inline]{No digas investigar sobre el estado del arte de directorio, habla de discutir en detalle como ocurre el flujo de información dentro del la UH y el papel que ocupa directorio en ello.}
-    
-    \todo[inline]{El parrafo anterior es un buen connector y ES lo que debes dejar antes del siguiente capitulo, pero antes tambien puedes hablar de la estructura general del documento}
+
+    Para esto el documento cuenta con tres cap\'itulos: en el primero se presentan las especificaciones del problema; en el segundo se habla del estado del arte de las distintas tecnologías para implementar la solución; por \'ultimo en el tercero se discuten las especifidades de la implementación de la solución final.
     
 \end{introduction} 
