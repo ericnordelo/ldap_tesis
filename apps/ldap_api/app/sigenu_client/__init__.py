@@ -20,7 +20,7 @@ class MyLDIF(ldif.LDIFParser):
         ldif.LDIFParser.__init__(self,input)
 
     def handle(self,dn,entry):
-        ldif = modlist.addModlist(entry)
+        ldif = ldap.modlist.addModlist(entry)
         ldap_server.add_s(dn, ldif)
 
 
