@@ -71,7 +71,7 @@ class SigenuClient:
                 counter+=1
 
         # populate ldap
-        parser = MyLDIF(open('/output/students.ldif', 'rb'))
+        parser = MyLDIF(open('/api/app/sigenu_client/output/students.ldif', 'rb'))
         parser.parse()
 
 
