@@ -9,6 +9,8 @@ configuration = config.set_environment(os.getenv("LDAP_API_ENVIRONMENT"))
 ldap_server = ldap.initialize(configuration.LDAP_SERVER_URI,
                 trace_level=utils.DEBUG_LEVEL[configuration.PYTHON_LDAP_DEBUG_LVL])
 
+ldap_server.simple_bind_s('cn=admin,dc=uh,dc=cu', admin_password)
+
 
 if __name__ == '__main__':
     students_uidNumber = ldap_server.search_s("ou=Estudiantes,dc=uh,dc=cu", ldap.SCOPE_SUBTREE, "(&(uidNumber=*)(objectclass=Estudiante))",attrlist=['uidNumber'])
