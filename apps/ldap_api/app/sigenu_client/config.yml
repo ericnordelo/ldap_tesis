@@ -7,7 +7,7 @@ students_schema:
   - ["correo", "email"]
   # - ["cuotainternet", ""]
   # - ["direccion", "address"]
-  - ["edad", "ci"]
+  # - ["edad", "ci"]
   - ["facultad", "faculty"]
   - ["grade", "grade"]
   - ["grupo", "group"]
