@@ -22,11 +22,11 @@ class MyLDIF(ldif.LDIFParser):
         ldif.LDIFParser.__init__(self,input)
 
     def handle(self,dn,entry):
-        try:
-            ldif = modlist.addModlist(entry)
-            ldap_server.add_s(dn, ldif)
-        except Exception as e:
-            print(str(e))
+        # try:
+        ldif = modlist.addModlist(entry)
+        ldap_server.add_s(dn, ldif)
+        # except Exception as e:
+        #     print(str(e))
         
 
 
@@ -147,8 +147,10 @@ class SigenuClient:
         open_file.write("%s: %s\n" % ('objectclass', 'Estudiante'))
         open_file.write("%s: %s\n" % ('objectclass', 'posixAccount'))
         open_file.write("%s: %s\n" % ('objectclass', 'shadowAccount'))
+        open_file.write("%s: %s\n" % ('objectclass', 'shadowAccount'))
         open_file.write("%s: %d\n" % ('uidNumber', uidNumber))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
+        open_file.write("%s: %d\n" % ('password', '12345678'))
         open_file.write("%s: %s\n" % ('homeDirectory', '---------'))
         open_file.write("%s: %d\n" % ('uid', uidNumber))
         open_file.write("%s: %s\n" % ('sn', str(row["middle_name"])+ " " +str(row["last_name"])))
