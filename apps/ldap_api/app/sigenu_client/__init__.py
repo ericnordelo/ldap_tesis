@@ -62,7 +62,8 @@ class SigenuClient:
                         self.__process_row(row, f, row_number, uidNumber, faculty["id"])
                         row_number += 1
                         uidNumber+=1
-                    except Exception:
+                    except Exception as e:
+                        print(str(e))
                         problems.append(row["idsigenu"])
                 break
             counter = 0
