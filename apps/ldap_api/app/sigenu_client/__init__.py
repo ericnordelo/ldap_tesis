@@ -22,11 +22,14 @@ class MyLDIF(ldif.LDIFParser):
         ldif.LDIFParser.__init__(self,input)
 
     def handle(self,dn,entry):
-        # try:
-        ldif = modlist.addModlist(entry)
-        ldap_server.add_s(dn, ldif)
-        # except Exception as e:
-        #     print(str(e))
+        try:
+            ldif = modlist.addModlist(entry)
+            ldap_server.add_s(dn, ldif)
+        except Exception as e:
+            basedn = "ou=Estudiantes,dc=uh,dc=cu"
+            student = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(dn=%s)(objectclass=%s))" % (dn, "Estudiante")):
+            ldif = modlist.modifyModlist(student[1], entry)
+            ldap_server.modify_s(dn, ldif)
         
 
 
