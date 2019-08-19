@@ -1,8 +1,8 @@
 import sys
-import pymssql
+import pyodbc
 import yaml
 import ftplib
-from tqdm import tqdm
+# from tqdm import tqdm
 from time import sleep
 
 class ConnectionManager:
@@ -25,13 +25,11 @@ class ConnectionManager:
         if server_addr == "":
             perror('Invalid server address in config file!')
 
-        self._connection = pymssql.connect('api.directorio.uh.cu:1433', 'sa', 'P@ssw0rd')
-            
-            # 'Driver={ODBC Driver 17 for SQL Server};'
-            #                                 'Server=api.directorio.uh.cu,1433;'
-            #                                 'User=sa;Password=P@ssw0rd;'
-            #                                 'Trusted_Connection=yes;',
-            #                                 autocommit=True)
+        self._connection = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
+                                            'Server=api.directorio.uh.cu,1433;'
+                                            'User=SA;Password=P@ssw0rd;'
+                                            'Trusted_Connection=yes;',
+                                            autocommit=True)
         self._cursor = self._connection.cursor()
         # except Exception:
         #     perror('Error while connecting to the sql server!')
@@ -47,11 +45,11 @@ class ConnectionManager:
             ftp.login(user="dirunico", passwd="d1run1c0*") 
             ftp.cwd(path)
             total=ftp.size(filename)
-            pbar=tqdm(total=total)
+            # pbar=tqdm(total=total)
             def progress(data):
                 with open(bak_source, 'wb').write as fp:
                     fp.write(data)
-                    pbar.update(len(data))
+                    # pbar.update(len(data))
             ftp.retrbinary("RETR " + filename, open(bak_source, 'wb').write, callback)
             ftp.quit()
         except Exception:
