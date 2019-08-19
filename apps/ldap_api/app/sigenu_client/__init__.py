@@ -22,8 +22,12 @@ class MyLDIF(ldif.LDIFParser):
         ldif.LDIFParser.__init__(self,input)
 
     def handle(self,dn,entry):
-        ldif = modlist.addModlist(entry)
-        ldap_server.add_s(dn, ldif)
+        try:
+            ldif = modlist.addModlist(entry)
+            ldap_server.add_s(dn, ldif)
+        except Exception as e:
+            print(str(e))
+        
 
 
 class SigenuClient:
@@ -102,7 +106,7 @@ class SigenuClient:
         name = unidecode.unidecode(name)
         last_name = unidecode.unidecode(last_name)
         second_last_name = unidecode.unidecode(second_last_name)
-        
+
         name = name.split()[0].lower()
         last_name = last_name.split(' ')[0].lower()
         second_last_name = second_last_name.split(' ')[0].lower()
