@@ -75,7 +75,6 @@ class SigenuClient:
                     except Exception as e:
                         print(str(e))
                         problems.append(row["idsigenu"])
-                break
             counter = 0
             for problem in problems:
                 f.write("# Problem %d (Sigenu ID): %s\n" % (counter, problem))
@@ -169,7 +168,7 @@ def move_first_ceros(ci):
     while ci[0] == '0':
         ci = ci[1:] + ci[0]
     return ci
-    
+
 def perror(msg, exit_status=1):
     print(msg)
     exit(exit_status)
