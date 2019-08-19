@@ -28,7 +28,7 @@ class MyLDIF(ldif.LDIFParser):
         except Exception:
             basedn = "ou=Estudiantes,dc=uh,dc=cu"
             student = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(ci=%s)(objectclass=%s))" % (entry["ci"][0].decode('utf8'), "Estudiante"))
-            print(str(student))
+            print(str(student), str(entry))
             ldif = modlist.modifyModlist(student[0][1], entry)
             ldap_server.modify_s(dn, ldif)
         
