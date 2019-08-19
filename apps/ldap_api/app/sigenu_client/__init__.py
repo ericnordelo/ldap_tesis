@@ -6,6 +6,7 @@ import sys
 import os
 import ldif
 import ldap
+from ldap import modlist
 
 ldap_server = ldap.initialize('ldap://10.6.143.50')
 
@@ -20,7 +21,7 @@ class MyLDIF(ldif.LDIFParser):
         ldif.LDIFParser.__init__(self,input)
 
     def handle(self,dn,entry):
-        ldif = ldap.modlist.addModlist(entry)
+        ldif = modlist.addModlist(entry)
         ldap_server.add_s(dn, ldif)
 
 
@@ -97,6 +98,9 @@ class SigenuClient:
         return final_list
 
     def __get_uid(self, name, last_name, second_last_name):
+        name = name.split(' ')[0]
+        last_name = last_name.split(' ')[0]
+        second_last_name = second_last_name.split(' ')[0]
         basedn = "ou=Estudiantes,dc=uh,dc=cu"
         possible_uid = name  + '.' + last_name.lower()
 
