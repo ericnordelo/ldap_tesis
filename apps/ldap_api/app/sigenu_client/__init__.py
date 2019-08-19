@@ -151,7 +151,7 @@ class SigenuClient:
         open_file.write("%s: %s\n" % ('objectclass', 'Estudiante'))
         open_file.write("%s: %s\n" % ('objectclass', 'posixAccount'))
         open_file.write("%s: %s\n" % ('objectclass', 'shadowAccount'))
-        open_file.write("%s: %s\n" % ('uidNumber', str(row["ci"])))
+        open_file.write("%s: %s\n" % ('uidNumber', move_first_ceros(str(row["ci"]))))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('userPassword', '12345678'))
         open_file.write("%s: %s\n" % ('homeDirectory', '---------'))
@@ -164,6 +164,10 @@ class SigenuClient:
 
 def age_from_ci(ci):
     return 0
+
+def move_first_ceros(ci):
+    while ci[0] == '0':
+        ci = ci[1:] + ci[0]
 
 def perror(msg, exit_status=1):
     print(msg)
