@@ -9,7 +9,7 @@ students_schema:
   # - ["direccion", "address"]
   - ["edad", "ci"]
   - ["facultad", "faculty"]
-  - ["grado", "grade"]
+  - ["grade", "grade"]
   - ["grupo", "group"]
   - ["lugardenacimiento", "native_of"]
   - ["municipio", "municipality"]
