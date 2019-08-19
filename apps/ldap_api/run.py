@@ -8,6 +8,7 @@ configuration = config.set_environment(os.getenv("LDAP_API_ENVIRONMENT"))
 
 ldap_server = ldap.initialize(configuration.LDAP_SERVER_URI,
                 trace_level=utils.DEBUG_LEVEL[configuration.PYTHON_LDAP_DEBUG_LVL])
+admin_password = os.getenv("LDAP_ADMIN_PASSWORD")
 
 ldap_server.simple_bind_s('cn=admin,dc=uh,dc=cu', admin_password)
 
