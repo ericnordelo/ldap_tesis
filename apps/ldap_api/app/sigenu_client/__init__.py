@@ -129,7 +129,7 @@ class SigenuClient:
         # Entries outside the services
         
         open_file.write("%s: %s\n" % ('idfacultad', faculty_id))
-        open_file.write("%s: %s\n" % ('cn', str(row["name"])+str(row["middle_name"])+str(row["last_name"])))
+        open_file.write("%s: %s\n" % ('cn', str(row["name"])))
         open_file.write("%s: %s\n" % ('cuotainternet', "0"))
         open_file.write("%s: %s\n" % ('pcc', str(row["politic_org"] == "pcc").upper()))
         open_file.write("%s: %s\n" % ('ujc', str(row["politic_org"] == "ujc").upper()))
@@ -141,6 +141,8 @@ class SigenuClient:
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('homeDirectory', '---------'))
         open_file.write("%s: %d\n" % ('uid', uidNumber))
+        open_file.write("%s: %d\n" % ('sn', str(row["middle_name"])+str(row["last_name"])))
+
 
         open_file.write("\n")
         pass
