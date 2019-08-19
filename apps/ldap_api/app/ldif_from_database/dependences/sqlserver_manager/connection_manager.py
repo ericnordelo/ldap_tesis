@@ -51,8 +51,8 @@ class ConnectionManager:
                     pbar.update(len(data))
             ftp.retrbinary("RETR " + filename, open(bak_source, 'wb').write, callback)
             ftp.quit()
-        except Exception:
-            perror('Error while fetching database from ftp!')
+        except Exception as e:
+            perror(str(e))
 
         try:
             data_destination = self._config_obj['sql_server']['restore_query']['data_destination'][0]
