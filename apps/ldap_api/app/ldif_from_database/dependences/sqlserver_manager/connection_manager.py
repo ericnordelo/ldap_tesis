@@ -44,11 +44,11 @@ class ConnectionManager:
             ftp.login(user="dirunico", passwd="d1run1c0*") 
             ftp.cwd(path)
             total=ftp.size(filename)
-            # pbar=tqdm(total=total)
+            pbar=tqdm(total=total)
             def progress(data):
                 with open(bak_source, 'wb').write as fp:
                     fp.write(data)
-                    # pbar.update(len(data))
+                    pbar.update(len(data))
             ftp.retrbinary("RETR " + filename, open(bak_source, 'wb').write, callback)
             ftp.quit()
         except Exception:
