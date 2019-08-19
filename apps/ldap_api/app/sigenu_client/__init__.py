@@ -99,11 +99,12 @@ class SigenuClient:
     def __process_row(self, row, open_file, row_number, uidNumber, faculty_id):
 
         open_file.write("# Entry %d: \n" % row_number)
+        open_file.write("%s: %s\n" % ('dn', 'Estudiante'))
         for entry in self.__students_schema:
             open_file.write("%s: %s\n" % (entry[0], str(row[entry[1]])))
         
         # Entries outside the services
-        open_file.write("%s: %s\n" % ('dn', 'Estudiante'))
+        
         open_file.write("%s: %s\n" % ('idfacultad', faculty_id))
         open_file.write("%s: %s\n" % ('cuotadeinternet', "0"))
         open_file.write("%s: %s\n" % ('pcc', str(row["politic_org"] == "pcc")))
