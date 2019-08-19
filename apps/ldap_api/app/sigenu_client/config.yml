@@ -3,7 +3,7 @@ students_schema:
   - ["carrera", "career"]
   - ["ci", "ci"]
   - ["ciudadania", "country"]
-  - ["cn", "name"]
+  # - ["cn", "name"]
   - ["correo", "email"]
   # - ["cuotainternet", ""]
   # - ["direccion", "address"]
