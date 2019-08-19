@@ -27,7 +27,7 @@ class MyLDIF(ldif.LDIFParser):
             ldap_server.add_s(dn, ldif)
         except Exception:
             basedn = "ou=Estudiantes,dc=uh,dc=cu"
-            student = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(dn=%s)(objectclass=%s))" % (dn, "Estudiante"))
+            student = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(ci=%s)(objectclass=%s))" % (entry["ci"], "Estudiante"))
             print(str(student))
             ldif = modlist.modifyModlist(student[0][1], entry)
             ldap_server.modify_s(dn, ldif)
@@ -154,7 +154,7 @@ class SigenuClient:
         open_file.write("%s: %s\n" % ('objectclass', 'shadowAccount'))
         open_file.write("%s: %d\n" % ('uidNumber', uidNumber))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
-        open_file.write("%s: %d\n" % ('password', '12345678'))
+        open_file.write("%s: %s\n" % ('password', '12345678'))
         open_file.write("%s: %s\n" % ('homeDirectory', '---------'))
         open_file.write("%s: %d\n" % ('uid', uidNumber))
         open_file.write("%s: %s\n" % ('sn', str(row["middle_name"])+ " " +str(row["last_name"])))
