@@ -130,7 +130,7 @@ class SigenuClient:
         
         open_file.write("%s: %s\n" % ('idfacultad', faculty_id))
         open_file.write("%s: %s\n" % ('cn', str(row["name"])+str(row["middle_name"])+str(row["last_name"])))
-        open_file.write("%s: %s\n" % ('cuotadeinternet', "0"))
+        open_file.write("%s: %s\n" % ('cuotainternet', "0"))
         open_file.write("%s: %s\n" % ('pcc', str(row["politic_org"] == "pcc")))
         open_file.write("%s: %s\n" % ('ujc', str(row["politic_org"] == "ujc")))
         open_file.write("%s: %s\n" % ('esbaja', str(row["status"] == "Activo")))
