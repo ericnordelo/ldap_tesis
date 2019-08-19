@@ -95,11 +95,29 @@ class SigenuClient:
                 continue 
         return final_list
 
+    def __get_uid(self, name, last_name, second_last_name):
+        basedn = "ou=Estudiantes,dc=uh,dc=cu"
+        possible_uid = name  + '.' + last_name.lower()
 
+        if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(uid=%s)(objectclass=%s))" % (possible_uid, "Estudiante"))):
+            possible_uid = name.lower() + '.' +second_last_name
+            if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(uid=%s)(objectclass=%s))" % (possible_uid, "Estudiante"))):
+                for i in range(1,1000):
+                    possible_uid = name.lower() + '.' +second_last_name +str(i)
+                    if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(uid=%s)(objectclass=%s))" % (possible_uid, "Estudiante"))):
+                        continue
+                    uid = possible_uid
+                    break
+            else:
+                uid = possible_uid
+        else:
+            uid = possible_uid
+
+        return uid
     def __process_row(self, row, open_file, row_number, uidNumber, faculty_id):
 
         open_file.write("# Entry %d: \n" % row_number)
-        open_file.write("%s: %s\n" % ('dn', 'Estudiante'))
+        open_file.write("%s: %s\n" % ('dn','uid='+self.__get_uid+',ou=Estudiantes,dc=uh,dc=cu'))
         for entry in self.__students_schema:
             open_file.write("%s: %s\n" % (entry[0], str(row[entry[1]])))
         
