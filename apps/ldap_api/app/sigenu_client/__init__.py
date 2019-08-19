@@ -168,7 +168,8 @@ def age_from_ci(ci):
 def move_first_ceros(ci):
     while ci[0] == '0':
         ci = ci[1:] + ci[0]
-
+    return ci
+    
 def perror(msg, exit_status=1):
     print(msg)
     exit(exit_status)
