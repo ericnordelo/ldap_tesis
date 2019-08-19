@@ -13,7 +13,7 @@ RUN curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sou
 
 ENV ACCEPT_EULA=Y
 
-RUN apt-get update && apt-get install -y libldap2-dev libsasl2-dev unixodbc-dev msodbcsql17 mssql-tools
+RUN apt-get update && apt-get install -y libldap2-dev libsasl2-dev unixodbc-dev msodbcsql17 mssql-tools freetds-dev
 
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
@@ -34,5 +34,6 @@ RUN pip3 install flask \
     pymemcache \
     pyyaml \
     pyodbc \
+    pymssql \
     tqdm \
     zeep

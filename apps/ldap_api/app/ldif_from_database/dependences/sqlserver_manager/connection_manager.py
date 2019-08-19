@@ -1,5 +1,5 @@
 import sys
-import pyodbc
+import pymssql
 import yaml
 import ftplib
 from tqdm import tqdm
@@ -25,11 +25,13 @@ class ConnectionManager:
         if server_addr == "":
             perror('Invalid server address in config file!')
 
-        self._connection = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
-                                            'Server=api.directorio.uh.cu,1433;'
-                                            'User=sa;Password=P@ssw0rd;'
-                                            'Trusted_Connection=yes;',
-                                            autocommit=True)
+        self._connection = pymssql.connect('api.directorio.uh.cu:1433', 'sa', 'P@ssw0rd')
+            
+            # 'Driver={ODBC Driver 17 for SQL Server};'
+            #                                 'Server=api.directorio.uh.cu,1433;'
+            #                                 'User=sa;Password=P@ssw0rd;'
+            #                                 'Trusted_Connection=yes;',
+            #                                 autocommit=True)
         self._cursor = self._connection.cursor()
         # except Exception:
         #     perror('Error while connecting to the sql server!')
