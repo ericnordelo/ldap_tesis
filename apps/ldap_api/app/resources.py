@@ -362,7 +362,7 @@ class Externs(Resource):
             'tienechat':            [b'TRUE' if data.get('chat') else b'FALSE'],
             'description':          [data.get('comments').encode('utf-8') if data.get('comments') != "" else b"N/D"],
             'userpassword':         [password.encode('utf-8')],
-            'homeDirectory':        ['/home/'+uid+'/'],
+            'homeDirectory':        ['/home/'+uid+'/'.encode('utf-8')],
             'uid':                  uid.encode('utf-8'),
             'objectClass':          [b'Externo']
         })
