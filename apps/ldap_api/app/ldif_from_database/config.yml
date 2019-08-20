@@ -4,7 +4,7 @@ sql_server:
       - 'sqlserver_db'
   restore_query:
     bak_source:
-      - '/api/app/ldif_from_database'
+      - '/api/app/ldif_from_database/Nomina.bak'
     data_destination:
       - 'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\PLANTILLA_RH.mdf'
     logs_destination:
