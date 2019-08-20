@@ -74,6 +74,7 @@ class SigenuClient:
                     except Exception as e:
                         print(str(e))
                         problems.append(row["idsigenu"])
+                break
             counter = 0
             for problem in problems:
                 f.write("# Problem %d (Sigenu ID): %s\n" % (counter, problem))

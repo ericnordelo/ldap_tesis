@@ -21,17 +21,33 @@ function addWorker(data) {
         }
     })
     .then(res => {
+        
         if (res.status === 200) {
-            dispatch(push('/p/cambiar'));
-            alert('Trabajador agregado satisfactoriamente con el correo: por favor cambie su contraseña.');
+            res.json().then(data => {
+                console.log(res)
+                dispatch(push('/p/cambiar?correo='+data.email));
+                alert('Estudiante agregado satisfactoriamente con el correo: "'+data.email+'", por favor cambie su contraseña (12345678).');
+                dispatch({ 
+                    type: types.END_LOADING
+                });
+            });
+            
         } else if(res.status === 403){
-            alert('Este trabajador ya existe en el directorio con el correo.');
+            res.json().then(data => {
+                console.log(res)
+                dispatch(push('/p/cambiar'));
+                alert('Este estudiante ya existe en el directorio con el correo: "'+data.email+'".');
+                dispatch({ 
+                    type: types.END_LOADING
+                });
+            });
         }else if(res.status === 404){
-            alert('Este trabajador no existe en el directorio.');
+            alert('Este estudiante no existe en el directorio.');
+            dispatch({ 
+                type: types.END_LOADING
+            });
         }
-        dispatch({ 
-            type: types.END_LOADING
-        });
+        
     })
     .catch(err => {
         dispatch({ 
@@ -58,16 +74,30 @@ function addStudent(data) {
         })
         .then(res => {
             if (res.status === 200) {
-                dispatch(push('/p/cambiar'));
-                alert('Estudiante agregado satisfactoriamente con el correo: por favor cambie su contraseña.');
+                res.json().then(data => {
+                    console.log(res)
+                    dispatch(push('/p/cambiar?correo='+data.email));
+                    alert('Trabajador agregado satisfactoriamente con el correo: "'+data.email+'", por favor cambie su contraseña (12345678).');
+                    dispatch({ 
+                        type: types.END_LOADING
+                    });
+                });
+                
             } else if(res.status === 403){
-                alert('Este estudiante ya existe en el directorio.');
+                res.json().then(data => {
+                    console.log(res)
+                    dispatch(push('/p/cambiar'));
+                    alert('Este trabajador ya existe en el directorio con el correo: "'+data.email+'".');
+                    dispatch({ 
+                        type: types.END_LOADING
+                    });
+                });
             }else if(res.status === 404){
-                alert('Este estudiante no existe en el directorio.');
+                alert('Este trabajador no existe en el directorio.');
+                dispatch({ 
+                    type: types.END_LOADING
+                });
             }
-            dispatch({ 
-                type: types.END_LOADING
-            });
         })
         .catch(err => {
             dispatch({ 
