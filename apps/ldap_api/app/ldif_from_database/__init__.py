@@ -1,9 +1,36 @@
 import yaml
+
 if __name__ == "__main__":
     from dependences.sqlserver_manager import ConnectionManager
 else:
     from app.ldif_from_database.dependences.sqlserver_manager import ConnectionManager
 
+import os
+import ldif
+import ldap
+from ldap import modlist
+
+ldap_server = ldap.initialize('ldap://10.6.143.50')
+
+admin_password = os.getenv("LDAP_ADMIN_PASSWORD")
+
+ldap_server.simple_bind_s('cn=admin,dc=uh,dc=cu', admin_password)
+
+
+class MyLDIF(ldif.LDIFParser):
+    def __init__(self, input):
+        ldif.LDIFParser.__init__(self,input)
+
+    def handle(self,dn,entry):
+        try:
+            ldif = modlist.addModlist(entry)
+            ldap_server.add_s(dn, ldif)
+        except Exception:
+            basedn = "ou=Trabajadores,dc=uh,dc=cu"
+            worker = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(ci=%s)(objectclass=%s))" % (entry["ci"][0].decode('utf8'), "Trabajador"))
+            ldif = modlist.modifyModlist(worker[0][1], entry)
+            ldap_server.modify_s(dn, ldif)
+        
 
 class LDIFFromSQLServer:
     """Encapsulation for methods wich populate and modify the ldap server
@@ -56,6 +83,10 @@ class LDIFFromSQLServer:
                     row_number += 1
                     uidNumber+=1
 
+        # populate ldap
+        parser = MyLDIF(open('/api/app/ldif_from_database/output/workers.ldif', 'rb'))
+        parser.parse()
+
         return uidNumber
 
     def generate_modify_population(self):
@@ -65,7 +96,7 @@ class LDIFFromSQLServer:
 
     def __process_row(self, row, open_file, row_number, uidNumber):
         open_file.write("# Entry %d: \n" % row_number)
-        open_file.write("%s: %s\n" % ('dn','uid='+str(row[0])+',ou=Trabajadores,dc=uh,dc=cu'))
+        open_file.write("%s: %s\n" % ('dn','uid='+str(row[0]).strip()+',ou=Trabajadores,dc=uh,dc=cu'))
         for entry in self.__workers_schema:
             if type(entry[1]) == list:
                 open_file.write("%s: %s\n" % (entry[0], ' '.join([str(row[x]) for x in entry[1]])))
@@ -76,11 +107,11 @@ class LDIFFromSQLServer:
         open_file.write("%s: %s\n" % ('objectclass', 'Trabajador'))
         open_file.write("%s: %s\n" % ('objectclass', 'posixAccount'))
         open_file.write("%s: %s\n" % ('objectclass', 'shadowAccount'))
-        open_file.write("%s: %s\n" % ('uidNumber', move_first_ceros(str(row[0]))))
+        open_file.write("%s: %s\n" % ('uidNumber', move_first_ceros(str(row[0]).strip())))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('userPassword', '12345678'))
         open_file.write("%s: %s\n" % ('homeDirectory', '/'))
-        open_file.write("%s: %s\n" % ('uid', str(row[0])))
+        open_file.write("%s: %s\n" % ('uid', str(row[0]).strip()))
         # open_file.write("%s: %s\n" % ('correo', '---------'))
 
         open_file.write("\n")
