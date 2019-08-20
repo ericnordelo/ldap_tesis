@@ -56,31 +56,31 @@ class ConnectionManager:
         except Exception as e:
             perror(str(e))
 
-        try:
-            data_destination = self._config_obj['sql_server']['restore_query']['data_destination'][0]
-            logs_destination = self._config_obj['sql_server']['restore_query']['logs_destination'][0]
+        # try:
+        data_destination = self._config_obj['sql_server']['restore_query']['data_destination'][0]
+        logs_destination = self._config_obj['sql_server']['restore_query']['logs_destination'][0]
 
-            if bak_source == "" or data_destination == "" or logs_destination == "":
-                perror('Invalid destinations paths in config file!')
+        if bak_source == "" or data_destination == "" or logs_destination == "":
+            perror('Invalid destinations paths in config file!')
 
-            sql = r"""RESTORE DATABASE [Nomina_UH] FROM  DISK = N'""" + bak_source + """' WITH  FILE = 1,
-                    MOVE N'AssetsNomina_Data' TO N'""" + data_destination + """',
-                    MOVE N'AssetsNomina_Log' TO N'""" + logs_destination + """',
-                    NOUNLOAD,  STATS = 5"""
+        sql = r"""RESTORE DATABASE [Nomina_UH] FROM  DISK = N'""" + bak_source + """' WITH  FILE = 1,
+                MOVE N'AssetsNomina_Data' TO N'""" + data_destination + """',
+                MOVE N'AssetsNomina_Log' TO N'""" + logs_destination + """',
+                NOUNLOAD,  STATS = 5"""
 
-            cursor = self.execute_sql_query(sql)
+        cursor = self.execute_sql_query(sql)
 
-            # Wait until database restoration completes
-            print("Restoring database...")
-            spinner = spinning_cursor()
-            while cursor.nextset():
-                sys.stdout.write(next(spinner))
-                sys.stdout.flush()
-                sleep(0.1)
-                sys.stdout.write('\b')
-            print("Database restoration complete!")
-        except Exception:
-            perror('Error while restoring database!')
+        # Wait until database restoration completes
+        print("Restoring database...")
+        spinner = spinning_cursor()
+        while cursor.nextset():
+            sys.stdout.write(next(spinner))
+            sys.stdout.flush()
+            sleep(0.1)
+            sys.stdout.write('\b')
+        print("Database restoration complete!")
+        # except Exception:
+        #     perror('Error while restoring database!')
 
     def execute_sql_query(self, sql_query):
         self._cursor.execute(sql_query)
