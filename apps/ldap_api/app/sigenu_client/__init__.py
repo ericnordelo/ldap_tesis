@@ -138,7 +138,7 @@ class SigenuClient:
         query_results = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(ci=%s)(objectclass=%s))" % (str(row["ci"]), "Estudiante"))
         # IF is there...
         if len(query_results):
-            uid_to_use = query_results[0]["uid"]
+            uid_to_use = str(query_results[0][1]["uid"][0])
         else:
             uid_to_use = self.__get_uid(str(row["name"])[0], str(row["middle_name"]), str(row["last_name"]))
         open_file.write("# Entry %d: \n" % row_number)

@@ -128,8 +128,7 @@ class LDIFFromSQLServer:
         query_results = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(ci=%s)(objectclass=%s))" % (str(row[0]).strip(), "Trabajador"))
         # IF is there...
         if len(query_results):
-            print(query_results)
-            uid_to_use = query_results[0]["uid"]
+            uid_to_use = str(query_results[0][1]["uid"][0])
         else:
             uid_to_use = self.__get_uid(str(row[1]), str(row[3]), str(row[4]))
 
