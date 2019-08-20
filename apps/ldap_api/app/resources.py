@@ -364,7 +364,7 @@ class Externs(Resource):
             'userpassword':         [password.encode('utf-8')],
             'homeDirectory':        [('/home/'+uid+'/').encode('utf-8')],
             'uid':                  uid.encode('utf-8'),
-            'objectClass':          [b'Externo']
+            'objectClass':          [b'Externo', b'posixAccount', b'shadowAccount']
         })
         #    'uidNumber':            uidNumberCounter
         ldap_server.add_s(dn, modList)
