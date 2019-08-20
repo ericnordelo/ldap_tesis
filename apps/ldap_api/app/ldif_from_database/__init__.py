@@ -80,7 +80,7 @@ class LDIFFromSQLServer:
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('userPassword', '12345678'))
         open_file.write("%s: %s\n" % ('homeDirectory', '/'))
-        open_file.write("%s: %d\n" % ('uid', str(row["ci"])))
+        open_file.write("%s: %d\n" % ('uid', str(row[0])))
         # open_file.write("%s: %s\n" % ('correo', '---------'))
 
         open_file.write("\n")
@@ -98,4 +98,4 @@ def move_first_ceros(ci):
 
 if __name__ == "__main__":
     handler = LDIFFromSQLServer("config.yml", 5000)
-    handler.generate_ldif(number_of_rows=10, restore=True)
+    handler.generate_ldif(number_of_rows=10, restore=False)
