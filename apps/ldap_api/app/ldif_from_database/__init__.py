@@ -130,7 +130,7 @@ class LDIFFromSQLServer:
         if len(query_results):
             uid_to_use = query_results[0]["uid"]
         else:
-            uid_to_use = self.__get_uid(row["name"]), row["middle_name"]), str(row["last_name"])
+            uid_to_use = self.__get_uid(str(row[1]), str(row[3]), str(row[4]))
 
         open_file.write("# Entry %d: \n" % row_number)
         open_file.write("%s: %s\n" % ('dn','uid='+uid_to_use+',ou=Trabajadores,dc=uh,dc=cu'))

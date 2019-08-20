@@ -131,7 +131,7 @@ class SigenuClient:
             uid = possible_uid
 
         return uid
-        
+
     def __process_row(self, row, open_file, row_number, uidNumber, faculty_id, faculty_name):
         uid_to_use = ''
         basedn = "ou=Estudiantes,dc=uh,dc=cu"
@@ -140,7 +140,7 @@ class SigenuClient:
         if len(query_results):
             uid_to_use = query_results[0]["uid"]
         else:
-            uid_to_use = self.__get_uid(row["name"]), row["middle_name"]), str(row["last_name"])
+            uid_to_use = self.__get_uid(str(row["name"])[0], str(row["middle_name"]), str(row["last_name"]))
         open_file.write("# Entry %d: \n" % row_number)
         open_file.write("%s: %s\n" % ('dn','uid='+uid_to_use+',ou=Estudiantes,dc=uh,dc=cu'))
         for entry in self.__students_schema:
