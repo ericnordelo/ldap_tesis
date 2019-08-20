@@ -364,7 +364,7 @@ class Externs(Resource):
             'userpassword':         [password.encode('utf-8')],
             'homeDirectory':        [('/home/'+uid+'/').encode('utf-8')],
             'uid':                  uid.encode('utf-8'),
-            'uidNumber':            move_first_ceros(str(data.get('ci')).strip()),
+            'uidNumber':            move_first_ceros(str(data.get('ci')).strip()).encode('utf8'),
             'objectClass':          [b'Externo', b'posixAccount', b'shadowAccount']
         })
         #    'uidNumber':            uidNumberCounter
