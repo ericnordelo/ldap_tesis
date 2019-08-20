@@ -342,7 +342,7 @@ class Externs(Resource):
             print(e)
             return {"error": "Can't get uidNumberCounter from memcached"}
 
-        dn = 'uid=%s,ou=Externos,dc=uh,dc=cu' % data.get('ci').encode('utf-8')
+        dn = 'uid=%s,ou=Externos,dc=uh,dc=cu' % uid
         password = '{CRYPT}' + __sha512_crypt__(data.get('password'), 500000)
 
         created_at = data.get('created_at').split('-')
