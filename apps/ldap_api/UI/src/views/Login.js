@@ -123,12 +123,12 @@ class Login extends Component{
               </Link>
             </Typography>
             <Typography component="p" style={{marginTop: 15}}>
-              <Link to="/p/agregarestudiante">
+              <Link to="/p/agregartrabajador">
                 Agregar Trabajador
               </Link>
             </Typography>
             <Typography component="p" style={{marginTop: 15}}>
-              <Link to="/p/agregartrabajador">
+              <Link to="/p/agregarestudiante">
                 Agregar Estudiante
               </Link>
             </Typography>

@@ -160,7 +160,7 @@ class Workers(Resource):
                 return {'error': 'Este usuario ya existe en directorio', 'email': email[0]}, 403
             else:
                 uid = workers_account[1]['uid']
-                new_email = __generate_new_email__(uid, "Trabajador", workers_account[1]['Area'])
+                new_email = __generate_new_email__(uid, "Trabajador", workers_account[1]['Area'][0])
 
                 try:
                     dn = workers_account[0]
