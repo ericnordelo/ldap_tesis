@@ -159,7 +159,7 @@ class Workers(Resource):
             if email and email[0] != "N/D":
                 return {'error': 'Este usuario ya existe en directorio', 'email': email[0]}, 403
             else:
-                uid = workers_account[1]['uid']
+                uid = workers_account[1]['uid'][0]
                 new_email = __generate_new_email__(uid, "Trabajador", workers_account[1]['Area'][0])
 
                 try:
@@ -234,7 +234,7 @@ class Students(Resource):
             if email and email[0] != "N/D":
                 return {'error': 'Este usuario ya existe en directorio', 'email': email[0]}, 403
             else:
-                uid = student_accounts[1]['uid']
+                uid = student_accounts[1]['uid'][0]
                 new_email = __generate_new_email__(uid, "Estudiantes", student_accounts[1]['IdFacultad'])
 
                 try:
