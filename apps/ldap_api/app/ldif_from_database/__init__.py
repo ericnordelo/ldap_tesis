@@ -65,7 +65,7 @@ class LDIFFromSQLServer:
 
     def __process_row(self, row, open_file, row_number, uidNumber):
         open_file.write("# Entry %d: \n" % row_number)
-        open_file.write("%s: %s\n" % ('dn','uid='+str(row["ci"])+',ou=Trabajadores,dc=uh,dc=cu'))
+        open_file.write("%s: %s\n" % ('dn','uid='+str(row[0])+',ou=Trabajadores,dc=uh,dc=cu'))
         for entry in self.__workers_schema:
             if type(entry[1]) == list:
                 open_file.write("%s: %s\n" % (entry[0], ' '.join([str(row[x]) for x in entry[1]])))
@@ -76,7 +76,7 @@ class LDIFFromSQLServer:
         open_file.write("%s: %s\n" % ('objectclass', 'Trabajador'))
         open_file.write("%s: %s\n" % ('objectclass', 'posixAccount'))
         open_file.write("%s: %s\n" % ('objectclass', 'shadowAccount'))
-        open_file.write("%s: %d\n" % ('uidNumber', move_first_ceros(str(row["ci"]))))
+        open_file.write("%s: %d\n" % ('uidNumber', move_first_ceros(str(row[0]))))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('userPassword', '12345678'))
         open_file.write("%s: %s\n" % ('homeDirectory', '/'))
