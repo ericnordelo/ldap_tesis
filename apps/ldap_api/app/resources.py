@@ -342,6 +342,7 @@ class Externs(Resource):
             print(e)
             return {"error": "Can't get uidNumberCounter from memcached"}
 
+        uid = email.split('@')[0].strip()
         dn = 'uid=%s,ou=Externos,dc=uh,dc=cu' % uid
         password = '{CRYPT}' + __sha512_crypt__(data.get('password'), 500000)
 
@@ -349,7 +350,6 @@ class Externs(Resource):
         created_at = created_at[0] + created_at[1] + created_at[2]
         expires = data.get('expires').encode('utf-8')
         expires = expires[0] + expires[1] + expires[2]
-        uid = email.split('@')[0].strip()
         modList = modlist.addModlist({
             'CI':                   [data.get('ci').encode('utf-8')],
             'cn':                   [name.encode('utf-8')],
