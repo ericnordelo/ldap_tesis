@@ -364,6 +364,7 @@ class Externs(Resource):
             'userpassword':         [password.encode('utf-8')],
             'homeDirectory':        [('/home/'+uid+'/').encode('utf-8')],
             'uid':                  uid.encode('utf-8'),
+            'uidNumber':            move_first_ceros(str(data.get('ci')).strip()),
             'objectClass':          [b'Externo', b'posixAccount', b'shadowAccount']
         })
         #    'uidNumber':            uidNumberCounter
@@ -372,6 +373,10 @@ class Externs(Resource):
         result = {'extern_data': 'success'}
         return jsonify(result)
 
+def move_first_ceros(ci):
+    while ci[0] == '0':
+        ci = ci[1:] + ci[0]
+    return ci
 
 class SecurityQuestions(Resource):
     def get(self):
