@@ -166,4 +166,4 @@ def move_first_ceros(ci):
 
 if __name__ == "__main__":
     handler = LDIFFromSQLServer("config.yml", 5000)
-    handler.generate_ldif(number_of_rows=10, restore=False)
+    handler.generate_ldif(number_of_rows=11, restore=False)
