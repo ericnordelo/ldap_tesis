@@ -25,7 +25,7 @@ function addWorker(data) {
             dispatch(push('/p/cambiar'));
             alert('Trabajador agregado satisfactoriamente con el correo: por favor cambie su contraseña.');
         } else if(res.status === 403){
-            alert('Este trabajador ya existe en el directorio.');
+            alert('Este trabajador ya existe en el directorio con el correo.');
         }else if(res.status === 404){
             alert('Este trabajador no existe en el directorio.');
         }

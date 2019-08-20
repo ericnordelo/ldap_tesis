@@ -40,17 +40,19 @@ class ConnectionManager:
             path = 'Assets/'
             filename = 'Nomina.bak'
 
-            ftp = ftplib.FTP("10.6.34.138") 
-            ftp.login(user="dirunico", passwd="d1run1c0*") 
-            ftp.cwd(path)
-            total=ftp.size(filename)
-            pbar=tqdm(total=total)
-            def progress(data):
-                with open(bak_source, 'wb').write as fp:
-                    fp.write(data)
-                    pbar.update(len(data))
-            ftp.retrbinary("RETR " + filename, open(bak_source, 'wb').write, callback)
-            ftp.quit()
+            # Fetch from ftp...
+
+            # ftp = ftplib.FTP("10.6.34.138") 
+            # ftp.login(user="dirunico", passwd="d1run1c0*") 
+            # ftp.cwd(path)
+            # total=ftp.size(filename)
+            # pbar=tqdm(total=total)
+            # def progress(data):
+            #     with open(bak_source, 'wb').write as fp:
+            #         fp.write(data)
+            #         pbar.update(len(data))
+            # ftp.retrbinary("RETR " + filename, open(bak_source, 'wb').write, callback)
+            # ftp.quit()
         except Exception as e:
             perror(str(e))
 
