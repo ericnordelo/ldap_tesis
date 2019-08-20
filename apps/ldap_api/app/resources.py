@@ -589,7 +589,7 @@ def __map_area_to_email_domain__(area, category):
     
     elif category == "Trabajador":
         area = area.strip().upper()
-        domain = '"iris.uh.cu"'
+        domain = 'iris.uh.cu'
         domains = {
             "RECTORADO":    	"rect.uh.cu",
           	"ADMINISTRACION DE RECTORADO":	"rect.uh.cu",
@@ -1100,7 +1100,7 @@ def __map_area_to_email_domain__(area, category):
     
     
     # default
-    return "@"iris.uh.cu""
+    return "@iris.uh.cu"
 
 def __translate_byte_types__(instance):
     instance_json = json.dumps(instance, cls=utils.MyEncoder)
