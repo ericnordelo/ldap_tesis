@@ -135,7 +135,7 @@ class Workers(Resource):
                 "area":x[1]['Area'],
                 "ocupation":x[1]['Cargo'],
                 "id":x[0],
-                "correo": x[1]['Correo']
+                "correo": x[1].get('Correo', 'N/D')
             } for x in workers_account]
         workers_account_json = json.dumps(workers_account, cls=utils.MyEncoder)
         workers_account = json.loads(workers_account_json)
