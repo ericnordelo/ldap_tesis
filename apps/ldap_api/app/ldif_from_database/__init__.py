@@ -7,6 +7,7 @@ else:
 
 import os
 import ldif
+import unidecode
 import ldap
 from ldap import modlist
 
@@ -94,9 +95,45 @@ class LDIFFromSQLServer:
         the ldap keeping unmodified data untouched."""
         raise NotImplementedError
 
+    def __get_uid(self, name, last_name, second_last_name):
+        name = unidecode.unidecode(name)
+        last_name = unidecode.unidecode(last_name)
+        second_last_name = unidecode.unidecode(second_last_name)
+
+        name = name.split()[0].lower()
+        last_name = last_name.split(' ')[0].lower()
+        second_last_name = second_last_name.split(' ')[0].lower()
+        basedn = "ou=Trabajadores,dc=uh,dc=cu"
+        possible_uid = name  + '.' + last_name
+
+        if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(uid=%s)(objectclass=%s))" % (possible_uid, "Trabajador"))):
+            possible_uid = name + '.' +second_last_name
+            if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(uid=%s)(objectclass=%s))" % (possible_uid, "Trabajador"))):
+                for i in range(1,1000):
+                    possible_uid = name + '.' +second_last_name +str(i)
+                    if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(uid=%s)(objectclass=%s))" % (possible_uid, "Trabajador"))):
+                        continue
+                    uid = possible_uid
+                    break
+            else:
+                uid = possible_uid
+        else:
+            uid = possible_uid
+
+        return uid
+
     def __process_row(self, row, open_file, row_number, uidNumber):
+        uid_to_use = ''
+        basedn = "ou=Trabajadores,dc=uh,dc=cu"
+        query_results = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(ci=%s)(objectclass=%s))" % (str(row[0]).strip(), "Trabajador"))
+        # IF is there...
+        if len(query_results):
+            uid_to_use = query_results[0]["uid"]
+        else:
+            uid_to_use = self.__get_uid(row["name"]), row["middle_name"]), str(row["last_name"])
+
         open_file.write("# Entry %d: \n" % row_number)
-        open_file.write("%s: %s\n" % ('dn','uid='+str(row[0]).strip()+',ou=Trabajadores,dc=uh,dc=cu'))
+        open_file.write("%s: %s\n" % ('dn','uid='+uid_to_use+',ou=Trabajadores,dc=uh,dc=cu'))
         for entry in self.__workers_schema:
             if type(entry[1]) == list:
                 open_file.write("%s: %s\n" % (entry[0], ' '.join([str(row[x]) for x in entry[1]])))
@@ -110,8 +147,8 @@ class LDIFFromSQLServer:
         open_file.write("%s: %s\n" % ('uidNumber', move_first_ceros(str(row[0]).strip())))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('userPassword', '12345678'))
-        open_file.write("%s: %s\n" % ('homeDirectory', '/'))
-        open_file.write("%s: %s\n" % ('uid', str(row[0]).strip()))
+        open_file.write("%s: %s\n" % ('homeDirectory', '/home/'+uid_to_use+'/'))
+        open_file.write("%s: %s\n" % ('uid', uid_to_use))
         # open_file.write("%s: %s\n" % ('correo', '---------'))
 
         open_file.write("\n")

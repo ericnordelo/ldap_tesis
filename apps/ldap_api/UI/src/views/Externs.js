@@ -8,6 +8,9 @@ import ExternsTable from '../components/ExternsTable';
 import config from '../config';
 import CircularIndeterminated from '../components/CircularIndeterminated';
 import ExternsFiltersDialog from '../components/ExternsFiltersDialog';
+import {connect} from 'react-redux'
+import {userActions} from '../actions/authActions'
+
 
 class Externs extends Component {
   state = { 
@@ -36,7 +39,8 @@ class Externs extends Component {
           this.setState({ externs: ldap_externs });
         }
         else{
-          alert('No se pudieron obtener los externos del API.')
+          alert('Su sesión ha expirado.');
+          this.props.logout();
         }
         this.setState({loading: false});
       }).catch(err => {
@@ -71,4 +75,4 @@ class Externs extends Component {
   }
 }
 
-export default Externs;
+export default connect(() => {}, {logout: userActions.logout})(Externs);

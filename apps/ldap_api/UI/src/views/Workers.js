@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import config from '../config';
 import CircularIndeterminated from '../components/CircularIndeterminated';
 import FiltersDialog from '../components/FiltersDialog';
+import {connect} from 'react-redux'
+import {userActions} from '../actions/authActions'
 
 class Workers extends Component {
   state = { 
@@ -36,7 +38,8 @@ class Workers extends Component {
           this.setState({ workers: ldap_workers });
         }
         else{
-          alert('No se pudieron obtener los trabajadores del API.')
+          alert('Su sesión ha expirado.')
+          this.props.logout();
         }
         this.setState({loading: false});
       }).catch(err => {
@@ -69,4 +72,4 @@ class Workers extends Component {
   }
 }
 
-export default Workers;
+export default connect(() => {}, {logout: userActions.logout})(Workers);

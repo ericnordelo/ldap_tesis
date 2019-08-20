@@ -159,11 +159,8 @@ class Workers(Resource):
             if email and email[0] != "N/D":
                 return {'error': 'Este usuario ya existe en directorio', 'email': email[0]}, 403
             else:
-                name = workers_account[1]['cn'][0].split()[0].lower()
-                last_name, second_last_name = workers_account[1]['sn'][0].split(
-                )
-                new_email = __generate_new_email__("ou=Trabajadores,dc=uh,dc=cu", name, last_name.lower(),
-                    second_last_name.lower(), "Trabajador", workers_account[1]['Area'])
+                uid = workers_account[1]['uid']
+                new_email = __generate_new_email__(uid, "Trabajador", workers_account[1]['Area'])
 
                 try:
                     dn = workers_account[0]
@@ -237,11 +234,8 @@ class Students(Resource):
             if email and email[0] != "N/D":
                 return {'error': 'Este usuario ya existe en directorio', 'email': email[0]}, 403
             else:
-                name = student_accounts[1]['cn'][0].split()[0].lower()
-                last_name, second_last_name = student_accounts[1]['sn'][0].split(
-                )
-                new_email = __generate_new_email__("ou=Estudiantes,dc=uh,dc=cu", name, last_name.lower(),
-                    second_last_name.lower(), "Estudiantes", student_accounts[1]['IdFacultad'])
+                uid = student_accounts[1]['uid']
+                new_email = __generate_new_email__(uid, "Estudiantes", student_accounts[1]['IdFacultad'])
 
                 try:
                     dn = student_accounts[0]
@@ -355,6 +349,7 @@ class Externs(Resource):
         created_at = created_at[0] + created_at[1] + created_at[2]
         expires = data.get('expires').encode('utf-8')
         expires = expires[0] + expires[1] + expires[2]
+        uid = email.split('@')[0].strip()
         modList = modlist.addModlist({
             'CI':                   [data.get('ci').encode('utf-8')],
             'cn':                   [name.encode('utf-8')],
@@ -367,7 +362,8 @@ class Externs(Resource):
             'tienechat':            [b'TRUE' if data.get('chat') else b'FALSE'],
             'description':          [data.get('comments').encode('utf-8') if data.get('comments') != "" else b"N/D"],
             'userpassword':         [password.encode('utf-8')],
-            'uid':                  data.get('ci').encode('utf-8'),
+            'homeDirectory':        ['/home/'+uid+'/'],
+            'uid':                  uid.encode('utf-8'),
             'objectClass':          [b'Externo']
         })
         #    'uidNumber':            uidNumberCounter
@@ -1133,21 +1129,7 @@ def __set_filters__(args):
 
     return filters
 
-def __generate_new_email__(basedn,name,last_name,second_last_name,category,area):
-    possible_email = name  + '.' + last_name.lower() + __map_area_to_email_domain__(area, category)
-
-    if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=%s))" % (possible_email, category))):
-        possible_email = name.lower() + '.' +second_last_name + __map_area_to_email_domain__(area, category)
-        if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=%s))" % (possible_email, category))):
-            for i in range(1,1000):
-                possible_email = name.lower() + '.' +second_last_name +str(i) + __map_area_to_email_domain__(area, category)
-                if len(ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(correo=%s)(objectclass=%s))" % (possible_email, category))):
-                    continue
-                email = possible_email
-                break
-        else:
-            email = possible_email
-    else:
-        email = possible_email
+def __generate_new_email__(uid,category,area):
+    email = uid + __map_area_to_email_domain__(area, category)
 
     return email

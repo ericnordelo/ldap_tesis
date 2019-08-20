@@ -131,10 +131,18 @@ class SigenuClient:
             uid = possible_uid
 
         return uid
+        
     def __process_row(self, row, open_file, row_number, uidNumber, faculty_id, faculty_name):
-
+        uid_to_use = ''
+        basedn = "ou=Estudiantes,dc=uh,dc=cu"
+        query_results = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(ci=%s)(objectclass=%s))" % (str(row["ci"]), "Estudiante"))
+        # IF is there...
+        if len(query_results):
+            uid_to_use = query_results[0]["uid"]
+        else:
+            uid_to_use = self.__get_uid(row["name"]), row["middle_name"]), str(row["last_name"])
         open_file.write("# Entry %d: \n" % row_number)
-        open_file.write("%s: %s\n" % ('dn','uid='+str(row["ci"])+',ou=Estudiantes,dc=uh,dc=cu'))
+        open_file.write("%s: %s\n" % ('dn','uid='+uid_to_use+',ou=Estudiantes,dc=uh,dc=cu'))
         for entry in self.__students_schema:
             open_file.write("%s: %s\n" % (entry[0], str(row[entry[1]])))
         
@@ -154,8 +162,8 @@ class SigenuClient:
         open_file.write("%s: %s\n" % ('uidNumber', move_first_ceros(str(row["ci"]))))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('userPassword', '12345678'))
-        open_file.write("%s: %s\n" % ('homeDirectory', '/'))
-        open_file.write("%s: %s\n" % ('uid', str(row["ci"])))
+        open_file.write("%s: %s\n" % ('homeDirectory', '/home/'+uid_to_use+'/'))
+        open_file.write("%s: %s\n" % ('uid', uid_to_use))
         open_file.write("%s: %s\n" % ('sn', str(row["middle_name"])+ " " +str(row["last_name"])))
 
 
