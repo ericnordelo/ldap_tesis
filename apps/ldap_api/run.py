@@ -18,8 +18,11 @@ if __name__ == '__main__':
     students_uidNumber = [ x[1]['uidNumber'][0] for x in students_uidNumber ]
     students_uidNumber.sort(reverse=True)
 
-    higher = students_uidNumber[0]
-
+    if len(students_uidNumber):
+        higher = students_uidNumber[0]
+    else:
+        higher = 0
+        
     externs_uidNumber = ldap_server.search_s("ou=Externos,dc=uh,dc=cu", ldap.SCOPE_SUBTREE, "(&(uidNumber=*)(objectclass=Externo))",attrlist=['uidNumber'])
     externs_uidNumber = [ x[1]['uidNumber'][0] for x in externs_uidNumber ]
     externs_uidNumber.sort(reverse=True)
