@@ -8,7 +8,6 @@ students_schema:
   # - ["cuotainternet", ""]
   # - ["direccion", "address"]
   # - ["edad", "ci"]
-  - ["facultad", "faculty"]
   - ["grade", "grade"]
   - ["grupo", "group"]
   - ["lugardenacimiento", "native_of"]

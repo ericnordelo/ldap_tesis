@@ -68,7 +68,7 @@ class SigenuClient:
 
                 for row in rows:
                     try:
-                        self.__process_row(row, f, row_number, uidNumber, faculty["id"])
+                        self.__process_row(row, f, row_number, uidNumber, faculty["id"], faculty["name"])
                         row_number += 1
                         uidNumber+=1
                     except Exception as e:
@@ -131,7 +131,7 @@ class SigenuClient:
             uid = possible_uid
 
         return uid
-    def __process_row(self, row, open_file, row_number, uidNumber, faculty_id):
+    def __process_row(self, row, open_file, row_number, uidNumber, faculty_id, faculty_name):
 
         open_file.write("# Entry %d: \n" % row_number)
         open_file.write("%s: %s\n" % ('dn','uid='+str(row["ci"])+',ou=Estudiantes,dc=uh,dc=cu'))
@@ -141,6 +141,7 @@ class SigenuClient:
         # Entries outside the services
         
         open_file.write("%s: %s\n" % ('idfacultad', faculty_id))
+        open_file.write("%s: %s\n" % ('facultad', faculty_name))
         open_file.write("%s: %s\n" % ('cn', str(row["name"])))
         open_file.write("%s: %s\n" % ('cuotainternet', "0"))
         open_file.write("%s: %d\n" % ('edad', age_from_ci(str(row["ci"]))))

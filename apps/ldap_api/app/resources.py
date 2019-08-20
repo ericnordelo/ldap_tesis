@@ -241,7 +241,7 @@ class Students(Resource):
                 last_name, second_last_name = student_accounts[1]['sn'][0].split(
                 )
                 new_email = __generate_new_email__("ou=Estudiantes,dc=uh,dc=cu", name, last_name.lower(),
-                    second_last_name.lower(), "Estudiantes", student_accounts[1]['Area'])
+                    second_last_name.lower(), "Estudiantes", student_accounts[1]['IdFacultad'])
 
                 try:
                     dn = student_accounts[0]
@@ -547,8 +547,560 @@ def __map_area_to_email_domain__(area, category):
     if category == "Externo":
         return '@'+area
     
-    # to implement
-    return "@iris.uh.cu"
+    if category == "Estudiante":
+        domain = 'default'
+        if area == "223.0.06816_12":
+            domain = "ifal.uh.cu"
+        if area == "223.0.06816_14":
+            domain = "flex.uh.cu",
+        if area == "223.0.06816_09":
+            domain = "fayl.uh.cu",
+        if area == "223.0.06816_03":
+            domain = "geo.uh.cu",
+        if area == "223.0.06816_02":
+            domain = "fisica.uh.cu",
+        if area == "223.0.06816_11":
+            domain = "fcf.uh.cu",
+        if area == "-1d4dd374:1552abd9bee:8f9":
+            domain = "fdes.uh.cu"
+        if area == "223.0.06816_04":
+            domain = "matcom.uh.cu",
+        if area == "223.0.06816_16":
+            domain = "sangeronimo.ohc.cu"
+        if area == "223.0.06816_15":
+            domain = "ftur.uh.cu"
+        if area == "223.0.06816_10":
+            domain = "fec.uh.cu",
+        if area == "223.0.06816_13":
+            domain = "fbio.uh.cu",
+        if area == "223.0.06816_06":
+            domain = "ffh.uh.cu",
+        if area == "223.0.06816_07":
+            domain = "fcom.uh.cu",
+        if area == "fenhi.f.001":
+            domain = "fenhi.uh.cu",
+        if area == "223.0.06816_08":
+            domain = "lex.uh.cu",
+        if area == "223.0.06816_05":
+            domain = "psico.uh.cu",
+        if area == "223.0.06816_01":
+            domain = "fq.uh.cu",
+        return '@estudiantes.'+domain
+    
+    elif category == "Trabajador":
+        area = area.strip().upper()
+        domain = '"iris.uh.cu"'
+        domains = {
+            "RECTORADO":    	"rect.uh.cu",
+          	"ADMINISTRACION DE RECTORADO":	"rect.uh.cu",
+            "GRUPO DE SERVICIOS":	"rect.uh.cu",
+          	"RECTORADO   GRUPO (ETSC)":	"rect.uh.cu",
+          	"GRUPO DE AUDITORIA":	"rect.uh.cu",
+          	"GRUPO DE ASESORIA TECNICA":	"rect.uh.cu",
+          	"DEPARTAMENTO DE PLANIFICACIÓN Y ORGANIZACIÓN":	"rect.uh.cu",
+          	"DEPARTAMENTO DE INFORMACIÓN Y ESTADÍSTICAS":	"rect.uh.cu",
+          	"RECTORADO SECRETARIA GENERAL":   	"rect.uh.cu",
+          	"DEPARTAMENTO  JURIDICO":	"rect.uh.cu",
+          	"GRUPO DE CONTROL ACADEMICO DE PREGRADO":	"rect.uh.cu",
+          	"RECTORADO SECRETARIA GENERAL ARCHIVO CENTRAL":  	"rect.uh.cu",
+          	"RECTORADO  COMISION PROV INGRESO":	"rect.uh.cu",
+          	"RECTORADO RECURSOS HUMANOS":   	"rect.uh.cu",
+          	"RECTORADO RECURSOS HUMANOS  CUADROS": 	"rect.uh.cu",
+          	"RECTORADO RECURSOS HUMANOS GRUPO (ATENCION A PROFESORES)":	"rect.uh.cu",
+          	"RECTORADO RECURSOS HUMANOS GRUPO (CONTRATACION)":	"rect.uh.cu",
+          	"RECTORADO RECURSOS HUMANOS RECURSOS HUMANOS RECURSOS LABORALES": 	"rect.uh.cu",
+          	"RECTORADO RECURSOS HUMANOS RECURSOS HUMANOS OTS Y PHT": 	"rect.uh.cu",
+          	"RECTORADO ECONOMIA":   	"rect.uh.cu",
+          	"AREA  DOCENTE":	"rect.uh.cu",
+          	"ADMINISTRACION":	"rect.uh.cu",
+          	"GRUPO DE GESTION CONTABLE- FINANCIERA":	"rect.uh.cu",
+          	"GRUOI DE REDES Y SERVICIOS TELEMATICOS":	"iris.uh.cu",
+          	"GRUPO DE SEGURIDAD INFORMATICA":	"iris.uh.cu",
+          	"GRUPO DE SERVICIOS TECNICOS":	"iris.uh.cu",
+          	"GRUPO DE TECNOLOGIA EDUCATIVA":	"iris.uh.cu",
+          	"RECTORADO ECONOMIA PLANIFICACION Y EST.":  	"rect.uh.cu",
+          	"RECTORADO ECONOMIA PLANIFICACION Y EST. PLANIFICACION": 	"rect.uh.cu",
+          	"RECTORADO ECONOMIA CONTABILIDAD":  	"rect.uh.cu",
+          	"RECTORADO ECONOMIA CONTABILIDAD CONTABILIDAD": 	"rect.uh.cu",
+          	"RECTORADO ECONOMIA CONTABILIDAD CONTROL DE INVENTAR.": 	"rect.uh.cu",
+          	"RECTORADO C.E.M.I.":   	"rect.uh.cu",
+          	"RECTORADO C.E.SALUD Y BIENESTAR HUMANO":	"rect.uh.cu",
+          	"RECTORADO C.E.(FLACSO).": "rect.uh.cu"   	,
+          	"ADMINISTRACION": 	"rect.uh.cu"   	,
+          	# CENTRO DE ESTUDIOS TURISTICOS	
+          	# SECRETARIA DE FACULTAD	
+          	# ADMINISTRACION	
+          	# DEPARTAMENTO DOCENTE CETUR.	
+          	# CENTRO DE ESTUDIOS TURISTICO	
+          	# ADMINISTRACIION	
+          	# DEPARTAMENTO ENTIDADES DE HOSPITALIDAD	
+          	# DEPARTAMENTO FORMACION BASICA	
+          	# UNIDAD DOCENTE (SALVADOR ALLENDE)	
+          	# UNIDAD DOCENTE (GIRON)	
+          	# UNIDAD DOCENTE (TARARA)	
+          	# UNIDAD DOCENTE (TULIPAN)	
+          	# UNIDAD DOCENTE (EAEHT0)	
+          	# UNIDAD DOCENTE (UCI)	
+          	# DIRECCION DE PUBLICACIONES ACADEMICAS	
+          	# GRUPO DOCENTE 	
+          	# GRUPO DE EDICION	
+          	# GRUPO ADMINISTRATIVO	
+          	# VICERECTORIA (UNIVERSIALIZACION)	
+          	#   GRUPO DE INFORMATIZACION	
+          	#   GRUPO DE ESTUDIOS SOCIALES	
+          	#  GRUPO DE ATENCION A (Diferido )	
+          	# DIRECCION DOCENTE METODOLOGICA	
+          	#  DIRECCION DE UNIVERSALIZACION	
+          	# DEPARTAMENTO DE PREPARACION PARA LA DEFENSA	
+          	# DIRECCION DE CALIDAD	
+          	# AREA DOCENTE (SEDE MARIANAO)	
+          	# SECRETARIA DOCENTE   	
+          	# AREA  DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA DOCENTE (SEDE BOYEROS)	
+          	# SECRETARIA  DOCENTE	
+          	# AREA  DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA DOCENTE (SEDE LA LISA)	
+          	# SECRETARIA  DOCENTE	
+          	# AREA DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA DOCENTE (SEDE COTORRO)	
+          	# SECRETARIA DOCENTE	
+          	# AREA DOCENTE	
+          	# ADMINISTRACION	
+          	# SEDE UNIVERSITARIA MUNICIPAL (PLAZA DE LA REVOLUCION)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISRACION	
+          	# AREA DOCENTE	
+          	# FILIAL UNIVERSITARIA TERRITORIAL(Habana del Este-Guanabacoa-Regla=	
+          	# SECRETARIA DOCENTE	
+          	# AREA  DOCENTE	
+          	# ADMINISTRACION	
+          	# FILIAL UNIVERSITARIA TERRITORIAL (San Miguel del Padron-Cotorro)	
+          	# SECRETARIA DOCENTE	
+          	# AREA  DOCENTE	
+          	# ADMINISTRACION	
+          	# SEDE UNIVERSITARIA MUNICIPAL (CENTRO HABANA)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA DOCENTE	
+          	# SEDE UNIVERSITARIA MUNICIPAL (HABANA VIEJA)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA DOCENTE	
+          	# SEDE UNIVERSITARIA MUNICIPAL (CERRO)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA  DOCENTE	
+          	# SEDE UNIVERSITARIA MUNICIPAL (10 DE OCTUBRE)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA DOCENTE	
+          	# SEDE UNIVERSITARIA MUNICIPAL (PLAYA)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA  DOCENTE	
+          	# SEDE UNIVERSITARIA MUNICIPAL (HABANA DEL ESTE)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA  DOCENTE	
+          	# SEDE UNIVERSITARIA MUNICIPAL (GUANABACOA)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISRACION	
+          	# AREA  DOCENTE	
+          	# SEDE UNIVERSITARIA MUNICIPAL (ARROYO NARANJO)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA  DOCENTE	
+          	# SEDE UNIVERSITARIA MUNICIPAL (SAN MIGUEL DEL PADRON)	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISTRACION	
+          	# AREA  DOCENTE	
+          	# ESCUELA DE TRABAJADORES SOCIALES ( COJIMAR )	
+          	# SECRETARIA DOCENTE	
+          	# ADMINISTTRACION	
+          	# DIRECCION DOCENTE	
+          	# DEPARTAMENTO I.C.T.B.	
+          	# DIRECCION DE ACTIVIDADES	
+          	# DIRECCION DE UNIDADES	
+          	# ESCUELA DE TRABAJADORES SOCIALES  (PROYECTO ESPERANZA SOCIAL)	
+          	# SECRETARIA  DOCENTE	
+          	# ADMINISTRACCION	
+          	# DIRECCION DOCENTE	
+          	# DIRECCION DE UNIDADES	
+          	# VICERECTORIA  DE ECONOMIA	
+          	# DIRECCION DE CONTABILIDAD Y FINANZA	
+          	# GRUPO DE CONTABILIDAD	
+          	# GRUPO DE FINANZA 	
+          	# DIRECCION DE ECONOMIA(UP-UH)	
+          	# CENTO DE GASTOS DE  DOCENCIA	
+          	# CENTRO DE GASTOS DE  CIENCIA YTECNICA	
+          	# CENTRO DE GASTOS DE ASEGURAMIENTO	
+          	# DIORECCION DE PLANIFICACION Y ESTADISTICA	
+          	# GRUPO DE PLANIFICACION	
+          	# GRUPO DE ESTADISTICA	
+          	# VICERECTORIA [ATENCION ACTIVIDADES DOCENTES Y ADMINISTRATIVAS]	
+          	# VICERECTORIA  (ATENCION A ESTUDIANTES)	
+          	#  GRUPO DE ESTUDIOS SOCIALES	
+          	# VICERECTORIA (DOCENTE EDUCATIVA)	
+          	# DOCENTE EDUCATIVA  DEPARTAMENTO DEFENSA  	
+          	# DOCENTE EDUCATIVA DOCENTE METODOLOGICA   	
+          	# DOCENTE EDUCATIVA CULT. FIS. SUP. ATL.   	
+          	# DOCENTE EDUCATIVA CULT. FIS. SUP. ATL. EDUC. FIS. Y DEPORT.  	
+          	# DOCENTE EDUCATIVA CULT. FIS. SUP. ATL. ADMINISTRATIVO  	
+          	# SECCIÓN DE SERVICIOS INTERNOS	
+          	# POSTGRADO Y R.I. EXTENSION UNIVERSITARIA.	
+          	# GRUPO DOCENTE DE EXTENSION UNIVERSITARIA	
+          	# MUSEO  FRAGUA MARTIANA	
+          	# POSTGRADO Y R.I. EXTENSION UNIVERSIT.  GRUPO DE TV UNIV H. 	
+          	# POSTGRADO Y R.I. EXTENSION UNIVERSIT.  ADMIN. EXT. UNIVERS. 	
+          	# POSTGRADO Y R.I. EXTENSION UNIVERSIT.  CASA ESTUDIANTIL 	
+          	# VICERECTORIA (INVESTIGACION)	
+          	# IVICERECTORIA INVESTIGACION (O.T.R.I.)	
+          	# GRUPO DE SERVICIOS TELEMATICOS  (RED)	
+          	# DIRECCION DE CIENCIA Y TECNICA  	
+          	"INVESTIGACION CIENT. C.E.P.E.S.":   	"cepes.uh.cu",
+          	"GRUPO DE TECNOLOGIA EDUCATIVA":	"cepes.uh.cu",
+          	"INVESTIGACION CIENT. C.E.P.E.S.  COMPUTACION": 	"cepes.uh.cu",
+          	"INVESTIGACION CIENT. C.E.P.E.S.  PEDAGOGIA Y PSICOL.": 	"cepes.uh.cu",
+          	"INVESTIGACION CIENT. C.E.P.E.S.  DESARROLLO Y ECONOM.": 	"cepes.uh.cu",
+          	"INVESTIGACION CIENT. C.E.P.E.S.  AREA DE INV. DESARROLLO.":	"cepes.uh.cu",
+          	 "GRUPO DE INFORMATICA  EDUCATIVA":	"cepes.uh.cu",
+          	"INVESTIGACION CIENT. C.E.P.E.S.  ADMINISTRATIVA": 	"cepes.uh.cu",
+          	"INVESTIGACION CIENT. I.M.R.E.":   	"imre.uh.cu",
+          	# "CENTRO COSTO Y DE PAGOS"
+          	"INVESTIGACION CIENT. I.M.R.E.AREA INVESTIGATIVA":	"imre.uh.cu",
+          	"GRUPO DE ENERMAT":	"imre.uh.cu",
+          	"GRUPO DE LUCES":	"imre.uh.cu",
+          	"GRUPO DE NANOMAT":	"imre.uh.cu",
+          	"GRUPO DE QUIMAT":	"imre.uh.cu",
+          	"GRUPO DE LASER":	"imre.uh.cu",
+          	"INVESTIGACION CIENT. I.M.R.E.TALLER.":	"imre.uh.cu",
+          	"INVESTIGACION CIENT. I.M.R.E. ADMINISTRATIVO":  	"imre.uh.cu",
+          	"INVESTIGACION CIENT. CENTRO DE BIOMATERIALES":	"biomat.uh.cu",
+          	"INVESTIGACION CIENT. CENTRO DE BIOMATERIA  PROMOCION Y COMERCIA": 	"biomat.uh.cu",
+          	"INVESTIGACION CIENT. CENTRO DE BIOMATERIA  GRUPO PRODUCCION.": 	"biomat.uh.cu",
+          	"DEPARTAMENTO DE DESARROLLO TECNOLOGICO":	"biomat.uh.cu",
+          	"INVESTIGACION CIENT. CENTRO DE BIOMATERIA QUIMICA MACROMOLEC.":  	"biomat.uh.cu",
+          	"INVESTIGACION CIENT. CENTRO DE BIOMATERIA CERAMICA Y COMPOSIT.":  	"biomat.uh.cu",
+          	"INVESTIGACION CIENT. CENTRO DE BIOMATERIA ASEGUR DE LA CALIDAD":  	"biomat.uh.cu",
+          	"INVESTIGACION CIENT. CENTRO DE BIOMAT. ADMINISTRATIVO":  	"biomat.uh.cu",
+          	"INVESTIGACION CIENT. C.E.S.E.U.":   	"cehseu.uh.cu",
+          	"INVESTIGACION CIENT. C.E.S.E.U.  SECC ADMINISTRATIVA": 	"cehseu.uh.cu",
+          	"INVESTIGACION CIENT. C.E.S.E.U. AREA DE INVEST. DES.":  	"cehseu.uh.cu",
+          	"INVESTIGACION CIENT. C.I.E.I.":   	"ciei.uh.cu",
+          	"INVESTIGACION CIENT. C.I.E.I. ECONOMIA INTERNAC.":  	"ciei.uh.cu",
+          	"INVESTIGACION CIENT. C.I.E.I. ADMINISTRATIVO":  	"ciei.uh.cu",
+          	"INVESTIGACION CIENT. C.E.D.E.M.":   	"cedem.uh.cu",
+          	"INVESTIGACION CIENT. C.E.D.E.M. ADMINISTRATIVO":  	"cedem.uh.cu",
+          	"INVESTIGACION CIENT. C.E.D.E.M. ADMINISTRATIVO  IMPRENTA":	"cedem.uh.cu",
+          	"INVESTIGACION CIENT. C.E.E.C.":   	"ceec.uh.cu",
+          	"INVESTIGACION CIENT. C.E.E.C.  SECCION ADMINISTRATI": 	"ceec.uh.cu",
+          	"INVESTIGACION CIENT. C.E.MEDIO ANBIENTE":   	"ceec.uh.cu",
+          	#  GRUPO DOCENTE	
+          	#  GRUPO DE EDICONES	
+          	#  GRUPO ADMINISTRATIVO	
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENTIFICO TECNICA":	"dict.uh.cu",
+          	"GRUPO DOCENTE (DIR. INFORMACION)":	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENTIFICO TECNICA  DPTO PROC TECN INFORM":	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO PROC TECN INFOR  GRPO DESARR":	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO PROC TECN INFOR  GRPO ANALIT": 	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO PROC TECN INFOR  GRPO TEC INF": 	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERVICIOS INFORMATICOS":	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERV INFOR  GPO CONSUL Y REFER":	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERV INFOR  GPO FONDOS INFORM":	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERV INFOR  GPO TRADUCCIONES":	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERV INFOR  GPO TRADUCCIONES":	"dict.uh.cu",
+          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  SECCION ADMINISTRATIVA":	"dict.uh.cu",
+          	# VICERECTORIA POSGRADO Y REL INTERN.	
+          	# Direccion Administrativa COPE	
+          	# GRUPO DE SERVICIOS ACADEMICOS INTERNACIONALES(OSAI-UH)	
+          	# DEPARTAMENTO DE COMUNICACION	
+          	# POSTGRADO Y R.I. RELACIONES INTERNACIONALES.	
+          	#  GRUPO DE SERVICIOS ACADEMICOS INTERNACIONALES (OSAI-UH)	
+          	# POSTGRADO Y R.I. RELACIONES INTERNAC.  COLABORACION 	
+          	# GRUPO DE GESTION DE PROYECTOS INTERNACIONALES Y DONATIVOS	
+          	# POSTGRADO Y R.I. RELACIONES INTERNAC.  SECCION DE TRAMITES.	
+          	# POSTGRADO Y R.I. RELACIONES INTERNAC.  SECC ADMINISTRATIVA 	
+          	# DIRECCIÓN DE COMUNICACIÓN	
+          	# POSTGRADO Y R.I. DIRECCION DE POSGRAD   	
+          	# DIRECCION DE EVENTOS Y SERVICIOS ACADEMICOS INTERNACIONALES	
+          	# DEPARTAMENTO DE SERVICIOS ACADEMICOS INTERNACIONALES	
+          	# GRUPO ADMINISTRATIVO	
+          	"CENTRO DE ESTUDIOS DE ADMINISTRACION PUBLICA":	"ceap.uh.cu",
+          	# INSTITUTO  CONFUCIO	
+          	# SECRETARIA  DOCENTE	
+          	# SECCION  ADMINISTRATIVA	
+          	# DEPARTAMENTO DOCENTE DE LENGUA CHINA	
+          	# VICERECTORIA  DE SERVICIOS	
+          	# UNIDAD PRESUPUESTADA DDE ASEGURAMIENTO [UPA]	
+          	# DEPARTAMENTO DE RECURSOS HUMANOS	
+          	# DIRECCION DE ECONOMIA	
+          	# CENTRO DE GASTOS DE SERVICIOS	
+          	# CENTRO DE GASTOS DE ASEGURAMIENTO	
+          	# GRUPO DE CONTROL Y ANALISIS	
+          	# VICERECRORIA DE SERVICIOS . SEGURIDAD Y PROTECCION.	
+          	# VICERECTORIA DE SERVICIOS DIR.  ASEGURAMIENTO	
+          	# ECONOMIA Y SERVICIOS ASEGURAMIENTO GESTION Y COMPRAS  	
+          	# ECONOMIA Y SERVICIOS ASEGURAMIENTO ALMACENAJE Y DISTR.  	
+          	# ECONOMIA Y SERVICIOS ASEGURAMIENTO ALMACENAJE Y DISTR. TRANSPORTE 	
+          	# ECONOMIA Y SERVICIOS ASEGURAMIENTO ALMACENAJE Y DISTR. MEDIOS DE VIDA 	
+          	# ECONOMIA Y SERVICIOS ASEGURAMIENTO ALMACENAJE Y DISTR. MEDIOS DE ESTUDIO 	
+          	# SECCION  DE  FERRETERIA	
+          	# SERVICIOS ASEGURAMIENTO LIBRERIA´ALMA MATER  	
+          	# DIRECCION DE ASEGURAMIENTO (LIBRERIA ALMA MATER)	
+          	# SECCION ADMINISTRATIVA (CASA DE PROTOCOLO)	
+          	# VIRECTORIA DE SERVICIOS. DIRECCION DE SERVICIOS	
+          	# CENTRO CONTABLE Y DE PAGOS	
+          	# ECONOMIA Y SERVICIOS SERVICIOS  ALIMENTACION 	
+          	# ECONOMIA Y SERVICIOS SERVICIOS  COMEDOR JOSE MACHADO 	
+          	# ECONOMIA Y SERVICIOS SERVICIOS  COMEDOR JOSE MACHADO # 1	
+          	# ECONOMIA Y SERVICIOS SERVICIOS  COMEDOR JOSE MACHADO # 2	
+          	# ECONOMIA Y SERVICIOS SERVICIOS  CENTRO DE ELABORACIO 	
+          	# ECONOMIA Y SERVICIOS SERVICIOS  CENTRO DE ELABORACIO DULCERIA Y PANADERIA	
+          	# ECONOMIA Y SERVICIOS SERVICIOS  CENTRO DE ELABORACIO ELABORACION	
+          	# ECONOMIA Y SERVICIOS SERVICIOS ACTIVIDADES Y COMUN.  	
+          	# ECONOMIA Y SERVICIOS SERVICIOS ACTIVIDADES Y COMUN.  CORRESPONDENCIA	
+          	# ECONOMIA Y SERVICIOS SERVICIOS ACTIVIDADES Y COMUN. SECC. SERVICIOS INTE 	
+          	# ADMINISTRACION (EDIFICIO VARONA)	
+          	# ECONOMIA Y SERVICIOS SERVICIOS TRANSPORTE  	
+          	# ECONOMIA Y SERVICIOS SERVICIOS TRANSPORTE  TRANSPORTE	
+          	# ECONOMIA Y SERVICIOS SERVICIOS EQUIPOS AUTOMOTOR  	
+          	# ECONOMIA Y SERVICIOS SERVICIOS EQUIPOS AUTOMOTOR  # 1	
+          	# ECONOMIA Y SERVICIOS SERVICIOS EQUIPOS AUTOMOTOR  # 2	
+          	# ECONOMIA Y SERVICIOS SERVICIOS EQUIPOS AUTOMOTOR CONT. Y OP. OMNIBUS 	
+          	# ECONOMIA Y SERVICIOS SERVICIOS ADM. EDIF. MELLA  	
+          	# ECONOMIA Y SERVICIOS SERVICIOS ADM. EDIF. MELLA MANTENIM. Y SERVIC. 	
+          	# ECONOMIA Y SERVICIOS SERVICIOS ADM. EDIF. MELLA MANTENIM. Y SERVIC. MANTENIMIENTO	
+          	# ECONOMIA Y SERVICIOS SERVICIOS ADM. EDIF. MELLA MANTENIM. Y SERVIC. SERVICIOS	
+          	# ECONOMIA Y SERVICIOS SERVICIOS ADM. EDIF. MELLA (CENTRO DE ELABORACION)	
+          	# ECONOMIA Y SERVICIOS SERVICIOS ADM. EDIF. MELLA COCINA COMEDOR COCINA	
+          	# ECONOMIA Y SERVICIOS SERVICIOS  IMPRENTA 	
+          	# VICERECTORIA DE SERVICIOS. DIRECCION DE SERVICIOS A EVENTOS	
+          	# SECCION DE SERVICIO	
+          	# SECCION DE ALOJAMIENTO	
+          	# SECCION DE MANTENIMIENTO	
+          	# SERVICIOS SERVICIOS A EVENTOS  VILLA  41 Y 18 	
+          	# ECONOMIA Y SERVICIOS SERVICIOS A EVENTOS  COCINA COMEDOR # 1	
+          	# ECONOMIA Y SERVICIOS SERVICIOS A EVENTOS  COCINA COMEDOR # 2	
+          	# ECONOMIA Y SERVICIOS SERVICIOS A EVENTOS  MANTENIM. Y ALOJAM. 	
+          	# ECONOMIA Y SERVICIOS SERVICIOS A EVENTOS  MANTENIM. Y ALOJAM. MANTENIMIENTO	
+          	# ECONOMIA Y SERVICIOS SERVICIOS A EVENTOS  MANTENIM. Y ALOJAM. MANTENIMIENTO PLAYA	
+          	# SERVICIOS SERVICIOS A EVENTOS VILLA MIRAMAR 5TA.62  	
+          	# ECONOMIA Y SERVICIOS SERVICIOS A EVENTOS (CASA DE PROTOCOLO)	
+          	# VICERECTORIA DE SERVICIOS . DIR INGENIERO PRINCIPAL	
+          	# GRUPO DE ASEAORIA LEGAL	
+          	# GRUPO DE ADMINISTRACION	
+          	# GRUPO DECONTROL LOGISTICO Y ECONOMICO	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL  ASEG.TECNICO A  EDIF 	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL MANTENIMIENTO ESP.  	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL MANTENIMIENTO ESP. MANTENIMIENTO PLOMERIA	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL MANTENIMIENTO ESP. MANTENIMIENTO OPERACIONES VARIAS	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL MANTENIMIENTO ESP. MANTENIMIENTO BRIGADA CARPINTERIA	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL REFRIGERACION  	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL REFRIGERACION  ENRROLLADO Y MAQUIN.	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL REFRIGERACION  REFRIGER. DOMESTICA	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL MECANICA INDUSTRIAL  CALDERAS	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL MECANICA INDUSTRIAL  CAMPANA	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL MECANICA INDUSTRIAL  HIDRAULICA	
+          	# ECONOMIA Y SERVICIOS INGENIERO PRINCIPAL MIRAMAR Y COMPUTAC.  	
+          	# VICERECTORIA DE SERVICIOS . BRIG ASP. CONTINGENTE	
+          	# ECONOMIA Y SERVICIOS CONTINGENTE ADMINISTRACION  	
+          	# ECONOMIA Y SERVICIOS CONTINGENTE ASEGURAMIENTO  	
+          	# ECONOMIA Y SERVICIOS CONTINGENTE EQUIPOS  	
+          	# ECONOMIA Y SERVICIOS CONTINGENTE TECNICO PRODUCTIVO  	
+          	# ECONOMIA Y SERVICIOS CONTINGENTE TECNICO PRODUCTIVO  EJECUTOR # 1	
+          	# ECONOMIA Y SERVICIOS CONTINGENTE TECNICO PRODUCTIVO  EJECUTOR # 2	
+          	# ECONOMIA Y SERVICIOS CONTINGENTE TECNICO PRODUCTIVO  EJECUTOR # 3	
+          	# VICERECTORIA DE SERVICIOS. DIR DE RESIDENCIA ESTUDIANTIL	
+          	# DIRECCION DE RESIDENCIAS ESTUDIANTILES	
+          	# ECONOMIA Y SERVICIOS RESID. ESTUDIANTIL RES. EST. 12 Y MAL.  	
+          	# SECCION DE MANTENIMIENTO	
+          	# SECCION CENTRO DE ELABORACION	
+          	# ECONOMIA Y SERVICIOS RESID. ESTUDIANTIL RES. EST. F Y 3RA.  	
+          	# SALA  DE COMPUTACION	
+          	# SECCION DE MANTENIMIENTO	
+          	# SECCION DE CENTRO DE ELABORACION	
+          	# ECONOMIA Y SERVICIOS RESID. ESTUDIANTIL RES. EST. F Y 3RA. ASEGURAMIENTO 	
+          	# ECONOMIA Y SERVICIOS RESID. ESTUDIANTIL RES. EST. ALAMAR 6  	
+          	# GRUPO DE MANTENIMIENTO	
+          	# COCINA COMEDOR	
+          	# ECONOMIA Y SERVICIOS RESID. ESTUDIANTIL RES. EST. MICRO X  	
+          	# GRUPO DE MANTENIMIENTO	
+          	# COCINA COMEDOR	
+          	# ECONOMIA Y SERVICIOS RESID. ESTUDIANTIL RES. EST. GUITERAS  	
+          	# GRUPO DE MANTENIMIENTO	
+          	# COCINA COMEDOR	
+          	# CENTRO DE ELABORACION DEL ESTE	
+          	# DIRECCION DE ALIMENTACION	
+          	# DEPARTAMENTO ECONOMICO	
+          	# DEPERTAMENTO GASTRONOMICO	
+          	"FACULTAD DE ECONOMIA":	"fec.uh.cu",
+          	"ECONOMIA   SECRETARIA FACULTAD": 	"fec.uh.cu",
+          	"ECONOMIA   ADMINISTRACION": 	"fec.uh.cu",
+          	"GRIPO DE ICTB  . BIBLIOTECA.":	"fec.uh.cu",
+          	"ECONOMIA  DESARROLLO ECONOM.":  	"fec.uh.cu",
+          	"ECONOMIA  MACRO Y MICROECONOM.":  	"fec.uh.cu",
+          	"ECONOMIA  CIENCIAS EMPRESARIA.":  	"fec.uh.cu",
+          	"ECONOMIA  DE PLANIFICACION DE LA ECONOMIA NACIONAL":	"fec.uh.cu",
+          	"ECONOMIA  ESTADIS. E INFORMAT.":  	"fec.uh.cu",
+          	"ECONOMIA  ESTADIS. E INFORMAT. LABORATORIO COMPUT.": 	"fec.uh.cu",
+          	"FACULTAD DE CONTABILIDAD Y FINANZAS":	"fcf.uh.cu",
+          	"CONTAB. Y FINANZAS   SECRETARIA FACULTAD": 	"fcf.uh.cu",
+          	"CONTAB. Y FINANZAS   ADMINISTRACION": 	"fcf.uh.cu",
+          	"CONTAB. Y FINANZAS   IDIOMAS": 	"fcf.uh.cu",
+          	"CONTAB. Y FINANZAS  CONTABIL. Y AUDITOR.":  	"fcf.uh.cu",
+          	"CONTAB. Y FINANZAS  COSTOS Y SISTEMAS":  	"fcf.uh.cu",
+          	"CONTAB. Y FINANZAS  FINANZAS":  	"fcf.uh.cu",
+          	"CONTAB. Y FINANZAS CETED":   	"fcf.uh.cu",
+          	"FACULTAD DE EDUCACION A DISTANCIA":	"fed.uh.cu",
+          	"EDUCACION A DISTANCI   SECRETARIA FACULTAD": 	"fed.uh.cu",
+          	"EDUCACION A DISTANCI   ADMINISTRACION": 	"fed.uh.cu",
+          	"MATEMATICA Y COMPUT.":    	"matcom.uh.cu",
+          	"GRUPO DE CRIPTOGRAFIA":	"matcom.uh.cu",
+          	"MATEMATICA Y COMPUT.   SECRETARIA FACULTAD": 	"matcom.uh.cu",
+          	"MATEMATICA Y COMPUT.   ADMINISTRACION": 	"matcom.uh.cu",
+          	"MATEMATICA Y COMPUT. DPTO MATEMATICA":	"matcom.uh.cu",
+          	"MATEMATICA Y COMPUT.  DPTO MATEMATICA  APLICADA":	"matcom.uh.cu",
+          	"MATEMATICA Y COMPUT.  DPTO COMPUTACION 1.":	"matcom.uh.cu",
+          	"MATEMATICA Y COMPUT.DPTO DE  COMPUTACION 2.":	"matcom.uh.cu",
+          	"MATEMATICA Y COMPUT.  COMPUTACION LABORATORIO COMPUT.": 	"matcom.uh.cu",
+          	"GRUPO DE TRABAJO (CASA DEL SOFTWARE)":	"matcom.uh.cu",
+          	"CENTRO DE ESTUDIOS DE CRIPTOGRAFIA":	"matcom.uh.cu",
+          	"QUIMICA":    	"fq.uh.cu",
+          	"QUIMICA   SECRETARIA FACULTAD": 	"fq.uh.cu",
+          	"QUIMICA   ADMINISTRACION": 	"fq.uh.cu",
+          	# BIBLIOTECA	
+          	"QUIMICA  QUIMICA INORGANICA":  	"fq.uh.cu",
+          	"QUIMICA  QUIMICA ORGANICA":  	"fq.uh.cu",
+          	"QUIMICA  QUIMICA ANALITICA":  	"fq.uh.cu",
+          	"QUIMICA  QUIMICA FISICA":  	"fq.uh.cu",
+          	"QUIMICA  QUIMICA GENERAL":  	"fq.uh.cu",
+          	"QUIMICA  AREA INVEST. DESARR. LABORAT BIO-INORGANI": 	"fq.uh.cu",
+          	"QUIMICA  AREA INVEST. DESARR. LAB SINTESIS ORGANIC": 	"fq.uh.cu",
+          	"QUIMICA C.E.ANTIGENO SINTET.":   	"fq.uh.cu",
+          	"QUIMICA C.E.ANTIGENO SINTET.  ADMINISTRACION": 	"fq.uh.cu",
+          	"DEPARTAMENTO DE GLICOCONJUGACION":	"fq.uh.cu",
+          	"DEPARTAMENTO DE QUIMICA":	"fq.uh.cu",
+          	"DEPARTAMENTO DE CALIDAD":	"fq.uh.cu",
+          	"QUIMICA C.E.PROD NATURALES.":   	"fq.uh.cu",
+          	"QUIMICA C.E.PROD NATURALES.  ADMINISTRACION (C.E)": 	"fq.uh.cu",
+          	"FISICA":    	"fisica.uh.cu",
+          	"FISICA   SECRETARIA FACULTAD": 	"fisica.uh.cu",
+          	"FISICA   ADMINISTRACION": 	"fisica.uh.cu",
+          	"FISICA  FISICA GENERAL":  	"fisica.uh.cu",
+          	"FISICA  FISICA APLICADA":  	"fisica.uh.cu",
+          	"FISICA  FISCA TEORICA":  	"fisica.uh.cu",
+          	"BIOLOGIA":    	"fbio.uh.cu",
+          	"GRUPO DE INFORMATIZACION":	"fbio.uh.cu",
+          	"GRUPO DE ICTB (BIBLIOTECA)":	"fbio.uh.cu",
+          	"BIOLOGIA   SECRETARIA FACULTAD": 	"fbio.uh.cu",
+          	"BIOLOGIA  ADMINISTRATIVO":  	"fbio.uh.cu",
+          	"BIOLOGIA  BIOQUIMICA":  	"fbio.uh.cu",
+          	"BIOLOGIA  MICROBIOLOGIA":  	"fbio.uh.cu",
+          	"BIOLOGIA  BIOLOGIA VEGETAL":  	"fbio.uh.cu",
+          	"BIOLOGIA  BIOL. ANIMAL Y HUM.":  	"fbio.uh.cu",
+          	 "( MUSEOS  )":	"fbio.uh.cu",
+          	"BIOLOGIA  AREA INVEST. DESARR.":  	"fbio.uh.cu",
+          	"BIOLOGIA  LABORAT. DOC. BIOL.":  	"fbio.uh.cu",
+          	"BIOLOGIA C.E.DE PROTEINAS":   	"fbio.uh.cu",
+          	"BIOLOGIA C.I.M.":   	"fbio.uh.cu",
+          	"GRUPO DE MANEJO Y CONSERVACION DE RECURSOS MARINOS":	"fbio.uh.cu",
+          	"GRUPO DE ECOLOGIA MARINA":	"fbio.uh.cu",
+          	"GRUPO DE CAMBIO CLIMATICO":	"fbio.uh.cu",
+          	"GRUPO DE ACUICULTURA":	"fbio.uh.cu",
+          	"GRUPO DE GENETICA DE LA CONSERVACION":	"fbio.uh.cu",
+          	"BIOLOGIA C.I.M. BIOLOGIA MARINA":  	"fbio.uh.cu",
+          	"BIOLOGIA C.I.M. ADMINISTRATIVO":  	"fbio.uh.cu",
+          	"GEOGRAFIA":    	"geo.uh.cu",
+          	"GEOGRAFIA   SECRETARIA FACULTAD": 	"geo.uh.cu",
+          	"GEOGRAFIA   ADMINISTRACION": 	"geo.uh.cu",
+          	"GEOGRAFIA   GEOGRAFIA FISICA": 	"geo.uh.cu",
+          	"GEOGRAFIA   GEOGRAFIA ECONOMICA": 	"geo.uh.cu",
+          	"FILOSOFIA E HISTORIA":    	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA   SECRETARIA FACULTAD": 	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA   ADMINISTRACION": 	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA  FILOSOFIA ESPECIAL.":  	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA  SOCIOLOGIA":  	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA  SOCIOLOGIA ESC.T.SOC(COJIMAR)": 	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA  FTP P/L C. SOC. EC.":  	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA  FTP P/L C. NAT. Y M.":  	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA  HISTORIA DE CUBA":  	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA  HISTORIA":  	"ffh.uh.cu",
+          	"FILOSOFIA E HISTORIA C.E.CASA FDO ORTIZ":   	"ffh.uh.cu",
+          	"DERECHO":    	"lex.uh.cu",
+          	#  GRUPO DE I.C.T.B (BIBLIOTECA)	
+          	"DERECHO   SECRETARIA FACULTAD": 	"lex.uh.cu",
+          	"DERECHO   ADMINISTRACION": 	"lex.uh.cu",
+          	"DERECHO  JURIDICOS BASICOS":  	"lex.uh.cu",
+          	"DERECHO  JURIDICOS BASICOS ESC.T.SOC.(COJIMAR)": 	"lex.uh.cu",
+          	"DERECHO  PENAL":  	"lex.uh.cu",
+          	"DERECHO  PENAL ESC.T.SOC.(COJIMAR)": 	"lex.uh.cu",
+          	"DERECHO  ECONOMICO INTERNAC.":  	"lex.uh.cu",
+          	"DERECHO  ECONOMICO INTERNAC. ESC.T.SOC.(COJIMAR)": 	"lex.uh.cu",
+          	"DERECHO  CIVIL":  	"lex.uh.cu",
+          	"DERECHO  CIVIL ESC.T.SOC.(COJIMAR)": 	"lex.uh.cu",
+          	"PSICOLOGIA":    	"psico.uh.cu",
+          	"PSICOLOGIA   SECRETARIA FACULTAD": 	"psico.uh.cu",
+          	"PSICOLOGIA   ADMINISTRACION": 	"psico.uh.cu",
+          	"PSICOLOGIA  FORMACION BASICA":  	"psico.uh.cu",
+          	"PSICOLOGIA  FORMACION BASICA ESC.T.SOC(COJIMAR)": 	"psico.uh.cu",
+          	"PSICOLOGIA  EJERCICIO D/LA PROF.":  	"psico.uh.cu",
+          	"PSICOLOGIA  EJERCICIO D/LA PROF. ESC.T.SOC(COJIMAR) .": 	"psico.uh.cu",
+          	"ARTES Y LETRAS":    	"fayl.uh.cu",
+          	"ARTES Y LETRAS   SECRETARIA FACULTAD": 	"fayl.uh.cu",
+          	"ARTES Y LETRAS   ADMINISTRACION": 	"fayl.uh.cu",
+          	"GRUPO EDITORIAL (U-H)":	"fayl.uh.cu",
+          	"ARTES Y LETRAS  ESTUDIOS LITERARIOS":  	"fayl.uh.cu",
+          	"ARTES Y LETRAS  LINGUISTICA":  	"fayl.uh.cu",
+          	"ARTES Y LETRAS  LINGUISTICA ESC.T.SOC.(COJIMAR)": 	"fayl.uh.cu",
+          	"ARTES Y LETRAS  HISTORIA DEL ARTE":  	"fayl.uh.cu",
+          	"DEPARTAMENTO DE PATRIMONIO":	"fayl.uh.cu",
+          	"DEPARTAMENTO DE ESTUDIOS SOCIOCULTURALES":	"fayl.uh.cu",
+          	"LENGUAS EXTRANJERAS":    "flex.uh.cu",
+          	"LENGUAS EXTRANJERAS   SECRETARIA FACULTAD": 	"flex.uh.cu",
+          	"LENGUAS EXTRANJERAS   ADMINISTRACION": 	"flex.uh.cu",
+          	"LENGUAS EXTRANJERAS  INGLES":  	"flex.uh.cu",
+          	"LENGUAS EXTRANJERAS  PREST. INGLES":  	"flex.uh.cu",
+          	"LENGUAS EXTRANJERAS  PREST. INGLES ESC.T.SOC.(COJIMAR)": 	"flex.uh.cu",
+          	"LENGUAS EXTRANJERAS  FRANCES Y PORTUGUES":  	"flex.uh.cu",
+          	"LENGUAS EXTRANJERAS  ALEMAN":  	"flex.uh.cu",
+          	"LENGUAS EXTRANJERAS  RUSO E/ ITALIAN0":  	"flex.uh.cu",
+          	"LENGUAS EXTRANJERAS  ESPAÑOL":  	"flex.uh.cu",
+          	"CENTRO DE IDIOMAS":	"flex.uh.cu",
+          	"COMUNICACION":    	"fcom.uh.cu",
+          	"COMUNICACION   SECRETARIA FACULTAD": 	"fcom.uh.cu",
+          	"COMUNICACION   ADMINISTRACION": 	"fcom.uh.cu",
+          	"COMUNICACION   COMUNICACION E.T.SOC": 	"fcom.uh.cu",
+          	"COMUNICACION  BIBLIOT Y CIENC INF":  	"fcom.uh.cu",
+          	"COMUNICACION  PERIODISMO":  	"fcom.uh.cu",
+          	"COMUNICACION  COMUNICACION SOCIAL":  	"fcom.uh.cu",
+          	"FACULTAD DE LENGUA ESPAÑOLA PARA NO HISPANOHABLANTES":	"fenhi.uh.cu"
+          	# SECRETARIA DE FACULTAD	
+          	# BIBLIOTECA	
+          	# GRUPO DE ACTIVIDADES ADMINISTRATIVAS	
+          	# DEPARTAMENTO DE DIAGNOSTICO	
+          	# DEPARTAMENTO DE EXTENSION UNIVERSITARIA	
+          	# UNIDAD I DE PREPARATORIA	
+          	# UNIDAD II DE PREPARATORIA	
+          	# PROGRAMA DE PERFECCIONAMIENTO - COJIMAR	
+          	# DEPARTAMENTO DE PRACTICA INTEGRAL DE LENGUA ESPAÑOLA	
+          	# DEPARTAMENTO DE LENGUA Y COMUNICACION	
+          	# DEPARTAMENTO DE ESTUDIOS LINGUISTICOS	
+          	# AREA DE RESERVA	
+        }
+        
+        try:
+            domain = domains[area]
+        except Exception:
+            pass
+
+        return '@'+domain
+    
+    
+    # default
+    return "@"iris.uh.cu""
 
 def __translate_byte_types__(instance):
     instance_json = json.dumps(instance, cls=utils.MyEncoder)
