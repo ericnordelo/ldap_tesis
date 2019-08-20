@@ -161,7 +161,7 @@ class WorkersTable extends Component {
                       <TableCell>{n.ci}</TableCell>
                       <TableCell>{n.area}</TableCell>
                       <TableCell>{n.ocupation}</TableCell>
-                      <TableCell>{n.email}</TableCell>
+                      <TableCell>{n.correo}</TableCell>
                     </TableRow>
                   );
                 })}
