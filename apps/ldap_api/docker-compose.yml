@@ -65,6 +65,7 @@ services:
     command: bash -c "npm install && npm start"
     depends_on: 
       - api
+      
 networks: 
   default:
     external:

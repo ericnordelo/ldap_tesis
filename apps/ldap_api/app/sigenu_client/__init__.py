@@ -153,7 +153,7 @@ class SigenuClient:
         open_file.write("%s: %s\n" % ('uidNumber', move_first_ceros(str(row["ci"]))))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
         open_file.write("%s: %s\n" % ('userPassword', '12345678'))
-        open_file.write("%s: %s\n" % ('homeDirectory', '---------'))
+        open_file.write("%s: %s\n" % ('homeDirectory', '/'))
         open_file.write("%s: %s\n" % ('uid', str(row["ci"])))
         open_file.write("%s: %s\n" % ('sn', str(row["middle_name"])+ " " +str(row["last_name"])))
 

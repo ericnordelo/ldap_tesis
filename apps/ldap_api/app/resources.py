@@ -4,7 +4,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_r
                                 get_jwt_identity, set_access_cookies, unset_jwt_cookies,
                                 set_refresh_cookies, get_raw_jwt)
 from pymemcache.client import base
-from .models import UserModel
+from .models import UserRole
 from app import config, utils
 from flask import request, Response
 from ldap import modlist
@@ -42,6 +42,19 @@ def verify_user_password(user_dn, password):
     except ldap.LDAPError:
         return False
 
+
+class Admins(Resource):
+    @jwt_required
+    def get(self):
+        pass
+
+    @jwt_required
+    def put(self):
+        pass
+
+    @jwt_required
+    def delete(self):
+        pass
 
 class UserLogin(Resource):
     def post(self):
@@ -82,6 +95,7 @@ class UserLogout(Resource):
 
 
 class Users(Resource):
+    @jwt_required
     def get(self):
         filters = "(|(objectclass=Trabajador)(objectclass=Externo)(objectclass=Estudiante))"
         args = request.args
@@ -173,7 +187,7 @@ class Workers(Resource):
                 client.get('uidNumberCounter')))
         except Exception as e:
             print(e)
-            return {"error": "Can't get uidNumberCounter from memcached"}
+            return {"error": "No se pudo obtener el uidNumber de memcached"}
 
         try:
             handler = LDIFFromSQLServer("./app/ldif_from_database/config.yml", uidNumberCounter)
@@ -182,10 +196,11 @@ class Workers(Resource):
         except Exception as e:
             return {'e': str(e)}
 
-        return {'status': 'done'}
+        return {'status': 'terminado satisfactoriamente'}
 
 
 class Students(Resource):
+    @jwt_required
     def get(self):
         filters = "(objectclass=Estudiante)"
         args = request.args
@@ -250,7 +265,7 @@ class Students(Resource):
                 client.get('uidNumberCounter')))
         except Exception as e:
             print(e)
-            return {"error": "Can't get uidNumberCounter from memcached"}
+            return {"error": "No se pudo obtener el uidNumber de memcached"}
 
         try:
             handler = SigenuClient("./app/sigenu_client/config.yml", uidNumberCounter)
@@ -333,7 +348,7 @@ class Externs(Resource):
             print(e)
             return {"error": "Can't get uidNumberCounter from memcached"}
 
-        dn = 'uid=%s,ou=Externos,dc=uh,dc=cu' % email
+        dn = 'uid=%s,ou=Externos,dc=uh,dc=cu' % data.get('ci').encode('utf-8')
         password = '{CRYPT}' + __sha512_crypt__(data.get('password'), 500000)
 
         created_at = data.get('created_at').split('-')
@@ -352,7 +367,7 @@ class Externs(Resource):
             'tienechat':            [b'TRUE' if data.get('chat') else b'FALSE'],
             'description':          [data.get('comments').encode('utf-8') if data.get('comments') != "" else b"N/D"],
             'userpassword':         [password.encode('utf-8')],
-            'uid':                  email.encode('utf-8'),
+            'uid':                  data.get('ci').encode('utf-8'),
             'objectClass':          [b'Externo']
         })
         #    'uidNumber':            uidNumberCounter
@@ -531,7 +546,8 @@ class ServiceStudentInternetQuote(Resource):
 def __map_area_to_email_domain__(area, category):
     if category == "Externo":
         return '@'+area
-    # THIS SHOULD BE DOMAIN FOR DDI
+    
+    # to implement
     return "@iris.uh.cu"
 
 def __translate_byte_types__(instance):

@@ -35,12 +35,6 @@ def create_tables():
 # Configuraciones según el entorno
 configuration = config.set_environment(os.getenv("LDAP_API_ENVIRONMENT"))
 
-# Inicializando la estructura pero sin conectarse aún (lazy connect)
-# Ver por que no funciona: trace_file=open(configuration.LOG_FILE_ADDRESS,"w+")
-
-# ldap_server = ldap.initialize(configuration.LDAP_SERVER_URI,
-#                 trace_level=utils.DEBUG_LEVEL[configuration.PYTHON_LDAP_DEBUG_LVL])
-
 
 from app import resources
 
@@ -52,5 +46,6 @@ api.add_resource(resources.Students, '/estudiantes')
 api.add_resource(resources.Externs, '/externos')
 api.add_resource(resources.SecurityQuestions, '/p/preguntasdeseguridad')
 api.add_resource(resources.ChangePassword, '/p/cambiar')
+api.add_resource(resources.Admins, '/admins')
 api.add_resource(resources.ServiceStudentInternetQuote, '/servicios/cuotadeinternet/estudiantes')
 

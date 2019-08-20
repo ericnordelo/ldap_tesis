@@ -1,12 +1,12 @@
 from app import db
 from passlib.hash import pbkdf2_sha256 as sha256
 
-class UserModel(db.Model):
+class UserRole(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    role = db.Column(db.String(120), nullable=False)
 
     def save_to_db(self):
         db.session.add(self)
@@ -20,11 +20,11 @@ class UserModel(db.Model):
     def return_all(cls):
         def to_json(x):
             return {
-                'username': x.username,
-                'password': x.password
+                'email': x.email,
+                'role': x.role
             }
 
-        return {'users': list(map(lambda x: to_json(x), UserModel.query.all()))}
+        return {'users': list(map(lambda x: to_json(x), UserRole.query.all()))}
 
     @classmethod
     def delete_all(cls):
@@ -34,11 +34,3 @@ class UserModel(db.Model):
             return {'message': '{} row(s) deleted'.format(num_rows_deleted)}
         except:
             return {'message': 'Something went wrong'}
-
-    @staticmethod
-    def generate_hash(password):
-        return sha256.hash(password)
-
-    @staticmethod
-    def verify_hash(password, hash):
-        return sha256.verify(password, hash)

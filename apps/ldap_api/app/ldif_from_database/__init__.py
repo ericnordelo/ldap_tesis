@@ -7,7 +7,7 @@ else:
 
 class LDIFFromSQLServer:
     """Encapsulation for methods wich populate and modify the ldap server
-    from a sql server databas."""
+    from a sql server database."""
 
     def __init__(self, config_yml_path, firstUidNumber):
         """Receives the path to the config file"""
@@ -65,6 +65,7 @@ class LDIFFromSQLServer:
 
     def __process_row(self, row, open_file, row_number, uidNumber):
         open_file.write("# Entry %d: \n" % row_number)
+        open_file.write("%s: %s\n" % ('dn','uid='+str(row["ci"])+',ou=Trabajadores,dc=uh,dc=cu'))
         for entry in self.__workers_schema:
             if type(entry[1]) == list:
                 open_file.write("%s: %s\n" % (entry[0], ' '.join([str(row[x]) for x in entry[1]])))
@@ -72,15 +73,15 @@ class LDIFFromSQLServer:
                 open_file.write("%s: %s\n" % (entry[0], str(row[entry[1]])))
         
         # Entries outside the database
-        open_file.write("%s: %s\n" % ('dn', 'Trabajador'))
         open_file.write("%s: %s\n" % ('objectclass', 'Trabajador'))
         open_file.write("%s: %s\n" % ('objectclass', 'posixAccount'))
         open_file.write("%s: %s\n" % ('objectclass', 'shadowAccount'))
-        open_file.write("%s: %d\n" % ('uidNumber', uidNumber))
+        open_file.write("%s: %d\n" % ('uidNumber', move_first_ceros(str(row["ci"]))))
         open_file.write("%s: %d\n" % ('gidNumber', 10000))
-        open_file.write("%s: %s\n" % ('homeDirectory', '---------'))
-        open_file.write("%s: %d\n" % ('uid', uidNumber))
-        open_file.write("%s: %s\n" % ('correo', '---------'))
+        open_file.write("%s: %s\n" % ('userPassword', '12345678'))
+        open_file.write("%s: %s\n" % ('homeDirectory', '/'))
+        open_file.write("%s: %d\n" % ('uid', str(row["ci"])))
+        # open_file.write("%s: %s\n" % ('correo', '---------'))
 
         open_file.write("\n")
         pass
@@ -90,6 +91,10 @@ def perror(msg, exit_status=1):
     print(msg)
     exit(exit_status)
 
+def move_first_ceros(ci):
+    while ci[0] == '0':
+        ci = ci[1:] + ci[0]
+    return ci
 
 if __name__ == "__main__":
     handler = LDIFFromSQLServer("config.yml", 5000)

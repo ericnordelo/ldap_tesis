@@ -18,7 +18,7 @@ workers_schema: # First item is the property name, sencond one is the index (0 b
   - ["sn", [3, 4]]
 
 
-  # PAra todos
+  # Para todos
 
   # objectclass: posixAccount
   # objectclass: shadowAccount
