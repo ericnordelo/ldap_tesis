@@ -135,6 +135,8 @@ class LDIFFromSQLServer:
                 email_to_use = str(query_results[0][1]["Correo"][0])
             except Exception:
                 pass
+            print(email_to_use)
+
         else:
             uid_to_use = self.__get_uid(str(row[1]), str(row[3]), str(row[4]))
 
