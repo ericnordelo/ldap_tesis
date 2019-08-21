@@ -130,6 +130,7 @@ class LDIFFromSQLServer:
         email_to_use = ''
         if len(query_results):
             uid_to_use = str(query_results[0][1]["uid"][0])
+            print(query_results[0][1])
             try:
                 email_to_use = str(query_results[0][1]["correo"][0])
             except Exception:
