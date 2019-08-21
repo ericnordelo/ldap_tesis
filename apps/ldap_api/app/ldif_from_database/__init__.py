@@ -127,8 +127,10 @@ class LDIFFromSQLServer:
         basedn = "ou=Trabajadores,dc=uh,dc=cu"
         query_results = ldap_server.search_s(basedn, ldap.SCOPE_ONELEVEL, "(&(ci=%s)(objectclass=%s))" % (str(row[0]).strip(), "Trabajador"))
         # IF is there...
+        email_to_use = ''
         if len(query_results):
             uid_to_use = str(query_results[0][1]["uid"][0])
+            email_to_use = str(query_results[0][1]["correo"][0])
         else:
             uid_to_use = self.__get_uid(str(row[1]), str(row[3]), str(row[4]))
 
@@ -149,7 +151,8 @@ class LDIFFromSQLServer:
         open_file.write("%s: %s\n" % ('userPassword', '12345678'))
         open_file.write("%s: %s\n" % ('homeDirectory', '/home/'+uid_to_use+'/'))
         open_file.write("%s: %s\n" % ('uid', uid_to_use))
-        # open_file.write("%s: %s\n" % ('correo', '---------'))
+        if len(email_to_use):
+            open_file.write("%s: %s\n" % ('correo', email_to_use))
 
         open_file.write("\n")
         pass
