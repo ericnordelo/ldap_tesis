@@ -129,7 +129,7 @@ class LDIFFromSQLServer:
         # IF is there...
         email_to_use = ''
         if len(query_results):
-            uid_to_use = str(query_results[0][1]["uid"][0])
+            uid_to_use = query_results[0][1]["uid"][0].decode('utf8')
             print(query_results[0][1])
             try:
                 email_to_use = str(query_results[0][1]["Correo"][0])
