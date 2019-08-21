@@ -130,12 +130,10 @@ class LDIFFromSQLServer:
         email_to_use = ''
         if len(query_results):
             uid_to_use = query_results[0][1]["uid"][0].decode('utf8')
-            print(query_results[0][1])
             try:
-                email_to_use = str(query_results[0][1]["Correo"][0])
+                email_to_use = query_results[0][1]["Correo"][0].decode('utf8')
             except Exception:
                 pass
-            print(email_to_use)
 
         else:
             uid_to_use = str(self.__get_uid(str(row[1]), str(row[3]), str(row[4])))
