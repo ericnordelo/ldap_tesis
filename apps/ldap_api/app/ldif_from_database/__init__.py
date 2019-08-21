@@ -138,7 +138,7 @@ class LDIFFromSQLServer:
             print(email_to_use)
 
         else:
-            uid_to_use = self.__get_uid(str(row[1]), str(row[3]), str(row[4]))
+            uid_to_use = str(self.__get_uid(str(row[1]), str(row[3]), str(row[4])))
 
         open_file.write("# Entry %d: \n" % row_number)
         open_file.write("%s: %s\n" % ('dn','uid='+uid_to_use+',ou=Trabajadores,dc=uh,dc=cu'))
