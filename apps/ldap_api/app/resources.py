@@ -42,20 +42,6 @@ def verify_user_password(user_dn, password):
     except ldap.LDAPError:
         return False
 
-
-class Admins(Resource):
-    @jwt_required
-    def get(self):
-        pass
-
-    @jwt_required
-    def put(self):
-        pass
-
-    @jwt_required
-    def delete(self):
-        pass
-
 class UserLogin(Resource):
     def post(self):
         data = parser.parse_args()
@@ -614,12 +600,10 @@ def __map_area_to_email_domain__(area, category):
           	"RECTORADO RECURSOS HUMANOS RECURSOS HUMANOS OTS Y PHT": 	"rect.uh.cu",
           	"RECTORADO ECONOMIA":   	"rect.uh.cu",
           	"AREA  DOCENTE":	"rect.uh.cu",
-          	"ADMINISTRACION":	"rect.uh.cu",
           	"GRUPO DE GESTION CONTABLE- FINANCIERA":	"rect.uh.cu",
           	"GRUOI DE REDES Y SERVICIOS TELEMATICOS":	"iris.uh.cu",
           	"GRUPO DE SEGURIDAD INFORMATICA":	"iris.uh.cu",
           	"GRUPO DE SERVICIOS TECNICOS":	"iris.uh.cu",
-          	"GRUPO DE TECNOLOGIA EDUCATIVA":	"iris.uh.cu",
           	"RECTORADO ECONOMIA PLANIFICACION Y EST.":  	"rect.uh.cu",
           	"RECTORADO ECONOMIA PLANIFICACION Y EST. PLANIFICACION": 	"rect.uh.cu",
           	"RECTORADO ECONOMIA CONTABILIDAD":  	"rect.uh.cu",
@@ -812,7 +796,6 @@ def __map_area_to_email_domain__(area, category):
           	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERVICIOS INFORMATICOS":	"dict.uh.cu",
           	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERV INFOR  GPO CONSUL Y REFER":	"dict.uh.cu",
           	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERV INFOR  GPO FONDOS INFORM":	"dict.uh.cu",
-          	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERV INFOR  GPO TRADUCCIONES":	"dict.uh.cu",
           	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  DPTO SERV INFOR  GPO TRADUCCIONES":	"dict.uh.cu",
           	"INVESTIGACION CIENTIFICA DIRECCION DE INFORMACION CIENT TECNICA  SECCION ADMINISTRATIVA":	"dict.uh.cu",
           	# VICERECTORIA POSGRADO Y REL INTERN.	
@@ -1139,3 +1122,17 @@ def __generate_new_email__(uid,category,area):
     email = uid + __map_area_to_email_domain__(area, category)
 
     return email
+
+
+class Admins(Resource):
+    @jwt_required
+    def get(self):
+        pass
+
+    @jwt_required
+    def put(self):
+        pass
+
+    @jwt_required
+    def delete(self):
+        pass
