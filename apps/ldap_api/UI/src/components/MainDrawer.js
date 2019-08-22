@@ -94,7 +94,8 @@ class MainDrawer extends React.Component {
   constructor(props){
       super(props);
       this.state = {
-        open: props.authed
+        open: props.authed,
+        admin: localStorage.getItem('currentUserRole') == 'admin'
       };
   }
 
@@ -162,10 +163,10 @@ class MainDrawer extends React.Component {
           </div>
           <Divider />
           <List>
-          {[['Inicio', <HomeIcon/>, '/'], ['Personas', <Accessibility/>, '/personas'], 
-          ['Estudiantes', <HowToReg/>, '/estudiantes'], ['Trabajadores', <WcIcon/>, '/trabajadores'], 
-          ['Externos', <TransferWithinAStation/>, '/externos'], ['Administradores', <AdbIcon/>, '/administradores']]
-            .map((obj, index) => (
+          { this.state.admin ?  
+            [['Inicio', <HomeIcon/>, '/'], ['Personas', <Accessibility/>, '/personas'], 
+            ['Estudiantes', <HowToReg/>, '/estudiantes'], ['Trabajadores', <WcIcon/>, '/trabajadores'], 
+            ['Externos', <TransferWithinAStation/>, '/externos'], ['Administradores', <AdbIcon/>, '/administradores']].map((obj, index) => (
               <Link to={obj[2]} className={classNames(classes.drawerLink)}>
                 <Switch>
                   <Route exact={obj[2] === '/'} path={obj[2]} render={() =>
@@ -182,7 +183,26 @@ class MainDrawer extends React.Component {
                   }/>
                 </Switch>
               </Link>
-            ))}
+            )) : [['Inicio', <HomeIcon/>, '/'], ['Personas', <Accessibility/>, '/personas'], 
+            ['Estudiantes', <HowToReg/>, '/estudiantes'], ['Trabajadores', <WcIcon/>, '/trabajadores'], 
+            ['Externos', <TransferWithinAStation/>, '/externos']].map((obj, index) => (
+              <Link to={obj[2]} className={classNames(classes.drawerLink)}>
+                <Switch>
+                  <Route exact={obj[2] === '/'} path={obj[2]} render={() =>
+                    <ListItem selected button key={obj[2]}>
+                      <ListItemIcon>{obj[1]}</ListItemIcon>
+                      <ListItemText primary={obj[0]} />
+                    </ListItem>
+                  }/>
+                  <Route render={() =>
+                    <ListItem button key={obj[0]}>
+                      <ListItemIcon>{obj[1]}</ListItemIcon>
+                      <ListItemText primary={obj[0]} />
+                    </ListItem>
+                  }/>
+                </Switch>
+              </Link>))
+            }
           </List>
         </Drawer>
         <main

@@ -11,8 +11,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
 import AddAdminDialog from '../components/AddAdminDialog';
+import {connect} from 'react-redux';
+import {userActions} from '../actions/authActions';
 
 class Administrators extends Component {
   state = { 
@@ -32,7 +33,12 @@ class Administrators extends Component {
   }
 
   componentDidMount() {
-    this.fetchData();
+    let currentUserIsAdmin = localStorage.getItem('currentUserRole') == 'admin';
+    if (!currentUserIsAdmin) {
+      this.props.logout();
+    }else{
+      this.fetchData();
+    }
   }
 
   fetchData(){
@@ -146,4 +152,4 @@ class Administrators extends Component {
   }
 }
 
-export default Administrators;
+export default connect(() => {}, {logout: userActions.logout})(Administrators);

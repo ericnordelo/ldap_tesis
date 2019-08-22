@@ -23,12 +23,13 @@ function login(user) {
     })
     .then((response) => {
       if(response.status == 200){
-        dispatch({ 
-          type: types.LOGIN_USER_SUCCESS,
-          user 
-        });
+
         response.json().then(data => {
           localStorage.setItem('currentUserRole', data.role);
+          dispatch({ 
+            type: types.LOGIN_USER_SUCCESS,
+            user 
+          });
           dispatch(push('/'));
         });
       }else{
