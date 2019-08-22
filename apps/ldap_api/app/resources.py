@@ -288,12 +288,6 @@ class Externs(Resource):
 
     @jwt_required
     def post(self):
-        current_user = get_jwt_identity()
-
-        if current_user:
-            return current_user.email
-        
-
         data = request.get_json()
         old_login = data.get('old_login')
         can_use_old_login = False
