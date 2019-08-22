@@ -1120,7 +1120,7 @@ class Admins(Resource):
         if len(users_account):
             user = UserRole.query.filter_by(email=data.get('email')).first()
             if user is None:
-                user = UserRole(data.get('email'), 'admin')
+                user = UserRole(email=data.get('email'), role='admin')
                 user.save_to_db()
             else:
                 if user.role == 'admin':
