@@ -42,6 +42,5 @@ if __name__ == '__main__':
     client = base.Client((configuration.MEMCACHED_HOST, 11211))
     client.set('uidNumberCounter',higher)
     
-    app.config.setdefault('WTF_CSRF_METHODS', [])
     app.run(port='5000', host="0.0.0.0")
     
