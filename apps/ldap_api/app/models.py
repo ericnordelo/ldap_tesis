@@ -16,6 +16,14 @@ class UserRole(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    @property
+    def serialize(self):
+       """Return object data in easily serializable format"""
+       return {
+           'email': self.email,
+           'role'  : self.role
+       }
+
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
