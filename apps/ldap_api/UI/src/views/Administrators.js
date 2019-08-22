@@ -28,6 +28,7 @@ class Administrators extends Component {
     super(props);
     this.fetchData = this.fetchData.bind(this);
     this.addAdmin = this.addAdmin.bind(this);
+    this.removeAdmin = this.removeAdmin.bind(this);
   }
 
   componentDidMount() {
@@ -78,8 +79,33 @@ class Administrators extends Component {
       })
   }
 
+  removeAdmin(email){
+    this.setState({loading2: true});
+    fetch(config.api_address + '/administradores', {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: "include",
+      method: 'DELETE',
+      body: JSON.stringify({email: email}),
+      })
+      .then(results => results.json())
+      .then(data => {
+        if(data.success){
+          let admins = this.state.admins;
+          admins = admins.filter((x) => x.email != email);
+          this.setState({loading2: false, admins: admins});
+          alert(data.success)
+        }else{
+          alert(data.error)
+        }
+      }).catch(err => {
+        this.setState({loading2: false});
+      })
+  }
+
   render() {
-    
+    let removeAdmin = this.removeAdmin;
     return (
       <div>
         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} arial-label="Breadcrumb">
@@ -99,7 +125,7 @@ class Administrators extends Component {
                   primary={admin.email}
                 />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete">
+                  <IconButton onClick={() => { if (window.confirm('Confirme que desea eliminar este administrador.')) removeAdmin(admin.email) }} edge="end" aria-label="delete">
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>

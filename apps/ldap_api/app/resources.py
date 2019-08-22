@@ -1136,7 +1136,7 @@ class Admins(Resource):
 
     @jwt_required
     def delete(self):
-        data = request.get_json().get('email')
+        data = request.get_json()
 
         users_account = ldap_server.search_s("dc=uh,dc=cu", ldap.SCOPE_SUBTREE,
             "(&(objectclass=Trabajador)(correo=%s))" % data.get('email'))
