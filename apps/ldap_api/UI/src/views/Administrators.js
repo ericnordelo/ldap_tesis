@@ -18,6 +18,7 @@ class Administrators extends Component {
   state = { 
     admins: [], 
     loading: true,
+    loading2: false,
     name: '',
     last_name: '',
     email: '',
@@ -53,26 +54,28 @@ class Administrators extends Component {
   }
 
   addAdmin(email){
-    this.setState({loading: true});
+    this.setState({loading2: true});
     fetch(config.api_address + '/administradores', {
-      credentials: "include",
-      method: 'POST',
-      body: JSON.stringify({email: email}),
       headers: {
         'Content-Type': 'application/json'
-      }})
+      },
+      credentials: "include",
+      method: 'PUT',
+      mode: 'cors',
+      body: JSON.stringify({email: email}),
+      })
       .then(results => results.json())
       .then(data => {
         if(data.success){
           let admins = this.state.admins;
           admins.push({email: email});
-          this.setState({loading: false, admins: admins});
+          this.setState({loading2: false, admins: admins});
           alert(data.success)
         }else{
           alert(data.error)
         }
       }).catch(err => {
-        this.setState({loading: false});
+        this.setState({loading2: false});
       })
   }
 
