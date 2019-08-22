@@ -14,7 +14,7 @@ from app import config, utils
 app = Flask(__name__)
 api = Api(app)
 
-app.config['WTF_CSRF_CHECK_DEFAULT'] = False
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'some-secret-string'
