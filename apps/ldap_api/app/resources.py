@@ -42,6 +42,15 @@ def verify_user_password(user_dn, password):
     except ldap.LDAPError:
         return False
 
+def is_admin(email):
+    user = UserRole.query.filter_by(email=email).first()
+    if user is None:
+        return False
+    else:
+        if user.role == 'admin':
+            return True
+
+
 class UserLogin(Resource):
     def post(self):
         data = parser.parse_args()
@@ -63,7 +72,10 @@ class UserLogin(Resource):
             access_token = create_access_token(identity=data['username'])
             refresh_token = create_refresh_token(identity=data['username'])
 
-            resp = jsonify({'login': True, 'role': 'admin'})
+            role = 'user'
+            if is_admin(data['username']):
+                role = 'admin'
+            resp = jsonify({'login': True, 'role': role})
             set_access_cookies(resp, access_token)
             set_refresh_cookies(resp, refresh_token)
             resp.status_code = 200
@@ -276,6 +288,12 @@ class Externs(Resource):
 
     @jwt_required
     def post(self):
+        current_user = get_jwt_identity()
+
+        if current_user:
+            return current_user.email
+        
+
         data = request.get_json()
         old_login = data.get('old_login')
         can_use_old_login = False
