@@ -46,6 +46,6 @@ api.add_resource(resources.Students, '/estudiantes')
 api.add_resource(resources.Externs, '/externos')
 api.add_resource(resources.SecurityQuestions, '/p/preguntasdeseguridad')
 api.add_resource(resources.ChangePassword, '/p/cambiar')
-api.add_resource(resources.Admins, '/admins')
+api.add_resource(resources.Admins, '/administradores')
 api.add_resource(resources.ServiceStudentInternetQuote, '/servicios/cuotadeinternet/estudiantes')
 

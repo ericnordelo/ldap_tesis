@@ -50,6 +50,8 @@ class Externs extends Component {
   }
 
   render() {
+    let currentUserIsAdmin = localStorage.getItem('currentUserRole') == 'admin' 
+
     return (
       <div>
         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} arial-label="Breadcrumb">
@@ -65,9 +67,11 @@ class Externs extends Component {
             <Button style={{marginLeft: 20}} to="/externos/agregar" size="small" onClick={() => this.fetchData('', '', '', '')} variant="outlined" color="primary">
               Limpiar Filtros
             </Button>
-            <Button style={{marginLeft: 20}} to="/externos/agregar" size="small" component={Link} variant="contained" color="primary">
+            {currentUserIsAdmin ? 
+              <Button style={{marginLeft: 20}} to="/externos/agregar" size="small" component={Link} variant="contained" color="primary">
               Agregar Externo
-            </Button>
+            </Button> : ''}
+            
           </ExternsTable>
         }
       </div>

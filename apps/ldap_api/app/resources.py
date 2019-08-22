@@ -63,7 +63,7 @@ class UserLogin(Resource):
             access_token = create_access_token(identity=data['username'])
             refresh_token = create_refresh_token(identity=data['username'])
 
-            resp = jsonify({'login': True})
+            resp = jsonify({'login': True, 'role': 'admin'})
             set_access_cookies(resp, access_token)
             set_refresh_cookies(resp, refresh_token)
             resp.status_code = 200
@@ -126,10 +126,6 @@ class Workers(Resource):
         workers_account_json = json.dumps(workers_account, cls=utils.MyEncoder)
         workers_account = json.loads(workers_account_json)
 
-        # args = request.args
-        # page = int(args.get('page',1))
-        # workers_account = workers_account[(page-1)*configuration.PAGE_COUNT:page*configuration.PAGE_COUNT]
-
         return {'workers': workers_account}
 
     def post(self):
@@ -161,7 +157,7 @@ class Workers(Resource):
 
         return {'error': 'Este trabajador no existe en el directorio.'}, 404
 
-    # @jwt_required
+    @jwt_required
     def patch(self):
         # GET UIDNUMBERCOUNTER
         try:
@@ -236,7 +232,7 @@ class Students(Resource):
 
         return {'error': 'Este estudiante no existe en el directorio.'}, 404
 
-    # @jwt_required
+    @jwt_required
     def patch(self):
         # GET UIDNUMBERCOUNTER
         try:
@@ -278,6 +274,7 @@ class Externs(Resource):
 
         return {'externs': externs_account}
 
+    @jwt_required
     def post(self):
         data = request.get_json()
         old_login = data.get('old_login')
@@ -502,7 +499,7 @@ class ChangePassword(Resource):
             return {'error': 'Credenciales incorrectas'}, 403
 
 class ServiceStudentInternetQuote(Resource):
-    def post(self):
+    def get(self):
         users_account = ldap_server.search_s("dc=uh,dc=cu", ldap.SCOPE_SUBTREE,
             "(&(objectclass=Estudiante)(correo=%s))" % request.get_json().get('email'))
         if len(users_account):
@@ -511,21 +508,7 @@ class ServiceStudentInternetQuote(Resource):
             users_account_json = json.dumps(users_account, cls=utils.MyEncoder)
             users_account = json.loads(users_account_json)
 
-            data = request.get_json()
-            if not verify_user_password(users_account[0], data.get('oldpassword')):
-                return {'error':'Credenciales incorrectas'}, 403
-
-            new_password = '{CRYPT}' + __sha512_crypt__(data.get('password'), 500000)
-            old_password = map(lambda s: s.encode('utf-8'), users_account[1].get('userPassword'))
-
-            try:
-                dn = users_account[0]
-                modList = modlist.modifyModlist( {'userPassword': old_password}, 
-                                                {'userPassword': [new_password.encode('utf-8')] } )
-
-                ldap_server.modify_s(dn,modList)
-            except Exception as e:
-                return {'error':str(e)}
+            # agregar algortimo para calculo de cuotas
 
             return {'cuota': mbytes}
         else:
@@ -1091,8 +1074,6 @@ def __translate_byte_types__(instance):
     instance_json = json.dumps(instance, cls=utils.MyEncoder)
     return json.loads(instance_json)
 
-
-
 def __sha512_crypt__(password, rounds=5000):
     rand = random.SystemRandom()
     salt = ''.join([rand.choice(string.ascii_letters + string.digits)
@@ -1127,12 +1108,49 @@ def __generate_new_email__(uid,category,area):
 class Admins(Resource):
     @jwt_required
     def get(self):
-        pass
+        users = UserRole.query.filter_by(role='admin').all()
+        return jsonify({'administradores': users})
 
     @jwt_required
     def put(self):
-        pass
+        data = request.get_json().get('email')
+
+        users_account = ldap_server.search_s("dc=uh,dc=cu", ldap.SCOPE_SUBTREE,
+            "(&(objectclass=Trabajador)(correo=%s))" % data.get('email'))
+        if len(users_account):
+            user = UserRole.query.filter_by(email=data.get('email')).first()
+            if user is None:
+                user = UserRole(data.get('email'), 'admin')
+                user.save_to_db()
+            else:
+                if user.role == 'admin':
+                    return {'error': 'Este usuario ya es administrador.'} 
+                else:
+                    user.role = 'admin'
+                    user.save_to_db()
+
+            return {'success': 'Administrador agregado satisfactoriamente.'} 
+
+        else:
+            return {'error': 'No existe un trabajador registrado con ese correo.'} 
 
     @jwt_required
     def delete(self):
-        pass
+        data = request.get_json().get('email')
+
+        users_account = ldap_server.search_s("dc=uh,dc=cu", ldap.SCOPE_SUBTREE,
+            "(&(objectclass=Trabajador)(correo=%s))" % data.get('email'))
+        if len(users_account):
+            user = UserRole.query.filter_by(email=data.get('email')).first()
+            if user is None:
+                return {'error': 'Este usuario no es administrador.'} 
+            else:
+                if user.role == 'admin':
+                    user.remove_from_db()
+                else:
+                    return {'error': 'Este usuario no es administrador.'} 
+
+            return {'success': 'Administrador removido satisfactoriamente.'} 
+
+        else:
+            return {'error': 'No existe un trabajador registrado con ese correo.'} 

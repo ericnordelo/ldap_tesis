@@ -18,6 +18,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
+import AdbIcon from '@material-ui/icons/Adb';
 import HowToReg from '@material-ui/icons/HowToReg';
 import Accessibility from '@material-ui/icons/Accessibility';
 import WcIcon from '@material-ui/icons/Wc';
@@ -163,7 +164,7 @@ class MainDrawer extends React.Component {
           <List>
           {[['Inicio', <HomeIcon/>, '/'], ['Personas', <Accessibility/>, '/personas'], 
           ['Estudiantes', <HowToReg/>, '/estudiantes'], ['Trabajadores', <WcIcon/>, '/trabajadores'], 
-          ['Externos', <TransferWithinAStation/>, '/externos']]
+          ['Externos', <TransferWithinAStation/>, '/externos'], ['Administradores', <AdbIcon/>, '/administradores']]
             .map((obj, index) => (
               <Link to={obj[2]} className={classNames(classes.drawerLink)}>
                 <Switch>

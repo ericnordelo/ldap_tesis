@@ -15,6 +15,8 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import config from '../config'
 import { InputAdornment, Checkbox, FormControlLabel } from '@material-ui/core';
+import {connect} from 'react-redux';
+import {userActions} from '../actions/authActions';
 
 const styles = theme => ({
   main: {
@@ -134,6 +136,13 @@ class AddExtern extends Component{
     };
   }
   
+  componentDidMount = () => {
+    let currentUserIsAdmin = localStorage.getItem('currentUserRole') == 'admin';
+    if (!currentUserIsAdmin) {
+      this.props.logout();
+    }
+  }
+
   handleInputChange = (event) => {
     const { value, name } = event.target;
     this.setState({
@@ -189,7 +198,7 @@ class AddExtern extends Component{
 
   render(){
     const { classes } = this.props;
-    
+
     return (
       <main className={classes.main}>
         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} arial-label="Breadcrumb">
@@ -441,4 +450,4 @@ AddExtern.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddExtern);
+export default connect(() => {}, {logout: userActions.logout})(withStyles(styles)(AddExtern));

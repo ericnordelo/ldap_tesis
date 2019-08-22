@@ -6,6 +6,7 @@ import Workers from './views/Workers';
 import AddExtern from './views/AddExtern';
 import Externs from './views/Externs';
 import Students from './views/Students';
+import Administrators from './views/Administrators';
 import Login from './views/Login';
 import People from './views/People';
 import RecoverPassword from './views/RecoverPassword';
@@ -69,6 +70,7 @@ class App extends Component{
               <Route path="/externos/agregar" component={AddExtern} />
               <Route exact path="/externos" component={Externs} />
               <Route exact path="/personas" component={People} />
+              <Route exact path="/administradores" component={Administrators} />
               <Route exact path="/p/agregartrabajador" component={AddWorker} />
               <Route exact path="/p/agregarestudiante" component={AddStudent} />
               {/* <Route component={Error404} /> */}

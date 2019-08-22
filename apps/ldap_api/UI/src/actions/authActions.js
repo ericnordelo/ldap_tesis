@@ -27,7 +27,10 @@ function login(user) {
           type: types.LOGIN_USER_SUCCESS,
           user 
         });
-        dispatch(push('/'));
+        response.json().then(data => {
+          localStorage.setItem('currentUserRole', data.role);
+          dispatch(push('/'));
+        });
       }else{
         alert('No se ha podido autenticar su cuenta. Por favor inténtelo de nuevo.');
         dispatch({ 
@@ -60,6 +63,7 @@ function logout() {
     })
     .then(res => {
       if (res.status === 200) {
+        localStorage.removeItem('currentUserRole');
         dispatch(push('/entrar'));
       } else {
         const error = new Error(res.error);
