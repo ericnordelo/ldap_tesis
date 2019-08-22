@@ -61,7 +61,6 @@ class Administrators extends Component {
       },
       credentials: "include",
       method: 'PUT',
-      mode: 'cors',
       body: JSON.stringify({email: email}),
       })
       .then(results => results.json())
