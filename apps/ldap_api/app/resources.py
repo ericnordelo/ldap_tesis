@@ -1109,7 +1109,7 @@ class Admins(Resource):
     @jwt_required
     def get(self):
         users = UserRole.query.filter_by(role='admin').all()
-        return {'administradores': [user.email for user in users]}
+        return {'administradores': [{'email': user.email} for user in users]}
 
     @jwt_required
     def put(self):
