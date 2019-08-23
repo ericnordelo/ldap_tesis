@@ -1,0 +1,27 @@
+sql_server:
+  connection_string: 
+    server:
+      - 'sqlserver_db'
+  restore_query:
+    bak_source:
+      - '/api/app/ldif_from_database/Nomina.bak'
+    data_destination:
+      - '/var/opt/mssql/data/PLANTILLA_RH.mdf'
+    logs_destination:
+      - '/var/opt/mssql/data/PLANTILLA_RH.ldf'
+workers_schema: # First item is the property name, sencond one is the index (0 based) in database row
+  - ["area", 6]
+  - ["cargo", 5]
+  - ["ci", 0]
+  - ["cn", 1]
+  - ["sexo", 2]
+  - ["sn", [3, 4]]
+
+
+  # Para todos
+
+  # objectclass: posixAccount
+  # objectclass: shadowAccount
+  # uidnumber: ----
+  # gidnumber: ----
+  # homedirectory: ---- 

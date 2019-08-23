@@ -1,0 +1,119 @@
+\chapter{Flujo de información relacionada con los recursos humanos}
+
+\section{Directorio Único}
+
+\subsection{Surgimiento}
+
+El Directorio Único de la Universidad de La Habana es un conjunto de servicios, que fueron implementados con el objetivo de acceder a los datos del personal de la misma (estudiantes, trabajadores y externos al centro) y lograr la verificación centralizada de la indentidad de los usuarios. En el momento de su surgimiento, se hacía necesario disponer de un sistema que unificara las principales fuentes de datos de Recursos Humanos. De esta manera se buscaba presentar una interfaz para gestionar esta información de manera centralizada. Así los administradores podían modificar la información concerniente al departamento de Recursos Humanos, utilizando una interfaz de usuario publicada como una página web (actualmente en el dominio directorio.uh.cu); y los servicios (como SQUID y el correo electrónico) que requieren de esta información para su funcionamiento podían obtenerla a través de una API.
+
+El conjunto de servicios que compone el actual Directorio fue tomando forma paulatinamente al integrarse soluciones aisladas a la interfaz inicial (soluciones en distintas tecnologías y lenguajes de programación). Entre los principales y más utilizados podemos destacar un mecanismo de autenticación OAuth para los sitios y servicios de la intranet (como el proxy y el correo electrónico). Todos los servicios implementados sobre Directorio funcionan hasta hoy. Algunos se encargan de denegar o permitir el acceso de los usuarios a determinados recursos brindados por la universidad. Se puede tomar como ejemplo, el acceso al servicio que administra la asignación de viajes internacionales al personal de la universidad.
+
+\subsection{Estructura}
+
+Hablar de la estructura específica del directorio como un sistema único es difícil, debido a que está conformado actualmente por una gran cantidad de sistemas independientes entre sí en su mayoría.
+
+ Algunos de los procesos necesarios para el funcionamiento de directorio, están automatizados mediante el uso de varias tecnologías, con métodos poco mantenibles. Ejemplo de esto es la  extracción de información de la fuente de ASSETS (\hyperref[assets]{ver aquí}), donde se extrae la información de una base de datos en MS SQL Server, la cual se transforma en una base de datos MySQL gestionada con Drupal, de la cuál se lee la información con la que se actualiza la base de datos final, todo esto utilizando scripts de Bash y cronjobs para ejecutarse de manera periódica, mientras que el software para la transformación está desarrollado en PHP y en C Sharp. Esto hace que el código fuente sea muy difícil de mantener.
+ 
+  A grandes rasgos, el Directorio Único se compone de las fuentes de información, de una interfaz web publicada en el dominio directorio.uh.cu, y de un conjunto de servicios que proveen los datos necesarios a los sistemas que dependen de información relacionada con el departamento de Recursos Humanos. 
+  
+  El principal consumidor de estos servicios es el Nodo Central de la Universidad de La Habana, que los utiliza para la autenticación de usuarios, y para consultas de datos como la cuota de internet.
+
+\subsection{Fuentes de información}
+
+El flujo de información relacionada con los departamentos de Recursos Humanos en la universidad, tiene diversas fuentes, de las cuales se obtiene la información requerida de todo el personal perteneciente al centro. Algunas de estas fuentes han sido mencionadas anteriormente en el documento, como es el caso de las bases de datos de ASSETS (que contienen la información respecto a los trabajadores de la universidad y de los puntos externos que conforman las demás unidades presupuestadas asociadas a la misma, que son IFAL, JBN, UPA, el ISDI y el INSTEC). En estos puntos externos existe el problema de la obtención de la información de manera manual, o sea, se copian las bases de datos de forma periódica en dispositivos de almacenamiento extraíbles, como discos duros y memorias flash. Esto se debe a la mala conectividad que poseen estos centros debido a la lejanía, así como a la falta de personal capacitado para montar los servicios necesarios para automatizar la extracción de los datos, y cabe mencionar que el ISDI y el INSTEC se incorporaron a la universidad hace relativamente poco tiempo, por lo que los servicios están en proceso de integración. Por la parte de los estudiantes la fuente de información es el SIGENU, sistema que pertenece al departamento de la secretaría docente de la universidad. De este se obtiene la información mediante el uso de una interfaz que utiliza el protocolo SOAP para publicar los datos como servicios que pueden ser consultados de manera directa al estar conectado a la red de la universidad.
+
+\subsubsection{SIGENU}
+
+Este como mencionamos es la fuente de la información relacionada con los estudiantes de la universidad. Es un sistema web, que como se mencionó anteriormente, publica los datos utilizando el protocolo SOAP (Simple Object Access Protocol o Protocolo Simple de Acceso a Objetos), los cuales pueden ser consultados por cualquier servicio (ya que no requieren autenticación) que se encuentra dentro de la red de la UH. De aquí se obtiene información como las facultades, los estudiantes que pertenecen a las mismas, y la información de estos (la cual puede ser obtenida de manera sencilla mediante el carnet de identidad o el correo electrónico). 
+
+\subsubsection{Bases de datos de ASSETS}
+
+\label{assets}
+
+Esta es la fuente de información relacionada con los trabajadores de los centros que pertenecen a la universidad. Estas bases de datos se maneja en un sistema de código propietario el cual no puede ser modificado, que utiliza MS SQL Server como tecnología, el cual utilizan los departamentos de Recursos Humanos para gestionar su información. Está compuesta por 6 bases de datos (una por cada departamento de Recursos Humanos en cada unidad presupuestada). 
+
+\subsection{Problemas del sistema actual}
+
+El sistema, tal y como existe en este momento, presenta varios problemas de los cuales se han ido mencionando algunos. Esta tesis 
+pretende brindar una propuesta de solución para la mayoría de los mismos, así como su implementación. Los problemas son:
+
+\subsection{Mantenimiento y extensibilidad del Sistema}
+
+Debido a la naturaleza del surgimiento del Directorio Único, es decir, el acoplamiento de varios servicios de manera escalonada sobre la idea inicial (servicios implementados en varias tecnologías y lenguajes de programación), cada componente es demasiado dependiente de la forma en que las demás brindan sus correspondientes funcionalidades. Esto se debe a que la interacción entre las mismas ha sido configurada mediante un enfoque estático. El propio sistema no dispone de herramientas que permitan su modificación de una manera cómoda para los encargados de su mantenimiento. 
+
+Este enfoque dificulta enormemente las tareas de actualización del sistema, las cuales son necesarias para poder adecuar el mismo a las nuevas condiciones y necesidades que van surgiendo en la red.
+
+\subsection{Pérdida de código fuente}
+
+Actualmente el personal encargado del mantenimiento de Directorio no puede responder a las necesidades de actualización en gran parte debido a la pérdida de muchos de los cambios en su historial de código. Tan importante es la pérdida de este historial que imposibilita la recuperación de la lógica del Directorio actual partiendo solamente del código almacenado. 
+
+\subsection{Carencia de una interfaz centralizada para servicios externos}
+
+A menudo, se implementan nuevos servicios en la red de la universidad. Generalmente estos
+servicios necesitan tener control de acceso sobre los recursos que brindan a sus usuarios.
+Esto implica el tener que desarrollar para cada nuevo servicio, un mecanismo de 
+autenticación de usuarios. Este mecanismo además tiene que ser capaz de brindar una 
+funcionalidad para administrar los roles o grupos a los que pertenecen dichos usuarios.
+Un enfoque más útil, es el de delegar esta tarea a un sistema externo y centralizado. De
+esta forma se evita el tener que repetir el desarrollo de la misma funcionalidad para cada
+servicio.
+
+\subsection{Existencia de cuentas duplicadas}
+
+Las fuentes de información de las cuales se nutre el Directorio, son populadas por personal humano (secretarias de las facultades y centros pertenecientes a la universidad). Esto hace que este proceso esté sujeto a errores. Ocurre a veces que las cuentas de los usuarios aparecen duplicadas.
+
+Esto es un problema ya que el sistema no tiene manera de comprobar cual de las cuentas es la correcta, comprometiendo la información y el correcto funcionamiento de los servicios que de ella dependen. Por ejemplo, cuando un estudiante se traslada de una facultad a otra, a veces la cuenta anterior no es eliminada, y en el sistema aparece duplicado, en facultades distintas (y muchas veces en cursos distintos), lo cual hace que el cálculo de la cuota de internet esté propenso a errores, por poner un ejemplo. En el sistema actual, esto se resuelve tomando la primera cuenta que aparece, e ignorando las demás. Esto es debido a que la información que se solicita en la mayoría de los casos es la pertinente al proceso de verificación, para lo cuál solo es necesario conocer que el estudiante está en el sistema. Sin embargo, esto provoca que el correo que se le asigna al mismo pueda no estar en el área correcta.
+
+\subsection{Existencia de datos corruptos}
+
+Otro de los problemas relacionados al ingreso manual de datos, es la corrupción de los mismos, ya que no existe un adecuado proceso de verificación de su integridad. En el directorio, al extraerse los datos de las fuentes, a veces ocurre que existen caracteres no alfanuméricos, los cuáles provocan que procesos como el de la autenticación fallen (en el caso de un correo en mal estado). Actualmente estos datos se procesan utilizando expresiones regulares, para eliminar los caracteres incorrectos.
+
+
+\subsection{Inestabilidad}
+
+Debido a la naturaleza de su composición, el sistema es propenso a caerse periódicamente. Esto genera la interrupción de muchos de los servicios que de él dependen, como por ejemplo el acceso a internet, que se ve afectado cada vez que el Directorio Único deja de funcionar, hasta que vuelve a ser habilitado.
+
+
+\section{Propuesta de solución}
+
+Con el objetivo de subsanar las deficiencias discutidas hasta ahora, pretendemos desarrollar un sistema capaz de
+relevar a Directorio Único de sus funcionalidades actuales. Para esto se trabaja conjuntamente en dos tesis: una encargada de desplegar un servidor LDAP para el almacenamiento de la información, y esta para sustituir (como objetivo final) todos los servicios aislados que conforman el actual directorio.
+
+Actualmente existen muchos servicios que saben como comunicarse directamente con el protocolo
+LDAP. Pero no todos incluyen esta funcionalidad. Por esta razón, es necesario implementar
+una interfaz, que sea una capa de abstracción entre LDAP y el resto de los servicios, que se encargue de manejar la
+comunicación. En caso de ser necesario guardar alguna información que no este incluida en las fuentes, es en 
+esta capa donde será generada. El protocolo de comunicación más común entre servicios web es HTTP. Por lo tanto se propone implementar una API para garantizar este flujo de comunicación, con
+todos los servicios que necesiten consumir los datos almacenados en el servidor LDAP. Los servicios
+que brindara dicha API son los siguientes:
+
+\begin{enumerate}
+	\item Consultar la información acerca de cualquiera de las usuario almacenados en el sistema.
+	\item Actualizar la información de los usuarios, tanto de estudiantes, como de 
+	trabajadores y externos.
+	\item Agregar nuevos usuarios externos, así como asignarles una cuota de internet y un correo electrónico.
+	\item Definir preguntas de seguridad para cada usuario, que le permitan al mismo recuperar
+		sus credenciales.
+	\item Proveer un mecanismo de recuperaci\'on de contraseñas a partir de las preguntas de seguridad.
+	\item Proveer un mecanismo para que el usuario pueda cambiar su contraseña en caso de que la misma se vea comprometida
+	\item Generar un correo electrónico para los usuarios obtenidos de las fuentes de datos a partir de su carnet de identidad.
+	\item Brindar una bolsa de servicios que publique información a partir de los datos almacenados en el servidor LDAP.
+	\item Proveer un mecanismo para la generación de archivos LDIF para modificar los datos en el servidor LDAP a partir de las distintas fuentes (específicamente de ASSETS y SIGENU).
+\end{enumerate}
+
+Realizar cualquiera de estas acciones, requiere pasar el proceso de autenticación en dicha API
+y poseer los permisos necesarios para la funcionalidad correspondiente. Por lo tanto se requiere además un sistema de roles y permisos.
+
+Esta API debe integrarse con las fuentes de datos (ASSETS y SIGENU) para traer los datos de forma periódica y actualizarlos en el servidor LDAP, resolviendo las deficiencias mencionadas en la sección anterior.
+
+Además como parte de la solución también implementaremos una interfaz visual para facilitar la interacción con el API, la cual será publicada como una página web, para que sea fácil el acceso a la misma.
+
+Estos servicios que componen la solución se desplegarán apoyándose en el uso de la tecnología Docker. 
+
+Antes de decidir el enfoque a seguir para la implementación de la solución propuesta, se tuvieron en
+cuenta varias tecnologías. A continuación las presentamos y argumentamos nuestra elección.
+
+
+
+
+

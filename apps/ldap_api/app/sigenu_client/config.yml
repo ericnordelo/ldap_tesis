@@ -1,0 +1,25 @@
+students_schema:
+  - ["becado", "kind"]
+  - ["carrera", "career"]
+  - ["ci", "ci"]
+  - ["ciudadania", "country"]
+  # - ["cn", "name"]
+  - ["correo", "email"]
+  # - ["cuotainternet", ""]
+  # - ["direccion", "address"]
+  # - ["edad", "ci"]
+  - ["grade", "grade"]
+  - ["grupo", "group"]
+  - ["lugardenacimiento", "native_of"]
+  - ["municipio", "municipality"]
+  - ["pais", "country"]
+  - ["provincia", "province"]
+  - ["raza", "skin_color"]
+  # - residenciaestudiantil: N/D
+  - ["sexo", "sex"]
+  # - telefonopersonal: N/D
+  # - tienechat: TRUE
+  # - tienecorreo: TRUE
+  # - tieneinternet: TRUE
+  - ["tipodecurso", "course_type"]
+  - ["idsigenu", "idsigenu"]

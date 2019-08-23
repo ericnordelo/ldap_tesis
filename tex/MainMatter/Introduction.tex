@@ -1,0 +1,52 @@
+\begin{introduction}
+        La necesidad de desarrollar los medios de comunicación y la transmisión
+    de información es una de las características que distingue a nuestra civilización desde hace milenios. Desde que se inventó la imprenta hace aproximadamente 6 siglos, la humanidad ha generado incontables volúmenes de
+    texto para almacenar conocimiento de todo tipo. No obstante, no es hasta
+    la década de 1960, con la adopción y proliferación de las computadoras y el
+    mantenimiento de registros digitales, que se alcanzaría una verdadera revolución en los medios de almacenamiento, transmisión y en la accesibilidad
+    a la información a escala global. Esta revolución conocida como Revolución Digital o Era de la Información gira en torno a las nuevas tecnologías e
+    Internet, siendo la catalizadora de una enorme explosión tecnológica, produciendo grandes transformaciones en la sociedad.  La automatización
+    de los procesos no solo industriales, tambi\'en cotidianos,
+    mejor\'o (y mejora) considerablemente la calidad, rapidez y robustez de los mismos. Adem\'as, el surgimiento de las redes de dipositivos impuls\'o dr\'asticamente la facilidad de comunicación y la organización de personas y
+    organismos.
+
+        Una de las ventajas que trae consigo el establecimiento de redes de dispositivos (como las redes locales o intranet de las empresas), es la posibilidad de descentralizar el almacenamiento de la información
+    sin comprometer el acceso a la misma. Por ejemplo, gracias a estas redes un centro como la Universidad de La Habana (a la que usualmente nos referiremos como UH), que posee varios departamentos de Recursos Humanos independientes (en las distintas facultades y dem\'as instituciones que pertenecen a la misma), puede gestionar la informaci\'on de todos estos departamentos de la universidad como un todo. Esto facilita la consulta y la modificación de esta información, que puede ser gestionada de manera adecuada con un \'unico sistema (cuando se hace referencia a Recursos Humanos en este documento, se habla del amplio espectro que cubre todo el personal laboral y no laboral de la universidad). 
+    
+        Actualmente la red de la universidad cuenta con varios servicios consumidores y fuentes de
+    diferentes tipos de información relacionada con Recursos Humanos. Como ejemplo tenemos el servicio que gestiona la conexi\'on de los usuarios a la internet, el cual necesita consultar por ejemplo el curso actual en caso de un estudiante. Este y otros servicios (como el correo) carecen de un sistema que administre de manera adecuada el flujo de comunicación entre los mismos (con manera adecuada se hace referencia a controlar este flujo sin la necesidad de la modificación de los servicios finales o la creaci\'on se servicios que funcionen como capas intermedias).
+
+    De estos servicios se benefician no solo las facultades pertenecientes a la Universidad, también se benefician otras instituciones asociadas a la misma como
+    el Instituto Superior de Diseño (ISDI), el Instituto Superior de Ciencia y
+    Tecnología Aplicada (InSTEC), el IFAL, el Jardín Botánico, y la DOM.
+
+    La mayoria de los servicios ofrecidos a través de la red de la UH requieren: la apropiada verificación del usuario que solicita consultar o agregar información (sobre todo para el manejo de los diferentes roles y permisos con los que cuentan las personas encargadas de manipular los datos). Como ejemplo tenemos el sistema de relaciones internacionales y el planificador, que adem\'as de autenticación requieren verificación de permisos (roles), para separar las responsabilidades en la utilizaci\'on (El primero para la autorizacion de viajes y el segundo para preparar el plan de trabajo de la universidad).
+    
+    Con el objetivo de lograr la verificación centralizada de la indentidad de los usuarios surgió el Directorio Único de la Universidad de la Habana. A lo largo de los años, ha sufrido varias actualizaciones progresivas para ir cubriendo necesidades puntuales de distintos sistemas (como la cuota de internet para el proxy).
+    
+    Este sistema tiene un conjunto de responsabilidades b\'asicas. Entre las mismas encontramos por ejemplo ofrecer información de los usuarios (tanto de trabajadores y externos, como de estudiantes), extrayéndola de las fuentes de datos correspondientes. En el caso de los trabajadores la fuente es un conjunto de bases de datos conocido como ASSETS (que son en total 6: la de la UH, IFAL, JBN, UPA, el ISDI y el INSTEC).
+     Estas bases de datos se obtienen de distintas maneras dependiendo de la distancia y de la calidad 
+    de la conexi\'on con los destinos (por ejemplo la base de datos de IFAL se trae a mano en un disco duro o memoria flash peri\'odicamente). Por la parte de los estudiantes, la fuente es un sistema denominado SIGENU, del cual se obtiene la información consultando una serie de servicios SOAP (Simple Object Access Protocol o Protocolo Simple de Acceso a Objetos), sin la necesidad de descargar ni copiar bases de datos. Esta información de los usuarios se publica a trav\'es de una interfaz web (en el dominio de directorio.uh.cu), y adem\'as se ofrece una API que otros servicios (o los administradores) de la red pueden utilizar para autenticar un usuario (existe una plataforma openID a partir de los datos almacenados en el Directorio). 
+    
+     Sobre el dominio web directorio.uh.cu se integran y administran servicios que funcionan sobre diferentes tecnologías. 
+     
+     Esto no es necesariamente un problema, empresas como Google poseen plataformas que funcionan sobre diversas tecnolog\'ias (como Google+ \cite{googleplus}) y tienden a integrar cada vez mayor cantidad de servicios. A\'un as\'i, en este caso en particular, el Directorio \'Unico en su creaci\'on no fue pensado para integrarse con servicios como SQUID o POSTFIX-DOVECOT, sino que fue diseñado para brindar la información asociada a los usuarios y un módulo basado en OAuth (específicamente openID) para la autenticación. Este diseño conllev\'o a que la integraci\'on de nuevos servicios requiriera desarrollar capas intermedias para comunicar al Directorio con estos. Estas capas intermedias se han implementado en su mayoría como m\'odulos independientes, en distintos lenguajes y tecnologías, y se ha agregado c\'odigo al directorio para suplir las necesidades de estas capas intermedias sin seguir un est\'andar. Esto trae consigo dificultad a la hora de integrar nuevos servicios al directorio, y además, hace sumamente dif\'icil darle mantenimiento a el c\'odigo, ya que una modificación en el mismo puede traer como consecuencia la necesidad de modificar en cascada varios servicios independientes (que como ya mencionamos est\'an en varios lenguages de programaci\'on y diferentes tecnologías).
+     
+    Presentado este problema, el objetivo general de este proyecto es proveer a la Universidad de
+    La Habana de un servicio que se encargue de administrar los procesos de obtención, almacenamiento y publicación
+    de la información relacionada con Recursos Humanos, que sea robusto, modular, fácil de integrar, fácil de mantener y fácil de modificar.
+
+    Con este objetivo en mente, el primer paso hacia la implementación de la solución consiste en un análisis del problema desde un punto de vista computacional. Este análisis se sustenta en la respuesta a una serie de preguntas, donde la primera y tal vez más importante es: ¿de qué forma almacenamos toda esa información? Este objetivo se apoya en una tesis que se desarrolla en paralelo, la cual se encarga del despliegue de un servidor LDAP \cite{whyldap, ldapfaster} para la persistencia de la información. Esa tesis también se encarga de la forma en que esta información es almacenada (esquema de los datos).
+
+    Continuando con el análisis la siguiente pregunta puede ser: ¿qué método se debería utilizar para publicar y gestionar esta información? Actualmente existen varias implementaciones de servicios como SQUID que pueden integrarse de manera directa con un servidor LDAP para la autenticación. Aún as\'i, el uso de LDAP no es estandarizado, y para no recurrir a uno de los problemas del actual directorio, como es la necesidad de implementar capas intermedias para comunicar los servicios, esta tesis se encarga de proveer un sistema que funcione como ese intermediario para comunicar todos los servicios que lo requieran con el servidor LDAP. Esto hace que la integraci\'on sea m\'as f\'acil, y que la modificación del servidor, o de los servicios utilizados sea m\'as sencilla. 
+    
+    Además de esto, el sistema actual entre sus deficiencias tiene la falta de velocidad de los sitios web de directorio, gesti\'on y cuentas, por lo que también es un objetivo de esta tesis, desarrollar una interfaz web que facilite la gesti\'on manual de la información (agregar externos al sistema, buscar datos de usuarios...).
+
+    Llegado a este punto podemos afirmar que el objetivo es: la implementación de un sistema que facilite la integraci\'on del servidor LDAP de la universidad, con los distintos servicios que dependen de la información de Recursos Humanos, resolviendo la obtención de los datos a partir de las fuentes correspondientes, y brindando una interfaz web para gestionar manualmente la información que lo requiera. 
+
+    Para esto es necesario discutir en detalle como ocurre el flujo de información dentro del la UH y el papel que ocupa directorio en ello e investigar sobre las distintas tecnologías para implementar una API que satisfaga todas las necesidades anteriormente mencionadas (incluyendo la extracci\'on de información
+    de las fuentes), y de las tecnologías para la implementación de una interfaz web a partir de los servicios que brinda el API.
+
+    Para esto el documento cuenta con tres cap\'itulos: en el primero se presentan las especificaciones del problema; en el segundo se habla del estado del arte de las distintas tecnologías para implementar la solución; por \'ultimo en el tercero se discuten las especifidades de la implementación de la solución final.
+    
+\end{introduction} 
