@@ -13,52 +13,51 @@
 \BOOKMARK [2][-]{subsection.1.1.10}{Inestabilidad}{section.1.1}% 13
 \BOOKMARK [1][-]{section.1.2}{Propuesta de soluci\363n}{chapter.1}% 14
 \BOOKMARK [0][-]{chapter.2}{Estado del arte}{}% 15
-\BOOKMARK [1][-]{section.2.1}{LDAP}{chapter.2}% 16
-\BOOKMARK [2][-]{subsection.2.1.1}{\277Qu\351 es el protocolo LDAP?}{section.2.1}% 17
-\BOOKMARK [1][-]{section.2.2}{Docker}{chapter.2}% 18
-\BOOKMARK [2][-]{subsection.2.2.1}{\277Qu\351 es Docker?}{section.2.2}% 19
-\BOOKMARK [2][-]{subsection.2.2.2}{Ventajas de utilizar Docker}{section.2.2}% 20
-\BOOKMARK [2][-]{subsection.2.2.3}{\277Qui\351n utiliza Docker webinars?}{section.2.2}% 21
-\BOOKMARK [2][-]{subsection.2.2.4}{\277Qu\351 es un contenedor de docker?}{section.2.2}% 22
-\BOOKMARK [2][-]{subsection.2.2.5}{Docker Compose}{section.2.2}% 23
-\BOOKMARK [2][-]{subsection.2.2.6}{Casos de uso comunes de Docker Compose}{section.2.2}% 24
-\BOOKMARK [1][-]{section.2.3}{API}{chapter.2}% 25
-\BOOKMARK [2][-]{subsection.2.3.1}{\277Qu\351 es una API?}{section.2.3}% 26
-\BOOKMARK [2][-]{subsection.2.3.2}{Ventajas de implementar una API}{section.2.3}% 27
-\BOOKMARK [2][-]{subsection.2.3.3}{Tecnolog\355as para implementaci\363n m\341s utilizadas}{section.2.3}% 28
-\BOOKMARK [1][-]{section.2.4}{python-ldap}{chapter.2}% 29
-\BOOKMARK [2][-]{subsection.2.4.1}{\277Qu\351 es python-ldap?}{section.2.4}% 30
-\BOOKMARK [1][-]{section.2.5}{Interfaz web}{chapter.2}% 31
-\BOOKMARK [2][-]{subsection.2.5.1}{Angular}{section.2.5}% 32
-\BOOKMARK [2][-]{subsection.2.5.2}{React}{section.2.5}% 33
-\BOOKMARK [2][-]{subsection.2.5.3}{Vue}{section.2.5}% 34
-\BOOKMARK [0][-]{chapter.3}{Implementaci\363n del sistema}{}% 35
-\BOOKMARK [1][-]{section.3.1}{Consideraciones previas}{chapter.3}% 36
-\BOOKMARK [1][-]{section.3.2}{Extracci\363n de la informaci\363n de estudiantes y trabajadores}{chapter.3}% 37
-\BOOKMARK [2][-]{subsection.3.2.1}{M\363dulo para generar los LDIF de los estudiantes}{section.3.2}% 38
-\BOOKMARK [2][-]{subsection.3.2.2}{M\363dulo para generar los LDIF de los trabajadores}{section.3.2}% 39
-\BOOKMARK [1][-]{section.3.3}{Servidor MS SQL Server}{chapter.3}% 40
-\BOOKMARK [1][-]{section.3.4}{Implementaci\363n de la API}{chapter.3}% 41
-\BOOKMARK [2][-]{subsection.3.4.1}{Listado de recursos}{section.3.4}% 42
-\BOOKMARK [1][-]{section.3.5}{Interfaz web}{chapter.3}% 43
-\BOOKMARK [1][-]{section.3.6}{Proxy inverso}{chapter.3}% 44
-\BOOKMARK [1][-]{section.3.7}{Bolsa de servicios}{chapter.3}% 45
-\BOOKMARK [0][-]{chapter.4}{Anexos}{}% 46
-\BOOKMARK [1][-]{section.4.1}{Conceptos Importantes dentro de LDAP}{chapter.4}% 47
-\BOOKMARK [2][-]{subsection.4.1.1}{Servidor de Directorio}{section.4.1}% 48
-\BOOKMARK [2][-]{subsection.4.1.2}{Entradas}{section.4.1}% 49
-\BOOKMARK [2][-]{subsection.4.1.3}{Nombre Distinguido \(DN\)}{section.4.1}% 50
-\BOOKMARK [2][-]{subsection.4.1.4}{Artibutos}{section.4.1}% 51
-\BOOKMARK [2][-]{subsection.4.1.5}{Clases de Objetos}{section.4.1}% 52
-\BOOKMARK [2][-]{subsection.4.1.6}{Filtros}{section.4.1}% 53
-\BOOKMARK [1][-]{section.4.2}{Implementaciones m\341s utilizadas}{chapter.4}% 54
-\BOOKMARK [2][-]{subsection.4.2.1}{IBM Security Directory Server}{section.4.2}% 55
-\BOOKMARK [2][-]{subsection.4.2.2}{Active Directory}{section.4.2}% 56
-\BOOKMARK [2][-]{subsection.4.2.3}{Oracle Internet Directory}{section.4.2}% 57
-\BOOKMARK [2][-]{subsection.4.2.4}{OpenLDAP}{section.4.2}% 58
-\BOOKMARK [1][-]{section.4.3}{Modos de empleo usuales}{chapter.4}% 59
-\BOOKMARK [2][-]{subsection.4.3.1}{DNS}{section.4.3}% 60
-\BOOKMARK [2][-]{subsection.4.3.2}{Sistema de Autenticaci\363n}{section.4.3}% 61
-\BOOKMARK [0][-]{section*.26}{Recomendaciones}{}% 62
-\BOOKMARK [0][-]{section*.28}{Conclusiones}{}% 63
-\BOOKMARK [0][-]{chapter*.30}{Bibliograf\355a}{}% 64
+\BOOKMARK [1][-]{section.2.1}{API}{chapter.2}% 16
+\BOOKMARK [2][-]{subsection.2.1.1}{\277Qu\351 es una API?}{section.2.1}% 17
+\BOOKMARK [2][-]{subsection.2.1.2}{Ventajas de implementar una API}{section.2.1}% 18
+\BOOKMARK [2][-]{subsection.2.1.3}{Tecnolog\355as para implementaci\363n m\341s utilizadas}{section.2.1}% 19
+\BOOKMARK [1][-]{section.2.2}{Docker}{chapter.2}% 20
+\BOOKMARK [2][-]{subsection.2.2.1}{\277Qu\351 es Docker?}{section.2.2}% 21
+\BOOKMARK [2][-]{subsection.2.2.2}{Ventajas de utilizar Docker}{section.2.2}% 22
+\BOOKMARK [2][-]{subsection.2.2.3}{\277Qui\351n utiliza Docker webinars?}{section.2.2}% 23
+\BOOKMARK [2][-]{subsection.2.2.4}{\277Qu\351 es un contenedor de docker?}{section.2.2}% 24
+\BOOKMARK [2][-]{subsection.2.2.5}{Docker Compose}{section.2.2}% 25
+\BOOKMARK [2][-]{subsection.2.2.6}{Casos de uso comunes de Docker Compose}{section.2.2}% 26
+\BOOKMARK [1][-]{section.2.3}{LDAP}{chapter.2}% 27
+\BOOKMARK [2][-]{subsection.2.3.1}{\277Qu\351 es el protocolo LDAP?}{section.2.3}% 28
+\BOOKMARK [2][-]{subsection.2.3.2}{python-ldap}{section.2.3}% 29
+\BOOKMARK [1][-]{section.2.4}{Interfaz web}{chapter.2}% 30
+\BOOKMARK [2][-]{subsection.2.4.1}{Angular}{section.2.4}% 31
+\BOOKMARK [2][-]{subsection.2.4.2}{React}{section.2.4}% 32
+\BOOKMARK [2][-]{subsection.2.4.3}{Vue}{section.2.4}% 33
+\BOOKMARK [0][-]{chapter.3}{Implementaci\363n del sistema}{}% 34
+\BOOKMARK [1][-]{section.3.1}{Consideraciones previas}{chapter.3}% 35
+\BOOKMARK [1][-]{section.3.2}{Extracci\363n de la informaci\363n de estudiantes y trabajadores}{chapter.3}% 36
+\BOOKMARK [2][-]{subsection.3.2.1}{M\363dulo para generar los LDIF de los estudiantes}{section.3.2}% 37
+\BOOKMARK [2][-]{subsection.3.2.2}{M\363dulo para generar los LDIF de los trabajadores}{section.3.2}% 38
+\BOOKMARK [1][-]{section.3.3}{Servidor MS SQL Server}{chapter.3}% 39
+\BOOKMARK [1][-]{section.3.4}{Implementaci\363n de la API}{chapter.3}% 40
+\BOOKMARK [2][-]{subsection.3.4.1}{Listado de recursos}{section.3.4}% 41
+\BOOKMARK [1][-]{section.3.5}{Interfaz web}{chapter.3}% 42
+\BOOKMARK [1][-]{section.3.6}{Proxy inverso}{chapter.3}% 43
+\BOOKMARK [1][-]{section.3.7}{Bolsa de servicios}{chapter.3}% 44
+\BOOKMARK [0][-]{chapter.4}{Anexos}{}% 45
+\BOOKMARK [1][-]{section.4.1}{Conceptos Importantes dentro de LDAP}{chapter.4}% 46
+\BOOKMARK [2][-]{subsection.4.1.1}{Servidor de Directorio}{section.4.1}% 47
+\BOOKMARK [2][-]{subsection.4.1.2}{Entradas}{section.4.1}% 48
+\BOOKMARK [2][-]{subsection.4.1.3}{Nombre Distinguido \(DN\)}{section.4.1}% 49
+\BOOKMARK [2][-]{subsection.4.1.4}{Artibutos}{section.4.1}% 50
+\BOOKMARK [2][-]{subsection.4.1.5}{Clases de Objetos}{section.4.1}% 51
+\BOOKMARK [2][-]{subsection.4.1.6}{Filtros}{section.4.1}% 52
+\BOOKMARK [1][-]{section.4.2}{Implementaciones m\341s utilizadas}{chapter.4}% 53
+\BOOKMARK [2][-]{subsection.4.2.1}{IBM Security Directory Server}{section.4.2}% 54
+\BOOKMARK [2][-]{subsection.4.2.2}{Active Directory}{section.4.2}% 55
+\BOOKMARK [2][-]{subsection.4.2.3}{Oracle Internet Directory}{section.4.2}% 56
+\BOOKMARK [2][-]{subsection.4.2.4}{OpenLDAP}{section.4.2}% 57
+\BOOKMARK [1][-]{section.4.3}{Modos de empleo usuales}{chapter.4}% 58
+\BOOKMARK [2][-]{subsection.4.3.1}{DNS}{section.4.3}% 59
+\BOOKMARK [2][-]{subsection.4.3.2}{Sistema de Autenticaci\363n}{section.4.3}% 60
+\BOOKMARK [0][-]{section*.27}{Recomendaciones}{}% 61
+\BOOKMARK [0][-]{section*.29}{Conclusiones}{}% 62
+\BOOKMARK [0][-]{chapter*.31}{Bibliograf\355a}{}% 63

@@ -1,155 +1,8 @@
 \chapter{Estado del arte}
 
-\section{LDAP}
-\subsection{¿Qué es el protocolo LDAP?}
-LDAP (Lightweight Directory Access Protocol o Protocolo de Acceso a Directorios Ligero) es un protocolo perteneciente a la capa de 
-aplicaciones \cite{ ldap1}, tanto para servidores como para clientes. Es abierto y 
-multiplataforma. Está pensado para la implementación de servicios de directorio, como son: 
-\textbf{IBM Security Directory Server}, \textbf{Active Directory}, \textbf{Oracle Internet 
-Directory} y \textbf{OpenLDAP}; facilitando el acceso rápido a la información almacenada. 
-Presenta una estructura arbórea, la cual organiza la información en ramas y permite realizar 
-búsquedas de manera eficiente, debido a que la cardinalidad de las posibles repuestas se 
-reduce a medida que se avanza por cualquiera de estas ramas.
-
-La selecci\'on de la implementación utilizada es objetivo de la tesis que se encarga del servidor LDAP, en esta se utiliza el este protocolo para comunicarse con este servidor, por eso se menciona qu\'e es este protocolo. En los anexos se puede encontrar información más espec\'ifica sobre el mismo, pero no es objetivo principal de esta investigación.
-
-\section{Docker}
-
-\subsection{¿Qué es Docker?}
-Docker es una plataforma de software libre que permite crear, desplegar y administrar 
-contenedores de aplicaciones virtualizadas, sobre un mismo sistema operativo. Facilita la 
-integración de distintas aplicaciones independientemente del sistema que estas necesiten para
-funcionar. Hasta el momento de escritura de la presente tesis, Docker es capaz de crear 
-contenedores basados en cualquier sistema Unix-Like \footnote{ Sistemas que utilizan el kernel de
-Linux} y en Windows. Todavía no existe forma de hacerlo basado en macOS \footnote{ 
-\url{https://www.apple.com/la/macos/what-is/}}.
-
-\subsection{Ventajas de utilizar Docker}
-
-Docker es sumamente útil en el proceso de despliegue de aplicaciones. A través de esta tecnología
-es posible planificar todo el proceso de despliegue de un sistema, plasmarlo en una secuencia de
-pasos lógicos y luego simplemente ejecutarlo. De esta manera se reduce el tiempo necesario para
-este proceso evitando errores frecuentes y acciones repetitivas.
-
-En el caso espec\'ifico que concierne a esta tesis, es posible utilizar Docker para automatizar todo el proceso de despliegue en producci\'on de la solución que se propone.
-
-\subsection{¿Qui\'en utiliza Docker \cite{webinars}?}
-
-Muchas grandes empresas se han apoyado en Docker para automatizar el desarrollo de software. Como ejemplo encontramos algunas muy conocidas mundialmente como son Spotify, Uber, eBay o PayPal.
-
-Tomando como caso específico a eBay, ésta ha centrado sus esfuerzos en la implementación de Docker en su proceso de integración continua, estandarizando sus instalaciones mediante despliegues en una red distribuida de servidores que se ejecutan y trabajan en grupo. Esto permite a los desarrolladores o testers (encargados de realizar pruebas de software) sólo tengan que montar contenedores sobre sus sistemas para poder ponerse a trabajar, con toda la configuración, herramientas o servicios precargados, lo que agiliza enormemente los tiempos de desarrollo o testeo de versiones.
-
-En general estas empresas (y muchas otras) vieron en Docker la respuesta a sus preguntas de cómo poder obtener mayor rendimiento invirtiendo menos horas de supervisión y desarrollo. Creando una imagen que contenga el sistema, las configuraciones y servicios listos para ser desplegados; se ahorraron multitud de horas de gestión de sistemas, reparación, recuperación y reinstalación de éstos.
-
-Gracias a los contenedores las pruebas se realizan en entornos “cerrados” por lo que si se diese algún error la mayor complicación que se encontrarán será la de volver a desplegar el contenedor de nuevo.
-
-\subsection{¿Qué es un contenedor de docker?}
-
-Como parte fundamental de Docker se encuentran los contenedores. Estos, según los propios
-desarrolladores, \textit{son unidades de software estandarizadas} \footnote{
-\url{https://www.docker.com/resources/what-container}}. Se encargan de empaquetar
-el código y las dependencias de la aplicación de manera que pueda ser ejecutado en cualquier 
-entorno capaz de ejecutar Docker. Para ejecutar un contenedor, se necesita una imagen de Docker 
-base. Una imagen de Docker no es más que un paquete que contiene todas las dependencias y 
-configuraciones necesarias para ejecutar un contenedor a partir de esta. Los contenedores aíslan
-al software del entorno en que son ejecutados y aseguran el correcto funcionamiento 
-independientemente de las posibles diferencias entre un entorno u otro. Sin embargo, dicho
-aislamiento no impide la comunicación entre varios contenedores. Existen mecanismos que permiten
-interactuar a través de servicios de red. Incluso es posible crear una red privada que incluya
-ciertos contenedores. Con esta facilidad, se puede diseñar soluciones estructuradas en módulos
-atómicos que se integren como sistema.
-
-\subsection{Docker Compose}
-
-Compose es una herramienta para definir y ejecutar aplicaciones en Docker con contenedores múltiples. Con Compose, se utiliza un archivo YAML para configurar los servicios de la aplicación. Luego, con un solo comando, crea e inicia todos los servicios desde la configuración \cite{compose}. Un ejemplo de archivo de configuración para Docker Compose es el siguiente:
-
-\begin{tabbing}
-	vers\=ion: '3' \\
-
-	services: \\
-	\> memc\=ached:  \\
-	\> \>	build: \\
-	\> \>	context: . \\
-	\> \>	dockerfile: ./memcached-dockerfile \\
-	\> \>	image: memcached \\
-	\> \>	container\_name: memcached\_server \\
-	\> \>	expose: \\
-	\> \>	- 11211 \\
-	\> \>	ports: \\
-	\> \>	- "11211:11211" \\
-	\> \>	restart: always \\
-	\> \>	command: memcached -u root \\
-	\> db  \=: \\
-	\>\>	image: "mcr.microsoft.com/mssql/server" \\
-	\>\>	container\_name: sqlserver\_db \\
-	\>\>	environment: \\
-	\>\>	SA\_PASSWORD: "P@ssw0rd" \\
-	\>\>	ACCEPT\_EULA: "Y" \\
-	\> api \=: \\
-	\>\>	build: . \\
-	\>\>	image: flask\_restful \\
-	\>\>	container\_name: ldap\_api \\
-	\>\>	expose: \\
-	\>\>	- 5000 \\
-	\>\>	ports: \\
-	\>\>	- "5000:5000" \\
-	\>\>	volumes: \\
-	\>\>	- .:/api \\
-	\>\>	restart: always \\
-	\>\>	working\_dir: /api \\
-	\>\>	command: python run.py \\
-	\>\>	depends\_on: \\
-	\>\>	- memcached \\
-	\>\>	- db \\
-	\> ui  \=: \\
-	\>\>	build: \\
-	\>\>	context: . \\
-	\>\>	dockerfile: ./ui-dockerfile \\
-	\>\>	image: react\_ui \\
-	\>\>	container\_name: ldap\_ui \\
-	\>\>	ports: \\
-	\>\>	- "3000:3000" \\
-	\>\>	working\_dir: /ui \\
-	\>\>	volumes: \\
-	\>\>	- ./UI:/ui \\
-	\>\>	restart: always \\
-	\>\>	command: bash -c "npm install \&\& npm start" \\
-		
-	\> netw\=orks: \\ 
-	\>\> defa\=ult: \\
-	\>\>\>	exte\=rnal: \\
-	\>\>\>\>	name: tesis \\
-	% If \= it's raining \\
-	% \> then \= put on boots,\\
-	% \> \> take hat;\\
-	% \> or \> smile. \\
-	% Leave house.
-\end{tabbing}
-
-\subsection{Casos de uso comunes de Docker Compose}
-
-\subsubsection{Entornos de desarrollo}
-
-Cuando se desarrolla software, la capacidad de ejecutar una aplicación en un entorno aislado e interactuar con ella es crucial. La herramienta Compose se puede utilizar para crear el entorno e interactuar con él.
-
-El archivo de configuración proporciona una forma de documentar y configurar todas las dependencias de la aplicación (bases de datos, colas, cachés, API de servicios web, etc.). Con esta herramienta, se puede crear e iniciar uno o más contenedores para cada dependencia con un solo comando (docker-compose up).
-
-Juntas, estas características proporcionan una manera conveniente para que los desarrolladores comiencen un proyecto. Compose puede reducir una "guía de inicio para desarrolladores" de varias páginas a un solo archivo Compose y algunos comandos.
-
-
-\subsubsection{Entornos de pruebas automatizadas}
-
-Una parte importante de cualquier proceso de implementación continua o integración continua es el conjunto de pruebas automatizadas. Las pruebas automatizadas de extremo a extremo requieren un entorno en el que ejecutarse. Compose proporciona una forma conveniente de crear y destruir entornos de prueba aislados. Al definir el entorno completo en un archivo de configuración, se puede crear y destruir estos entornos con solo unos pocos comandos:
-
-docker-compose up -d
-
-./run\_tests
-
-docker-compose down
-
-
-
 \section{API}
+
+En la propuesta de solución mencionamos una API que se encargue de funcionar como capa intermedia que facilite la comunicación y publicación de los datos.
 
 \subsection{¿Qué es una API?}
 
@@ -235,9 +88,157 @@ Es un patrón muy similar a MVC, excepto que la C (Controlador) es gestionada en
 
 Flask es un microframework web escrito en Python. Se clasifica como un microframework debido a que no requiere de herramientas ni librerías particulares. No tiene una capa de abstracción de base de datos ni sigue un patrón de desarrollo específico. Las funciones específicas como la autenticación y el manejo de base de datos son brindadas por software de terceros. Entre las principales ventajas de este framework minimalista tenemos que es muy eficiente, ya que te permite seleccionar que componentes utilizar específicos a la plataforma que estés desarrollando. Es muy utilizada para desarrollar APIs debido a la facilidad con que se pueden desarrollar las mismas (muy pocas líneas de código), y debido a que está montado sobre python permite utilizar todas las libreríascon las que cuenta este poderoso lenguaje de programación. Tiene una comunidad de desarrolladores activa y una buena cantidad de módulos para agregar distintas funcionalidades a los servicios web.
 
-\section{python-ldap}
 
-\subsection{¿Qué es python-ldap?}
+\section{Docker}
+
+Mencionamos anteriormente como parte de la propuesta de solución el uso de Docker como herramienta para facilitar el despliegue y la configuración de los servicios. 
+
+\subsection{¿Qué es Docker?}
+Docker es una plataforma de software libre que permite crear, desplegar y administrar 
+contenedores de aplicaciones virtualizadas, sobre un mismo sistema operativo. Facilita la 
+integración de distintas aplicaciones independientemente del sistema que estas necesiten para
+funcionar. Hasta el momento de escritura de la presente tesis, Docker es capaz de crear 
+contenedores basados en cualquier sistema Unix-Like (sistemas que utilizan el kernel de
+Linux) y en Windows. Todavía no existe forma de hacerlo basado en macOS 
+
+\subsection{Ventajas de utilizar Docker}
+
+Docker es sumamente útil en el proceso de despliegue de aplicaciones. A través de esta tecnología
+es posible planificar todo el proceso de despliegue de un sistema, plasmarlo en una secuencia de
+pasos lógicos y luego simplemente ejecutarlo. De esta manera se reduce el tiempo necesario para
+este proceso evitando errores frecuentes y acciones repetitivas.
+
+En el caso espec\'ifico que concierne a esta tesis, es posible utilizar Docker para automatizar todo el proceso de despliegue en producci\'on de la solución que se propone.
+
+\subsection{¿Qui\'en utiliza Docker \cite{webinars}?}
+
+Muchas grandes empresas se han apoyado en Docker para automatizar el desarrollo de software. Como ejemplo encontramos algunas muy conocidas mundialmente como son Spotify, Uber, eBay o PayPal.
+
+\subsection{¿Qué es un contenedor de docker?}
+
+Como parte fundamental de Docker se encuentran los contenedores. Estos, según los propios
+desarrolladores, \textit{son unidades de software estandarizadas} \cite{container}
+Se encargan de empaquetar
+el código y las dependencias de la aplicación de manera que pueda ser ejecutado en cualquier 
+entorno capaz de ejecutar Docker. Para ejecutar un contenedor, se necesita una imagen de Docker 
+base. Una imagen de Docker no es más que un paquete que contiene todas las dependencias y 
+configuraciones necesarias para ejecutar un contenedor a partir de esta. Los contenedores aíslan
+al software del entorno en que son ejecutados y aseguran el correcto funcionamiento 
+independientemente de las posibles diferencias entre un entorno u otro. Sin embargo, dicho
+aislamiento no impide la comunicación entre varios contenedores. Existen mecanismos que permiten
+interactuar a través de servicios de red. Incluso es posible crear una red privada que incluya
+ciertos contenedores. Con esta facilidad, se puede diseñar soluciones estructuradas en módulos
+atómicos que se integren como sistema.
+
+\subsection{Docker Compose}
+
+Compose es una herramienta para definir y ejecutar aplicaciones en Docker con contenedores múltiples. Con Compose, se utiliza un archivo YAML para configurar los servicios de la aplicación. Luego, con un solo comando, crea e inicia todos los servicios desde la configuración \cite{compose}. Un ejemplo de archivo de configuración para Docker Compose es el siguiente:
+
+\begin{tabbing}
+	vers\=ion: '3' \\
+
+	services: \\
+	\> memc\=ached:  \\
+	\> \>	build: \\
+	\> \>	context: . \\
+	\> \>	dockerfile: ./memcached-dockerfile \\
+	\> \>	image: memcached \\
+	\> \>	container\_name: memcached\_server \\
+	\> \>	expose: \\
+	\> \>	- 11211 \\
+	\> \>	ports: \\
+	\> \>	- "11211:11211" \\
+	\> \>	restart: always \\
+	\> \>	command: memcached -u root \\
+	\> db  \=: \\
+	\>\>	image: "mcr.microsoft.com/mssql/server" \\
+	\>\>	container\_name: sqlserver\_db \\
+	\>\>	environment: \\
+	\>\>	SA\_PASSWORD: "P@ssw0rd" \\
+	\>\>	ACCEPT\_EULA: "Y" \\
+	\> api \=: \\
+	\>\>	build: . \\
+	\>\>	image: flask\_restful \\
+	\>\>	container\_name: ldap\_api \\
+	\>\>	expose: \\
+	\>\>	- 5000 \\
+	\>\>	ports: \\
+	\>\>	- "5000:5000" \\
+	\>\>	volumes: \\
+	\>\>	- .:/api \\
+	\>\>	restart: always \\
+	\>\>	working\_dir: /api \\
+	\>\>	command: python run.py \\
+	\>\>	depends\_on: \\
+	\>\>	- memcached \\
+	\>\>	- db \\
+	\> ui  \=: \\
+	\>\>	build: \\
+	\>\>	context: . \\
+	\>\>	dockerfile: ./ui-dockerfile \\
+	\>\>	image: react\_ui \\
+	\>\>	container\_name: ldap\_ui \\
+	\>\>	ports: \\
+	\>\>	- "3000:3000" \\
+	\>\>	working\_dir: /ui \\
+	\>\>	volumes: \\
+	\>\>	- ./UI:/ui \\
+	\>\>	restart: always \\
+	\>\>	command: bash -c "npm install \&\& npm start" \\
+		
+	\> netw\=orks: \\ 
+	\>\> defa\=ult: \\
+	\>\>\>	exte\=rnal: \\
+	\>\>\>\>	name: tesis \\
+	% If \= it's raining \\
+	% \> then \= put on boots,\\
+	% \> \> take hat;\\
+	% \> or \> smile. \\
+	% Leave house.
+\end{tabbing}
+
+\subsection{Casos de uso comunes de Docker Compose}
+
+\subsubsection{Entornos de desarrollo}
+
+Cuando se desarrolla software, la capacidad de ejecutar una aplicación en un entorno aislado e interactuar con ella es crucial. La herramienta Compose se puede utilizar para crear el entorno e interactuar con él.
+
+El archivo de configuración proporciona una forma de documentar y configurar todas las dependencias de la aplicación (bases de datos, colas, cachés, API de servicios web, etc.)
+. Con esta herramienta, se puede crear e iniciar uno o más contenedores para cada dependencia con un solo comando (docker-compose up).
+
+Juntas, estas características proporcionan una manera conveniente para que los desarrolladores comiencen un proyecto. Compose puede reducir una "guía de inicio para desarrolladores" de varias páginas a un solo archivo Compose y algunos comandos.
+
+
+\subsubsection{Entornos de pruebas automatizadas}
+
+Una parte importante de cualquier proceso de implementación continua o integración continua es el conjunto de pruebas automatizadas. Las pruebas automatizadas de extremo a extremo requieren un entorno en el que ejecutarse. Compose proporciona una forma conveniente de crear y destruir entornos de prueba aislados. Al definir el entorno completo en un archivo de configuración, se puede crear y destruir estos entornos con solo unos pocos comandos:
+
+docker-compose up -d
+
+./run\_tests
+
+docker-compose down
+
+
+
+
+\section{LDAP}
+\subsection{¿Qué es el protocolo LDAP?}
+LDAP (Lightweight Directory Access Protocol o Protocolo de Acceso a Directorios Ligero) es un protocolo perteneciente a la capa de 
+aplicaciones \cite{ ldap1}, tanto para servidores como para clientes. Es abierto y 
+multiplataforma. Está pensado para la implementación de servicios de directorio, como son: 
+\textbf{IBM Security Directory Server}, \textbf{Active Directory}, \textbf{Oracle Internet 
+Directory} y \textbf{OpenLDAP}; facilitando el acceso rápido a la información almacenada. 
+Presenta una estructura arbórea, la cual organiza la información en ramas y permite realizar 
+búsquedas de manera eficiente, debido a que la cardinalidad de las posibles repuestas se 
+reduce a medida que se avanza por cualquiera de estas ramas.
+
+La selecci\'on de la implementación utilizada es objetivo de la tesis que se encarga del servidor LDAP (no de esta tesis), en esta se utiliza el este protocolo para comunicarse con este servidor, por eso se menciona qu\'e es este protocolo. En los anexos se puede encontrar información más espec\'ifica sobre el mismo, pero no es objetivo principal de esta investigación.
+
+
+\subsection{python-ldap}
+
+\subsubsection{¿Qué es python-ldap?}
 
 Es una librería del lenguaje de programación Python, la cual se encarga de proveer una API orientada a objetos para acceder a servidores de directorios basados en el protocolo LDAP desde los programas de Python. Esto facilita mucho la interacción con el servidor LDAP, ya que brinda una capa de abstracción superior. Funciona solamente con las versiones OpenLDAP superiores a la 2.3, y puede ser utilizado tanto en Windows, como en Linux o macOS, instalando las dependencias necesarias \cite{pythonldap}.
 
