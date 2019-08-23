@@ -52,16 +52,18 @@ La generación del archivo LDIF final queda estructurada de la forma que puede a
 	\item {\bf objectclass:} shadowAccount
 	\item {\bf uidNumber:} 5000
 	\item {\bf gidNumber:} 10000
-	\item {\bf homeDirectory:} /
-	\item {\bf uid:} 5000
+	\item {\bf homeDirectory:} /home/jeidis.elisa
+	\item {\bf uid:} jeidis.elisa
 \end{enumerate}
+
+Después de generado el archivo LDIF, este es utilizado para poblar o modificar el servidor LDAP utilizando un parser de LDIF que brinda la biblioteca python-ldap.
 
 \subsection{Módulo para generar los LDIF de los trabajadores}
 
 
 Este módulo se llama ldif-from-database. Se encarga de obtener la base de datos de Recursos Humanos (Assets), extraer la información pertinente a los trabajadores, y generar el archivo LDIF utilizado por el servidor LDAP.
 
-Es muy similar al módulo sigenu-client en su estructura. También está compuesto de un archivo init con el código fuente, y un archi de configuración nombrado config.yml, en el cual se especifica la dirección de la base de datos fuente, la dirección del servidor sqlserver en que se monta la misma, para la adecuada extracción de la información, y el esquema de los datos a consumir, que no es más que una lista de pares ordenados donde el primero representa el nombre del atributo a generar en el archivo LDIF final, y el segundo el número de la columna en la que aparece.
+Es muy similar al módulo sigenu-client en su estructura. También está compuesto de un archivo init con el código fuente, y un archi de configuración nombrado config.yml, en el cual se especifica la dirección de la base de datos fuente, la dirección del servidor MS SQL Server en que se monta la misma, para la adecuada extracción de la información, y el esquema de los datos a consumir, que no es más que una lista de pares ordenados donde el primero representa el nombre del atributo a generar en el archivo LDIF final, y el segundo el número de la columna en la que aparece.
 
 El código fuente tiene como dependencias el módulo yaml para la lectura del archivo de configuración, y un módulo implementado como parte de la solución de esta tesis llamado sqlserver\_manager. Este último módulo se encarga de obtener la base de datos de ASSETS del ftp en el cual se publica, utilizando el módulo de Python ftplib, para luego restaurarla utilizando el módulo pyodbc en el servidor sqlserver del cual posteriormente se van a consultar los datos (no pueden consultarse directamente del sistema fuente, debido a la imposibilidad de crear un usuario con permisos de solo lectura en el sistema propietario que se instaló).
 
@@ -80,9 +82,15 @@ La generación del archivo LDIF final queda estructurada de la forma que puede a
 	\item {\bf objectclass:} shadowAccount
 	\item {\bf uidNumber:} 5000
 	\item {\bf gidNumber:} 10000
-	\item {\bf homeDirectory:} /
-	\item {\bf uid:} 5000
+	\item {\bf homeDirectory:} /home/daimis.hechevarria
+	\item {\bf uid:} daimis.hechevarria
 \end{enumerate}
+
+Después de generado el archivo LDIF, al igual que en módulo anterior este es utilizado para poblar o modificar el servidor LDAP utilizando un parser de LDIF que brinda la biblioteca python-ldap.
+
+\section{Servidor MS SQL Server}
+
+En la sección anterior mencionamos que el módulo que se encarga de generar el LDIF de los trabajadores y poblar el servidor LDAP requiere de la restauración de la salva de la base de datos de ASSETS en un servidor MS SQL Server. Este servidor se despliega como parte de la solución utilizando la herramienta Docker, las configuraciones se obtienen de las variables de entorno que se declaran en el archivo .env que se encuentra dentro de la raíz de la solución, el cual utiliza el archivo docker-compose.yml para mediante el uso de docker-compose automatizar el despliegue de este servicio.
 
 \section{Implementaci\'on de la API}
 
@@ -130,7 +138,7 @@ Este recurso es para obtener la información pertinente a un conjunto de persona
 
 \textbf{Objeto respuesta:} GET: [{'workers': [...]}], POST: [], PATCH: []
 
-Este recurso es accesible mediante 3 métodos HTTP, para realizar 3 acciones distintas. Método GET para obtener la información pertinente a un conjunto de trabajadores pertenecientes a la universidad en base a parámetros de búsqueda, utilizando python-ldap para consultar el servidor LDAP, y devolviendo los resultados de la b\'usqueda como JSON. Método POST para agregar un trabajador al directorio a partir de su Carnet de Identidad. Este m\'etodo utiliza python-ldap para buscar si el trabajador existe en el directorio (o sea, si existe en las base de datos de Recursos Humanos de la Universidad), si no existe devuelve un mensaje de error, si existe, le crea un nombre de usuario y un correo en dependencia del \'area del trabajador utilizando el m\'etodo auxiliar \_\_generate\_new\_email\_\_. Por \'ultimo, el método PATCH se utiliza para actualizar los trabajadores en el directorio a partir de las Bases de Datos de Recursos Humanos (cuando se hace mención al directorio nos referimos al servidor LDAP que almacena la información), utilizando el m\'odulo de extracción de información ldif-from-database.
+Este recurso es accesible mediante 3 métodos HTTP, para realizar 3 acciones distintas. Método GET para obtener la información pertinente a un conjunto de trabajadores pertenecientes a la universidad en base a parámetros de búsqueda, utilizando python-ldap para consultar el servidor LDAP, y devolviendo los resultados de la b\'usqueda como JSON. Método POST para agregar un trabajador al directorio a partir de su carnet de identidad. Este m\'etodo utiliza python-ldap para buscar si el trabajador existe en el directorio (o sea, si existe en las base de datos de Recursos Humanos de la Universidad), si no existe devuelve un mensaje de error, si existe, le crea un nombre de usuario y un correo en dependencia del \'area del trabajador utilizando el m\'etodo auxiliar \_\_generate\_new\_email\_\_. Por \'ultimo, el método PATCH se utiliza para actualizar los trabajadores en el directorio a partir de las Bases de Datos de Recursos Humanos (cuando se hace mención al directorio nos referimos al servidor LDAP que almacena la información), utilizando el m\'odulo de extracción de información ldif-from-database.
 
 \subsubsection{/estudiantes}
 
@@ -140,7 +148,7 @@ Este recurso es accesible mediante 3 métodos HTTP, para realizar 3 acciones dis
 
 \textbf{Objeto respuesta:} GET: [{'students': [...]}], POST: [], PATCH: []
 
-Este recurso es accesible también mediante 3 métodos HTTP, para realizar 3 acciones distintas. Método GET para obtener la información pertinente a un conjunto de estudiantes pertenecientes a la universidad en base a parámetros de búsqueda, utilizando python-ldap para consultar el servidor LDAP, y devolviendo los resultados de la b\'usqueda como JSON. Método POST para agregar un estudiante al directorio a partir de su Carnet de Identidad. Este m\'etodo utiliza python-ldap para buscar si el estudiante existe en el directorio (o sea, si existe en sistema SIGENU), si no existe devuelve un mensaje de error, si existe, le crea un nombre de usuario y un correo en dependencia de la facultad utilizando el m\'etodo auxiliar \_\_generate\_new\_email\_\_. Por \'ultimo, el método PATCH se utiliza para actualizar los estudiantes en el directorio a partir de SIGENU (cuando se hace mención al directorio nos referimos al servidor LDAP que almacena la información), utilizando el m\'odulo de extracción de información sigenu-client.
+Este recurso es accesible también mediante 3 métodos HTTP, para realizar 3 acciones distintas. Método GET para obtener la información pertinente a un conjunto de estudiantes pertenecientes a la universidad en base a parámetros de búsqueda, utilizando python-ldap para consultar el servidor LDAP, y devolviendo los resultados de la b\'usqueda como JSON. Método POST para agregar un estudiante al directorio a partir de su carnet de identidad. Este m\'etodo utiliza python-ldap para buscar si el estudiante existe en el directorio (o sea, si existe en sistema SIGENU), si no existe devuelve un mensaje de error, si existe, le crea un nombre de usuario y un correo en dependencia de la facultad utilizando el m\'etodo auxiliar \_\_generate\_new\_email\_\_. Por \'ultimo, el método PATCH se utiliza para actualizar los estudiantes en el directorio a partir de SIGENU (cuando se hace mención al directorio nos referimos al servidor LDAP que almacena la información), utilizando el m\'odulo de extracción de información sigenu-client.
 
 \subsubsection{/externos}
 
@@ -173,9 +181,25 @@ Este recurso es accesible también mediante 4 métodos HTTP, para realizar 4 acc
 
 Este recurso es para que un usuario del directorio pueda cambiar su contraseña. Verifica las credenciales actuales del usuario utilizando el m\'etodo auxiliar verify\_user\_password, y python-ldap para modificar la contraseña si las credenciales son correctas.
 
+\subsubsection{/administradores}
+
+\textbf{Métodos:} GET, PUT, DELETE
+
+\textbf{Argumentos:} GET: [], PUT: [email], DELETE: [email]
+
+\textbf{Objeto respuesta:} GET: [{'administradores': [...]}], PUT: [], DELETE: []
+
+Este recurso es el encargado de gestionar la creación y eliminación de los administradores de la API. Es accesible mediante 3 métodos HTTP, para realizar 3 acciones distintas.  Método GET para obtener la lista de los administradores actuales de la API. Este método es utilizado por la interfaz para listar los administradores y poder gestionarlos. Método PUT para convertir un trabajador con una cuenta ya creada en el directorio en administrador. Utiliza el correo para identificar esta cuenta. Método DELETE para eliminar el rol de administrador de un usuario a partir de su correo. 
+
 \section{Interfaz web}
 
-La interfaz web se implementó como una aplicación independiente utilizando React como tecnología. Brinda las funcionalidades esenciales que actualmente presenta la interfaz del actual directorio como: la recuperación de contraseñas a partir de las preguntas de seguridad de un usuario; el cambio de contraseñas; la creación de cuentas tanto de trabajadores, de estudiantes, como de externos.
+La interfaz web se implementó como una aplicación independiente utilizando React como tecnología. Brinda las funcionalidades esenciales que actualmente presentan las interfaces del sitio de directorio, el sitio de cuentas y el sitio de gestión: la recuperación de contraseñas a partir de las preguntas de seguridad de un usuario; el cambio de contraseñas; la creación de cuentas tanto de trabajadores como de estudiantes a partir del carnet de identidad; la adición de externos; la consulta de información relacionada con usuarios.
+
+\section{Proxy inverso}
+
+A la hora de desplegar los servicios fundamentales que componen la solución implementada (dígase API e interfaz web), también se despliega mediante el uso de la herramienta Docker un proxy inverso que se encarga de redireccionar las peticiones hacia estos servicios de forma adecuada. Este proxy inverso se despliega utilizando una imagen de Docker previamente creada (y publicada en el repositorio hub.docker.com) de Nginx. Para configurar este servidor que hace la función de proxy inverso solo es necesario modificar el archivo nginx.conf en la raíz de la solución, ya que mediante el uso de Docker y docker-compose, al desplegar el servicio estas configuraciones son cargadas en el contenedor de Docker de manera adecuada y automática.
+
+
 
 \section{Bolsa de servicios}
 
