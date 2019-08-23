@@ -11,7 +11,13 @@ Presenta una estructura arbórea, la cual organiza la información en ramas y pe
 búsquedas de manera eficiente, debido a que la cardinalidad de las posibles repuestas se 
 reduce a medida que se avanza por cualquiera de estas ramas.
 
+\todo[inline]{Se necesita una introduccion al capitulo mejor que la que tienes arriba. LDAP tiene poco que ver con el grueso de tu tesis, mas alla de ser la fuente en la que persistir tus datos. }
+
 La selecci\'on de la implementación utilizada es objetivo de la tesis que se encarga del servidor LDAP, en esta se utiliza el este protocolo para comunicarse con este servidor, por eso se menciona qu\'e es este protocolo. En los anexos se puede encontrar información más espec\'ifica sobre el mismo, pero no es objetivo principal de esta investigación.
+
+\todo[inline]{Nuevamente, nada que seleccionar ... ya alguien selecciono por ti. }
+
+\todo[inline]{En este capitulo debes comenzar la introducci'on debatiendo entre las posibles alternativas para implementar la propuesta que diste al final de capitulo anterior e irlas tratando por secciones. En el caso de ldap solo seria explicar en que consiste el protocolo y tocar cuales son los mecanismos utilizados para salvar datos, LDIF, pythonLDAP (ojo para ello debes haber hablado de la herramienta/lenguaje para implementar el api antes)}
 
 \section{Docker}
 
@@ -43,11 +49,15 @@ En general estas empresas (y muchas otras) vieron en Docker la respuesta a sus p
 
 Gracias a los contenedores las pruebas se realizan en entornos “cerrados” por lo que si se diese algún error la mayor complicación que se encontrarán será la de volver a desplegar el contenedor de nuevo.
 
+\todo[inline]{No es objetivo del capitulo de estado del arte analizar a los que usan docker ... a lo sumo mecionar, pero no analizar.}
+
 \subsection{¿Qué es un contenedor de docker?}
 
 Como parte fundamental de Docker se encuentran los contenedores. Estos, según los propios
 desarrolladores, \textit{son unidades de software estandarizadas} \footnote{
-\url{https://www.docker.com/resources/what-container}}. Se encargan de empaquetar
+\url{https://www.docker.com/resources/what-container}}. 
+\todo[inline]{Todas estas urls ponlas como referencias.}
+Se encargan de empaquetar
 el código y las dependencias de la aplicación de manera que pueda ser ejecutado en cualquier 
 entorno capaz de ejecutar Docker. Para ejecutar un contenedor, se necesita una imagen de Docker 
 base. Una imagen de Docker no es más que un paquete que contiene todas las dependencias y 
@@ -132,7 +142,8 @@ Compose es una herramienta para definir y ejecutar aplicaciones en Docker con co
 
 Cuando se desarrolla software, la capacidad de ejecutar una aplicación en un entorno aislado e interactuar con ella es crucial. La herramienta Compose se puede utilizar para crear el entorno e interactuar con él.
 
-El archivo de configuración proporciona una forma de documentar y configurar todas las dependencias de la aplicación (bases de datos, colas, cachés, API de servicios web, etc.). Con esta herramienta, se puede crear e iniciar uno o más contenedores para cada dependencia con un solo comando (docker-compose up).
+El archivo de configuración proporciona una forma de documentar y configurar todas las dependencias de la aplicación (bases de datos, colas, cachés, API de servicios web, etc.)
+. Con esta herramienta, se puede crear e iniciar uno o más contenedores para cada dependencia con un solo comando (docker-compose up).
 
 Juntas, estas características proporcionan una manera conveniente para que los desarrolladores comiencen un proyecto. Compose puede reducir una "guía de inicio para desarrolladores" de varias páginas a un solo archivo Compose y algunos comandos.
 
