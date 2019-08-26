@@ -101,7 +101,7 @@
 \newcommand{\logo}[1]{\def\@logo{#1}}
 
 \newenvironment{opinion}%
-  {\chapter*{Opinión del tutor}}%
+  {\chapter*{Opinión de los tutores}}%
   {}
 \newenvironment{acknowledgements}%
   {\chapter*{Agradecimientos}}%
